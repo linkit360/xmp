@@ -1,0 +1,60 @@
+user docker docker;
+worker_processes  1;
+daemon off;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr [$time_local] "$request" '
+    '$status $body_bytes_sent "$http_referer"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+    keepalive_timeout  65;
+    gzip  on;
+
+    server {
+        listen 80;
+        listen [::]:80;
+        server_name localhost "" www.*;
+        root /app/php/frontend/web;
+
+        charset utf-8;
+        client_max_body_size 128M;
+
+        #        location ~ /.well-known {
+        #            allow all;
+        #        }
+
+        location ~ /\.(ht|svn|git) {
+            deny all;
+        }
+
+        location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+            try_files $uri =404;
+        }
+
+        location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass php:9000;
+            fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+            fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+            include fastcgi_params;
+        }
+
+        location / {
+            try_files $uri /index.php$is_args$args;
+        }
+    }
+}

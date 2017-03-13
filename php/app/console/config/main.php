@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'console\controllers',
     'controllerMap' => [
         'fixture' => [
@@ -26,6 +26,9 @@ return [
                 ],
             ],
         ],
+    ],
+    'modules' => [
+        'gii' => 'yii\gii\Module',
     ],
     'params' => $params,
 ];

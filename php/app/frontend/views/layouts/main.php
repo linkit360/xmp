@@ -1,7 +1,8 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
+/**
+ * @var \yii\web\View $this
+ * @var string        $content
+ */
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -27,6 +28,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
+    /*
     NavBar::begin([
         'brandLabel' => 'My Company',
         'brandUrl' => Yii::$app->homeUrl,
@@ -37,7 +39,6 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -57,6 +58,7 @@ AppAsset::register($this);
         'items' => $menuItems,
     ]);
     NavBar::end();
+    */
     ?>
 
     <div class="container">
@@ -67,14 +69,6 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
 
 <?php $this->endBody() ?>
 </body>

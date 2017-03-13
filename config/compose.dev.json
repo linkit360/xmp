@@ -16,6 +16,7 @@
     "php": {
       "image": "xmp_php:latest",
       "links": [
+        "pgsql"
       ],
       "build": {
         "context": "../php",
@@ -30,6 +31,24 @@
         "../php/app:/app/php",
         "../php/composer:/app/composer",
         "../php/config:/app/config"
+      ]
+    },
+    "pgsql": {
+      "image": "postgresql:latest",
+      "build": {
+        "context": "../postgresql"
+      },
+      "ports": [
+        "5432:5432"
+      ],
+      "environment": [
+        "POSTGRES_USER=test",
+        "POSTGRES_PASSWORD=test",
+        "POSTGRES_DB=linkit_test",
+        "PGDATA=/data"
+      ],
+      "volumes": [
+        "../postgresql/data:/data"
       ]
     }
   }

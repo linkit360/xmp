@@ -2,8 +2,7 @@
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
-    require(__DIR__ . '/params.php'),
-    require(__DIR__ . '/params-local.php')
+    require(__DIR__ . '/params.php')
 );
 
 $config = [
@@ -14,6 +13,7 @@ $config = [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'cookieValidationKey' => 'sWOHQyhRudhCz9j_z5s4BW_5p3dtjVCe',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -21,7 +21,6 @@ $config = [
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
         ],
         'log' => [
@@ -36,14 +35,15 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
+                '' => 'site/index',
+                'lp/<url:(.*)>' => 'landing-page/template',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

@@ -18,6 +18,10 @@
       "links": [
         "pgsql"
       ],
+      "ports": [
+        "50313:50313",
+        "50315:50315"
+      ],
       "build": {
         "context": "../php",
         "args": {

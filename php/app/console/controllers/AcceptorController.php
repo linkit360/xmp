@@ -2,9 +2,6 @@
 
 namespace console\controllers;
 
-use React\EventLoop\Factory;
-use React\Socket\ConnectionInterface;
-use React\Socket\Server;
 use yii\console\Controller;
 
 class AcceptorController extends Controller
@@ -12,26 +9,33 @@ class AcceptorController extends Controller
     public function actionIndex()
     {
 
-///home/caravus/projects/xmp2/go/aggregate-linux-amd64 --config=/home/caravus/projects/xmp2/go/aggregate.yml
+        die();
 
+        $socket = stream_socket_server("tcp://0.0.0.0:50313", $errno, $errstr);
+        if (!$socket) {
+            echo "$errstr ($errno)<br />\n";
+        } else {
+            while (true) {
+                $conn = stream_socket_accept($socket);
+                $sock_data = fread($conn, 4096);
+                $data = json_decode($sock_data, true);
 
-        $loop = Factory::create();
-        $socket = new Server(50313, $loop);
+                switch ($data['method']) {
+                    case 'Aggregate.Receive':
+                        $this->receive($data);
+                        break;
+                }
 
-        $socket->on('connection', function (ConnectionInterface $conn) {
+                fwrite($conn, '{}');
+                fclose($conn);
+            }
+            fclose($socket);
+        }
+    }
 
+    private function receive($data)
+    {
 
-            echo 'Connect' . PHP_EOL;
-            $conn->write(json_encode("Hello " . $conn->getRemoteAddress() . "!\n"));
-
-//            $conn->on('data', function ($data, ConnectionInterface $conn) {
-//                print_r($data);
-//                $conn->write('1');
-//            });
-
-        });
-
-        $loop->run();
-
+        dump($data);
     }
 }

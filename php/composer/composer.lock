@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "37ce717a795241f5e2826cfe7a35f51b",
+    "content-hash": "faf246844dd263849a9382d9d55b8d9b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -164,6 +164,44 @@
                     "Gruntfile.js",
                     "node_modules",
                     "package.json"
+                ]
+            }
+        },
+        {
+            "name": "bower-asset/uikit",
+            "version": "v2.24.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uikit/uikit.git",
+                "reference": "8ae5e31178e6aaff0c4a9cbc232168f0f97759a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uikit/uikit/zipball/8ae5e31178e6aaff0c4a9cbc232168f0f97759a2",
+                "reference": "8ae5e31178e6aaff0c4a9cbc232168f0f97759a2",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.9.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "./dist/css/uikit.min.css",
+                    "./dist/js/uikit.min.js",
+                    "./dist/fonts/fontawesome-webfont.ttf",
+                    "./dist/fonts/fontawesome-webfont.woff",
+                    "./dist/fonts/fontawesome-webfont.woff2",
+                    "./dist/fonts/FontAwesome.otf"
+                ],
+                "bower-asset-ignore": [
+                    "node_modules",
+                    "bower_components",
+                    "docs",
+                    "vendor",
+                    "server.js",
+                    "composer.json",
+                    "index.html"
                 ]
             }
         },

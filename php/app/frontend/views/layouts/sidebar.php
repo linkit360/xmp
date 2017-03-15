@@ -1,6 +1,15 @@
 <?php
 use yii\helpers\Url;
 
+function showMenu($url, $text)
+{
+    ?>
+    <li>
+        <a href="<?= $url ?>"><?= $text ?></a>
+    </li>
+    <?php
+}
+
 ?>
 <aside id="sidebar_main">
     <div style="text-align: center">
@@ -34,7 +43,9 @@ use yii\helpers\Url;
                     <span class="menu_title">TOOLS</span>
                 </a>
                 <ul>
-                    <li><a href="<?= Url::to('/landing-page/designer') ?>">Landing Page Designer</a></li>
+                    <?php
+                    showMenu('/landing-page/designer', 'Landing Page Designer');
+                    ?>
                 </ul>
             </li>
         </ul>

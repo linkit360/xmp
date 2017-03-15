@@ -49,12 +49,17 @@ class Reports extends ActiveRecord
                 ],
                 'required'
             ],
-            [['id'], 'string'],
+            [
+                [
+                    'id',
+                    'id_provider'
+                ],
+                'string'
+            ],
             [['report_date'], 'safe'],
             [
                 [
                     'id_campaign',
-                    'id_provider',
                     'id_operator',
                     'lp_hits',
                     'lp_msisdn_hits',

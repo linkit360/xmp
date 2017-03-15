@@ -5,10 +5,8 @@
  */
 
 use yii\helpers\Html;
-use app\assets\AltairAsset;
-use yii\widgets\Breadcrumbs;
 
-AltairAsset::register($this);
+//AltairAsset::register($this);
 $this->beginPage();
 ?>
     <!doctype html>
@@ -65,9 +63,9 @@ $this->beginPage();
         <div id="page_content">
             <div id="page_content_inner">
                 <?php
-                echo Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]);
+                //                echo Breadcrumbs::widget([
+                //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                //                ]);
 
                 echo $content;
                 ?>

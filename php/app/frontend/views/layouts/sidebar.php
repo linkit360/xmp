@@ -33,7 +33,7 @@ function showMenu($url, $text)
                 <ul>
                     <!--<li><a href="/reports">Revenue</a></li>-->
                     <!--<li><a href="/conversion-report">Conversion</a></li>-->
-                    <li><a href="<?= Url::to('/ad-report/index') ?>">Advertising</a></li>
+                    <li><a href="<?= Url::to('/reports/index') ?>">Advertising</a></li>
                 </ul>
             </li>
 

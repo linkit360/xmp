@@ -9,9 +9,9 @@ class m170315_102451_create_xmp_reports extends Migration
         $this->execute('CREATE TABLE xmp_reports
                             (
                               id             UUID PRIMARY KEY DEFAULT public.uuid_generate_v4() NOT NULL,
-                              report_date    TIMESTAMPTZ DEFAULT now()                          NOT NULL,
+                              report_date    TIMESTAMP                                          NOT NULL,
                               id_campaign    INT                                                NOT NULL,
-                              id_provider    INT                                                NOT NULL,
+                              id_provider    VARCHAR(127)                                       NOT NULL,
                               id_operator    INT                                                NOT NULL,
                               lp_hits        INT                                                NOT NULL,
                               lp_msisdn_hits INT                                                NOT NULL,

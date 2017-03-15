@@ -3,7 +3,7 @@
  * @var yii\web\View $this
  * @var array        $templates
  */
-$this->title = 'LANDING PAGE DESIGNER';
+$this->title = 'Landing Page Designer';
 ?>
     <h3>
         Step 1 of 2: Select Template

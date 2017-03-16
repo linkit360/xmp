@@ -1,6 +1,9 @@
 <?php
 namespace frontend\models;
 
+use common\models\Countries;
+use common\models\Operators;
+use common\models\Providers;
 use common\models\Reports;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -30,9 +33,26 @@ class ReportsForm extends Model
         $this->dateFrom = date('Y-m-d');
         $this->dateTo = date('Y-m-d');
 
-        $this->campaigns = $this->operators = $this->providers = [
+        $this->campaigns = [
             0 => 'All',
         ];
+
+        # Countries
+        $this->countries = [0 => 'All'] +
+            Countries::find()
+                ->select([
+                    'name',
+                    'code'
+                ])
+                ->where([
+                    'status' => 1
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('code')
+                ->column();
+
 
         # Campaigns
         $db = Reports::find()
@@ -46,26 +66,33 @@ class ReportsForm extends Model
         unset($db);
 
         # Operators
-        $db = Reports::find()
-            ->select('DISTINCT ON (id_operator) *')
-            ->all();
-
-        /** @var Reports $report */
-        foreach ($db as $report) {
-            $this->operators[$report->id_operator] = "" . $report->id_operator;
-        }
-        unset($db);
+        $this->operators = [0 => 'All'] +
+            Operators::find()
+                ->select([
+                    'name',
+                    'id'
+                ])
+                ->where([
+                    'status' => 1
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->column();
 
         # Providers
-        $db = Reports::find()
-            ->select('DISTINCT ON (id_provider) *')
-            ->all();
-
-        /** @var Reports $report */
-        foreach ($db as $report) {
-            $this->providers[$report->id_provider] = "" . $report->id_provider;
-        }
-        unset($db);
+        $this->providers = [0 => 'All'] +
+            Providers::find()
+                ->select([
+                    'name',
+                    'id'
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->column();
     }
 
     /**
@@ -99,6 +126,9 @@ class ReportsForm extends Model
             ->orderBy([
                 'report_date' => SORT_DESC
             ]);
+
+        // TODO Country
+        // TODO IDs
 
         if ($this->campaign !== null && $this->campaign !== "0") {
             $query->andWhere([
@@ -141,6 +171,5 @@ class ReportsForm extends Model
         return new ActiveDataProvider([
             'query' => $query,
         ]);
-
     }
 }

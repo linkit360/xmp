@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         'id',
                         'name',
-                        'id_country',
+                        'id_provider',
                         'isp',
                         'msisdn_prefix',
                         'mcc',

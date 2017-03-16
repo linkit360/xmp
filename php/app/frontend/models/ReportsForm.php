@@ -7,6 +7,7 @@ use common\models\Providers;
 use common\models\Reports;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 /**
  * Reports Form
@@ -122,9 +123,32 @@ class ReportsForm extends Model
      */
     public function dataProvider()
     {
-        $query = Reports::find()
+        $query = (new Query())
+            ->from('xmp_reports')
+            ->select([
+                'SUM(lp_hits) as lp_hits',
+                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
+                'SUM(mo) as mo',
+                'SUM(mo_uniq) as mo_uniq',
+                'SUM(mo_success) as mo_success',
+                'SUM(pixels) as pixels',
+
+                "date_trunc('day', report_date) as report_date_day",
+                'id_campaign',
+                'id_provider',
+                'id_operator',
+
+
+            ])
+            ->groupBy([
+
+                'report_date_day',
+                'id_campaign',
+                'id_provider',
+                'id_operator',
+            ])
             ->orderBy([
-                'report_date' => SORT_DESC
+                'report_date_day' => SORT_DESC
             ]);
 
         // TODO Country
@@ -168,6 +192,8 @@ class ReportsForm extends Model
 
 //        dump($query->createCommand()->getRawSql());
 //        dump($query->all());
+//        die;
+
         return new ActiveDataProvider([
             'query' => $query,
         ]);

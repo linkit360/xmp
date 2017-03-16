@@ -80,14 +80,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="hpanel">
             <div class="panel-body">
                 <?php
-                /** @var \common\models\Reports $data */
                 echo GridView::widget([
                     'dataProvider' => $model->dataProvider(),
                     'columns' => [
                         [
                             'attribute' => 'report_date',
                             'content' => function ($data) {
-                                return date('Y-m-d', strtotime($data->report_date));
+                                return date('Y-m-d', strtotime($data['report_date_day']));
                             }
                         ],
                         'id_campaign',
@@ -99,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) {
-                                return number_format($data->lp_hits);
+                                return number_format($data['lp_hits']);
                             }
                         ],
                         [
@@ -108,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) {
-                                return number_format($data->lp_msisdn_hits);
+                                return number_format($data['lp_msisdn_hits']);
                             }
                         ],
                         [
@@ -117,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) {
-                                return number_format($data->mo);
+                                return number_format($data['mo']);
                             }
                         ],
                         [
@@ -126,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) {
-                                return number_format($data->mo_uniq);
+                                return number_format($data['mo_uniq']);
                             }
                         ],
                         [
@@ -135,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) {
-                                return number_format($data->mo_success);
+                                return number_format($data['mo_success']);
                             }
                         ],
                         [
@@ -144,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) {
-                                return number_format($data->pixels);
+                                return number_format($data['pixels']);
                             }
                         ],
                     ],

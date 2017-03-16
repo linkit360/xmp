@@ -1,10 +1,10 @@
 <?php
 /**
  * @var yii\web\View            $this
- * @var common\models\Countries $model
+ * @var common\models\Providers $model
  */
-$this->title = 'Update Country: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Countries', 'url' => ['index']];
+$this->title = 'Update Provider: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Providers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 echo $this->render('_form', [

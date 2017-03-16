@@ -40,6 +40,12 @@ use yii\helpers\Url;
                     <span class="nav-label">Countries</span>
                 </a>
             </li>
+
+            <li>
+                <a href="<?= Url::to('/providers/index') ?>">
+                    <span class="nav-label">Providers</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

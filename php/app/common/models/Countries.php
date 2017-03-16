@@ -1,8 +1,5 @@
 <?php
-
 namespace common\models;
-
-use Yii;
 
 /**
  * This is the model class for table "xmp_countries".

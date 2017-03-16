@@ -17,7 +17,7 @@ $this->beginPage();
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
+        <link rel="shortcut icon" type="image/ico" href="/favicon.png"/>
         <?= Html::csrfMetaTags() ?>
         <title><?= strlen($this->title) ? Html::encode($this->title) . ' - ' : '' ?>LinkIT360</title>
         <?php

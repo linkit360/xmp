@@ -34,6 +34,12 @@ use yii\helpers\Url;
                     <span class="nav-label">LP Designer</span>
                 </a>
             </li>
+
+            <li>
+                <a href="<?= Url::to('/countries/index') ?>">
+                    <span class="nav-label">Countries</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

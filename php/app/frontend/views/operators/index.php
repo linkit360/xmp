@@ -6,7 +6,7 @@ use yii\grid\GridView;
  * @var yii\web\View                $this
  * @var yii\data\ActiveDataProvider $dataProvider
  */
-$this->title = 'Providers';
+$this->title = 'Operators';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </h1>
 
                 <p>
-                    <?= Html::a('Create Provider', ['create'], ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Create Operator', ['create'], ['class' => 'btn btn-success']) ?>
                 </p>
 
                 <?php
@@ -28,6 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'id',
                         'name',
                         'id_country',
+                        'isp',
+                        'msisdn_prefix',
+                        'mcc',
+                        'mnc',
+                        'status',
+                        'code',
+                        'created_at',
 
                         ['class' => 'yii\grid\ActionColumn'],
                     ],

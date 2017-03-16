@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View            $this
- * @var common\models\Providers $model
+ * @var common\models\Operators $model
  * @var yii\widgets\ActiveForm  $form
  * @var string                  $title
  */
@@ -21,7 +21,12 @@ use yii\widgets\ActiveForm;
                 <?php
                 $form = ActiveForm::begin();
                 echo $form->field($model, 'name')->textInput(['maxlength' => true]);
-                echo $form->field($model, 'id_country')->dropDownList($model->getCountries());
+                echo $form->field($model, 'id_provider')->dropDownList($model->getProviders());
+                echo $form->field($model, 'isp')->textInput(['maxlength' => true]);
+                echo $form->field($model, 'msisdn_prefix')->textInput(['maxlength' => true]);
+                echo $form->field($model, 'mcc')->textInput(['maxlength' => true]);
+                echo $form->field($model, 'mnc')->textInput(['maxlength' => true]);
+                echo $form->field($model, 'code')->textInput();
                 ?>
 
                 <div class="form-group">
@@ -32,6 +37,7 @@ use yii\widgets\ActiveForm;
                     );
                     ?>
                 </div>
+
                 <?php
                 ActiveForm::end();
                 ?>

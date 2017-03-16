@@ -8,8 +8,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string  $name
- * @property array   $countries
- * @property integer $country
+ * @property integer $id_country
  */
 class Providers extends ActiveRecord
 {
@@ -29,8 +28,8 @@ class Providers extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'country'], 'required'],
-            [['country'], 'integer'],
+            [['name', 'id_country'], 'required'],
+            [['id_country'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
         ];
@@ -44,7 +43,7 @@ class Providers extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'country' => 'Country',
+            'id_country' => 'Country',
         ];
     }
 
@@ -54,12 +53,15 @@ class Providers extends ActiveRecord
             $this->countries = Countries::find()
                 ->select([
                     'name',
-                    'code'
+                    'id'
                 ])
                 ->where([
                     'status' => 1
                 ])
-                ->indexBy('code')
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
                 ->column();
         }
 

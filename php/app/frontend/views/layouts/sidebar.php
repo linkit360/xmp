@@ -46,6 +46,12 @@ use yii\helpers\Url;
                     <span class="nav-label">Providers</span>
                 </a>
             </li>
+
+            <li>
+                <a href="<?= Url::to('/operators/index') ?>">
+                    <span class="nav-label">Operators</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

@@ -4,10 +4,10 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View            $this
- * @var common\models\Providers $model
+ * @var common\models\Operators $model
  */
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Providers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Operators', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">
@@ -35,7 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         'id',
                         'name',
-                        'id_country',
+                        'id_provider',
+                        'isp',
+                        'msisdn_prefix',
+                        'mcc',
+                        'mnc',
+                        'status',
+                        'code',
+                        'created_at',
                     ],
                 ]);
                 ?>

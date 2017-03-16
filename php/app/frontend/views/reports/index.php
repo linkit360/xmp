@@ -79,19 +79,74 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="hpanel">
             <div class="panel-body">
-                <?= GridView::widget([
+                <?php
+                /** @var \common\models\Reports $data */
+                echo GridView::widget([
                     'dataProvider' => $model->dataProvider(),
                     'columns' => [
-                        'report_date',
+                        [
+                            'attribute' => 'report_date',
+                            'content' => function ($data) {
+                                return date('Y-m-d', strtotime($data->report_date));
+                            }
+                        ],
                         'id_campaign',
                         'id_provider',
                         'id_operator',
-                        'lp_hits',
-                        'lp_msisdn_hits',
-                        'mo',
-                        'mo_uniq',
-                        'mo_success',
-                        'pixels',
+                        [
+                            'attribute' => 'lp_hits',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data->lp_hits);
+                            }
+                        ],
+                        [
+                            'attribute' => 'lp_msisdn_hits',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data->lp_msisdn_hits);
+                            }
+                        ],
+                        [
+                            'attribute' => 'mo',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data->mo);
+                            }
+                        ],
+                        [
+                            'attribute' => 'mo_uniq',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data->mo_uniq);
+                            }
+                        ],
+                        [
+                            'attribute' => 'mo_success',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data->mo_success);
+                            }
+                        ],
+                        [
+                            'attribute' => 'pixels',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data->pixels);
+                            }
+                        ],
                     ],
                 ]);
                 ?>

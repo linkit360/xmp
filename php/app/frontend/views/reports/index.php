@@ -12,63 +12,90 @@ use kartik\widgets\DatePicker;
 
 $this->title = 'Reports';
 $this->params['breadcrumbs'][] = $this->title;
-
-\yii\bootstrap\BootstrapAsset::register($this);
 ?>
-<h1>
-    <?= Html::encode($this->title) ?>
-</h1>
+<div class="content animate-panel">
+    <div class="row">
+        <div class="hpanel">
+            <?php
+            $form = ActiveForm::begin([
+                'method' => 'get',
+            ]);
+            ?>
+            <div class="panel-body">
+                <h1>
+                    <?= Html::encode($this->title) ?>
+                </h1>
 
-<div class="row">
-    <div class="col-md-6">
-        <?php
-        $form = ActiveForm::begin([
-            'method' => 'get',
-            'options' => [
-                'class' => 'form-horizontal',
-            ],
-        ]);
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'country')->dropDownList($model->countries) ?>
+                    </div>
 
-        echo $form->field($model, 'country')->dropDownList($model->countries);
-        echo $form->field($model, 'operator')->dropDownList($model->operators);
-        echo $form->field($model, 'provider')->dropDownList($model->providers);
-        echo $form->field($model, 'campaign')->dropDownList($model->campaigns);
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'operator')->dropDownList($model->operators) ?>
+                    </div>
+                </div>
 
-        echo DatePicker::widget([
-            'type' => DatePicker::TYPE_RANGE,
-            'form' => $form,
-            'model' => $model,
-            'attribute' => 'dateFrom',
-            'attribute2' => 'dateTo',
-            'options' => ['placeholder' => 'Start date'],
-            'options2' => ['placeholder' => 'End date'],
-            'pluginOptions' => [
-                'format' => 'yyyy-mm-dd',
-                'autoclose' => true,
-            ]
-        ]);
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'provider')->dropDownList($model->providers) ?>
+                    </div>
 
-        echo Html::submitButton('Search');
-        ActiveForm::end();
-        ?>
+                    <div class="col-md-6">
+                        <?= $form->field($model, 'campaign')->dropDownList($model->campaigns) ?>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        echo DatePicker::widget([
+                            'type' => DatePicker::TYPE_RANGE,
+                            'form' => $form,
+                            'model' => $model,
+                            'attribute' => 'dateFrom',
+                            'attribute2' => 'dateTo',
+                            'options' => ['placeholder' => 'Start date'],
+                            'options2' => ['placeholder' => 'End date'],
+                            'pluginOptions' => [
+                                'format' => 'yyyy-mm-dd',
+                                'autoclose' => true,
+                            ]
+                        ]);
+
+                        echo '<br/>' . Html::submitButton('Search', [
+                                'class' => 'btn btn-info'
+                            ]);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+            ActiveForm::end();
+            ?>
+        </div>
     </div>
 
-    <div class="col-md-12">
-        <?= GridView::widget([
-            'dataProvider' => $model->dataProvider(),
-            'columns' => [
-                'report_date',
-                'id_campaign',
-                'id_provider',
-                'id_operator',
-                'lp_hits',
-                'lp_msisdn_hits',
-                'mo',
-                'mo_uniq',
-                'mo_success',
-                'pixels',
-            ],
-        ]);
-        ?>
+    <div class="row">
+        <div class="hpanel">
+            <div class="panel-body">
+                <?= GridView::widget([
+                    'dataProvider' => $model->dataProvider(),
+                    'columns' => [
+                        'report_date',
+                        'id_campaign',
+                        'id_provider',
+                        'id_operator',
+                        'lp_hits',
+                        'lp_msisdn_hits',
+                        'mo',
+                        'mo_uniq',
+                        'mo_success',
+                        'pixels',
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
     </div>
 </div>

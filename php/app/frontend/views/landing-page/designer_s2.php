@@ -12,25 +12,48 @@ $this->title = 'LANDING PAGE DESIGNER';
     }
 </script>
 
-<h3>
-    Step 2 of 2: Customize Template
-</h3>
-
-<a href="/landing-page/designer" class="md-btn md-btn-simple md-btn-wave-light waves-effect waves-button waves-light">
-    Back To Template Selection
-</a>
-<br/><br/>
-
-<button id="teml_download" onclick="document.getElementById('tmpl_frame').contentWindow.download();"
-        class="md-btn md-btn-primary md-btn-wave-light waves-effect waves-button waves-light">
-    Download Template
-</button>
-<br/><br/>
-
-<div id="tmpl_load">
-    Loading...
+<div class="small-header transition animated fadeIn">
+    <div class="hpanel">
+        <div class="panel-body">
+            <h2 class="font-light m-b-xs">
+                Landing Page Designer
+            </h2>
+            <small>Step 2 of 2</small>
+        </div>
+    </div>
 </div>
 
-<iframe style="width: 100%; height: 800px; display: none;" src="<?= $template ?>" onload="done();" id="tmpl_frame">
+<div class="content animate-panel">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <h1>
+                        Customize Template
+                    </h1>
 
-</iframe>
+                    <a href="/landing-page/designer"
+                       class="btn btn-default">
+                        Back To Template Selection
+                    </a>
+                    <br/><br/>
+
+                    <button id="teml_download" onclick="document.getElementById('tmpl_frame').contentWindow.download();"
+                            class="btn btn-info">
+                        Download Template
+                    </button>
+                    <br/><br/>
+
+                    <div id="tmpl_load">
+                        Loading...
+                    </div>
+
+                    <iframe style="width: 100%; height: 800px; display: none;" src="<?= $template ?>" onload="done();"
+                            id="tmpl_frame">
+
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

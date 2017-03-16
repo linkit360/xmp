@@ -31,9 +31,11 @@ $this->beginPage();
     <!-- Simple splash screen-->
     <div class="splash">
         <div class="color-line"></div>
-        <div class="splash-title"><h1>Homer - Responsive Admin Theme</h1>
-            <p>Special AngularJS Admin Theme for small and medium webapp with very clean and aesthetic style and
-                feel. </p>
+        <div class="splash-title"><h1>LinkIT 360</h1>
+            <p>
+                XMP
+            </p>
+
             <div class="spinner">
                 <div class="rect1"></div>
                 <div class="rect2"></div>
@@ -44,8 +46,10 @@ $this->beginPage();
         </div>
     </div>
     <!--[if lt IE 7]>
-    <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a
-            href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <p class="alert alert-danger">
+        You are using an <strong>outdated</strong> browser.
+        Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
+    </p>
     <![endif]-->
 
     <!-- Header -->
@@ -105,15 +109,13 @@ $this->beginPage();
 
     <!-- Main Wrapper -->
     <div id="wrapper">
-        <div class="content animate-panel">
-            <?php
-            //                echo Breadcrumbs::widget([
-            //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            //                ]);
+        <?php
+        //                echo Breadcrumbs::widget([
+        //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        //                ]);
 
-            echo $content;
-            ?>
-        </div>
+        echo $content;
+        ?>
     </div>
     <?php
     $this->endBody();

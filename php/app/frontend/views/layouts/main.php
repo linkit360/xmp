@@ -5,73 +5,116 @@
  */
 
 use yii\helpers\Html;
+use app\assets\HomerAsset;
+use yii\helpers\Url;
 
-//AltairAsset::register($this);
+HomerAsset::register($this);
 $this->beginPage();
 ?>
-    <!doctype html>
-    <!--[if lte IE 9]>
-    <html class="lte-ie9" lang="en">
-    <![endif]-->
-    <!--[if gt IE 9]><!-->
-    <html lang="en">
-    <!--<![endif]-->
+    <!DOCTYPE html>
+    <html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="msapplication-tap-highlight" content="no"/>
+        <link rel="shortcut icon" type="image/ico" href="favicon.ico"/>
         <?= Html::csrfMetaTags() ?>
         <title><?= strlen($this->title) ? Html::encode($this->title) . ' - ' : '' ?>LinkIT360</title>
         <?php
         $this->head();
         ?>
     </head>
-    <body class=" sidebar_main_open sidebar_main_swipe">
+    <body>
     <?php
     $this->beginBody();
     ?>
-    <!-- main header -->
-    <header id="header_main">
-        <div class="header_main_content">
-            <nav class="uk-navbar">
+    <!-- Simple splash screen-->
+    <div class="splash">
+        <div class="color-line"></div>
+        <div class="splash-title"><h1>Homer - Responsive Admin Theme</h1>
+            <p>Special AngularJS Admin Theme for small and medium webapp with very clean and aesthetic style and
+                feel. </p>
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
+    </div>
+    <!--[if lt IE 7]>
+    <p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a
+            href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-                <!-- main sidebar switch -->
-                <a href="#" id="sidebar_main_toggle" class="sSwitch sSwitch_left">
-                    <span class="sSwitchIcon"></span>
-                </a>
+    <!-- Header -->
+    <div id="header">
+        <div class="color-line"></div>
 
-                <div class="uk-navbar-flip">
-                    <ul class="uk-navbar-nav user_actions">
+        <div id="logo" class="light-version">
+            <!--            <span><a href="/"><img src="/img/LinkIT360_logo.png"/></a></span>-->
+            <span><a href="<?= Url::to('/site/index') ?>">LinkIT 360</a></span>
+        </div>
+
+        <nav role="navigation">
+            <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
+            <div class="small-logo">
+                <span class="text-primary">LinkIT 360</span>
+            </div>
+
+            <!--
+            <form role="search" class="navbar-form-custom" method="post" action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search something special" class="form-control" name="search">
+                </div>
+            </form>
+
+            <div class="mobile-menu">
+                <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse"
+                        data-target="#mobile-collapse">
+                    <i class="fa fa-chevron-down"></i>
+                </button>
+                <div class="collapse mobile-navbar" id="mobile-collapse">
+                    <ul class="nav navbar-nav">
                         <li>
-                            <a href="#" id="full_screen_toggle" class="user_action_icon uk-visible-large">
-                                <i class="material-icons md-24 md-light">&#xE5D0;</i>
-                            </a>
+                            <a class="" href="#">Link</a>
+                        </li>
+                        <li>
+                            <a class="" href="#">Link</a>
                         </li>
                     </ul>
                 </div>
-            </nav>
-        </div>
-    </header>
-    <!-- main header end -->
-
-    <!-- main sidebar -->
-    <?= $this->render('sidebar') ?>
-    <!-- main sidebar end -->
-
-    <aside>
-        <div id="page_content">
-            <div id="page_content_inner">
-                <?php
-                //                echo Breadcrumbs::widget([
-                //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                //                ]);
-
-                echo $content;
-                ?>
             </div>
+
+            <div class="navbar-right">
+                <ul class="nav navbar-nav no-borders">
+                    <li>
+                        <a href="#">
+                            <i class="pe-7s-upload pe-rotate-90"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            -->
+        </nav>
+    </div>
+
+    <!-- Navigation -->
+    <?= $this->render('sidebar') ?>
+
+    <!-- Main Wrapper -->
+    <div id="wrapper">
+        <div class="content animate-panel">
+            <?php
+            //                echo Breadcrumbs::widget([
+            //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            //                ]);
+
+            echo $content;
+            ?>
         </div>
-    </aside>
+    </div>
     <?php
     $this->endBody();
     ?>

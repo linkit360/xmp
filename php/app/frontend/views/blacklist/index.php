@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
@@ -32,6 +33,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         'msisdn',
                         [
+                            'header' => 'Country',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) use ($model) {
+                                return $model->countries[$model->providers[$data['provider_name']]['id_country']];
+                            }
+                        ],
+                        [
                             'attribute' => 'operator_code',
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
@@ -46,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
-                                return $model->providers[$data['provider_name']];
+                                return $model->providers[$data['provider_name']]['name'];
                             }
                         ],
                         'created_at',
@@ -83,9 +93,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="modal-body">
-                <?= $form->field($model, 'msisdn')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'provider_name')->dropDownList($model->providers) ?>
-                <?= $form->field($model, 'operator_code')->dropDownList($model->operators) ?>
+                <?php
+
+                echo $form->field($model, 'msisdn')->textInput(['maxlength' => true]);
+                echo $form->field($model, 'provider_name')
+                    ->dropDownList(ArrayHelper::map($model->providers, 'name', 'name_alias'));
+                echo $form->field($model, 'operator_code')->dropDownList($model->operators);
+                ?>
             </div>
 
             <div class="modal-footer">

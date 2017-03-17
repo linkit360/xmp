@@ -53,7 +53,7 @@ class MsisdnBlacklist extends ActiveRecord
         $this->countries = Countries::find()
             ->select([
                 'name',
-                'code'
+                'id'
             ])
             ->where([
                 'status' => 1
@@ -61,7 +61,7 @@ class MsisdnBlacklist extends ActiveRecord
             ->orderBy([
                 'name' => SORT_ASC,
             ])
-            ->indexBy('code')
+            ->indexBy('id')
             ->column();
 
         # Operators
@@ -84,12 +84,13 @@ class MsisdnBlacklist extends ActiveRecord
             ->select([
                 'name',
                 'name_alias',
+                'id_country'
             ])
             ->orderBy([
                 'name' => SORT_ASC,
             ])
             ->indexBy('name_alias')
-            ->column();
+            ->all();
     }
 
     /**

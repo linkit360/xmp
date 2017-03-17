@@ -86,12 +86,28 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'attribute' => 'report_date',
                             'content' => function ($data) {
-                                return date('Y-m-d', strtotime($data['report_date_day']));
+                                return date('Y-m-d', strtotime($data['report_at_day']));
                             }
                         ],
                         'id_campaign',
-                        'id_provider',
-                        'id_operator',
+                        [
+                            'attribute' => 'id_provider',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) use ($model) {
+                                return $model->providers[$data['provider_name']];
+                            }
+                        ],
+                        [
+                            'attribute' => 'id_operator',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) use ($model) {
+                                return $model->operators[$data['operator_code']];
+                            }
+                        ],
                         [
                             'attribute' => 'lp_hits',
                             'contentOptions' => function () {

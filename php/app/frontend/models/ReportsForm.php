@@ -71,7 +71,7 @@ class ReportsForm extends Model
             Operators::find()
                 ->select([
                     'name',
-                    'id'
+                    'code',
                 ])
                 ->where([
                     'status' => 1
@@ -79,7 +79,7 @@ class ReportsForm extends Model
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('id')
+                ->indexBy('code')
                 ->column();
 
         # Providers
@@ -87,12 +87,12 @@ class ReportsForm extends Model
             Providers::find()
                 ->select([
                     'name',
-                    'id'
+                    'name_alias',
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('id')
+                ->indexBy('name_alias')
                 ->column();
     }
 
@@ -133,22 +133,19 @@ class ReportsForm extends Model
                 'SUM(mo_success) as mo_success',
                 'SUM(pixels) as pixels',
 
-                "date_trunc('day', report_date) as report_date_day",
+                "date_trunc('day', report_at) as report_at_day",
                 'id_campaign',
-                'id_provider',
-                'id_operator',
-
-
+                'provider_name',
+                'operator_code',
             ])
             ->groupBy([
-
-                'report_date_day',
+                'report_at_day',
                 'id_campaign',
-                'id_provider',
-                'id_operator',
+                'provider_name',
+                'operator_code',
             ])
             ->orderBy([
-                'report_date_day' => SORT_DESC
+                'report_at_day' => SORT_DESC
             ]);
 
         // TODO Country
@@ -175,7 +172,7 @@ class ReportsForm extends Model
         # dateFrom
         if (substr_count($this->dateFrom, '-') > 1) {
             $query->andWhere(
-                'report_date >= :date_from'
+                'report_at >= :date_from'
             )->addParams([
                 'date_from' => $this->dateFrom,
             ]);
@@ -184,7 +181,7 @@ class ReportsForm extends Model
         # dateTo
         if (substr_count($this->dateTo, '-') > 1) {
             $query->andWhere(
-                'report_date < :date_to'
+                'report_at < :date_to'
             )->addParams([
                 'date_to' => date('Y-m-d', strtotime('+1 day', strtotime($this->dateTo))),
             ]);

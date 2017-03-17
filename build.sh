@@ -23,3 +23,4 @@ else
 fi
 
 printf "\n\n"
+eval $(docker-machine env -u)

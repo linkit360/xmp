@@ -1,0 +1,13 @@
+,
+    "go": {
+      "image": "go:latest",
+      "build": {
+        "context": "../go",
+        "args": {
+          "PROJECT_GITHUB": "04f432534b1d36f91ee44ef58b056ef225cc2138"
+        }
+      },
+      "ports": [
+        "3000:3000"
+      ]
+    }

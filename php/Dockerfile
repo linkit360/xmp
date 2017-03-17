@@ -3,7 +3,6 @@ FROM php:7.1.2-fpm-alpine
 EXPOSE 9000
 ARG PROJECT_GITHUB
 
-# ENV
 ENV TERM xterm
 RUN apk add --progress --no-cache \
     bash wget curl nano \

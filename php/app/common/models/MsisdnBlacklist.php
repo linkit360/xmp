@@ -1,8 +1,7 @@
 <?php
-
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "xmp_msisdn_blacklist".
@@ -13,8 +12,13 @@ use Yii;
  * @property integer $operator_code
  * @property string  $created_at
  */
-class MsisdnBlacklist extends \yii\db\ActiveRecord
+class MsisdnBlacklist extends ActiveRecord
 {
+    # Data
+    public $countries = [];
+    public $operators = [];
+    public $providers = [];
+
     /**
      * @inheritdoc
      */
@@ -29,12 +33,63 @@ class MsisdnBlacklist extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['provider_name', 'operator_code'], 'required'],
+            [
+                [
+                    'msisdn',
+                    'provider_name',
+                    'operator_code',
+                ],
+                'required'
+            ],
             [['operator_code'], 'integer'],
-            [['created_at'], 'safe'],
             [['msisdn'], 'string', 'max' => 32],
             [['provider_name'], 'string', 'max' => 255],
         ];
+    }
+
+    public function init()
+    {
+        # Countries
+        $this->countries = Countries::find()
+            ->select([
+                'name',
+                'code'
+            ])
+            ->where([
+                'status' => 1
+            ])
+            ->orderBy([
+                'name' => SORT_ASC,
+            ])
+            ->indexBy('code')
+            ->column();
+
+        # Operators
+        $this->operators = Operators::find()
+            ->select([
+                'name',
+                'code',
+            ])
+            ->where([
+                'status' => 1
+            ])
+            ->orderBy([
+                'name' => SORT_ASC,
+            ])
+            ->indexBy('code')
+            ->column();
+
+        # Providers
+        $this->providers = Providers::find()
+            ->select([
+                'name',
+                'name_alias',
+            ])
+            ->orderBy([
+                'name' => SORT_ASC,
+            ])
+            ->indexBy('name_alias')
+            ->column();
     }
 
     /**
@@ -44,9 +99,9 @@ class MsisdnBlacklist extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'msisdn' => 'Msisdn',
-            'provider_name' => 'Provider Name',
-            'operator_code' => 'Operator Code',
+            'msisdn' => 'MSISDN',
+            'provider_name' => 'Provider',
+            'operator_code' => 'Operator',
             'created_at' => 'Created At',
         ];
     }

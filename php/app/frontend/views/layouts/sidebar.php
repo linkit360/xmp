@@ -52,6 +52,12 @@ use yii\helpers\Url;
                     <span class="nav-label">Operators</span>
                 </a>
             </li>
+
+            <li>
+                <a href="<?= Url::to('/blacklist/index') ?>">
+                    <span class="nav-label">Blacklist</span>
+                </a>
+            </li>
         </ul>
     </div>
 </aside>

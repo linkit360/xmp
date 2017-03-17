@@ -7,7 +7,6 @@ use common\models\MsisdnBlacklist;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * BlacklistController implements the CRUD actions for MsisdnBlacklist model.
@@ -20,12 +19,12 @@ class BlacklistController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'delete' => ['POST'],
+//                ],
+//            ],
         ];
     }
 
@@ -35,11 +34,13 @@ class BlacklistController extends Controller
      */
     public function actionIndex()
     {
+        $model = new MsisdnBlacklist();
         $dataProvider = new ActiveDataProvider([
             'query' => MsisdnBlacklist::find(),
         ]);
 
         return $this->render('index', [
+            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -66,14 +67,9 @@ class BlacklistController extends Controller
     public function actionCreate()
     {
         $model = new MsisdnBlacklist();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        $model->load(Yii::$app->request->post());
+        $model->save();
+        return $this->redirect(['index']);
     }
 
     /**
@@ -86,6 +82,7 @@ class BlacklistController extends Controller
      */
     public function actionUpdate($id)
     {
+        return $this->redirect(['index']);
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

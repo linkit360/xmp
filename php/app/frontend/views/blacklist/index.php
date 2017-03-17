@@ -1,33 +1,101 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var yii\web\View                   $this
+ * @var yii\data\ActiveDataProvider    $dataProvider
+ * @var \common\models\MsisdnBlacklist $model
+ */
 
-$this->title = 'Msisdn Blacklists';
+$this->title = 'Msisdn Blacklist';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="msisdn-blacklist-index">
+<div class="content animate-panel">
+    <div class="row">
+        <div class="hpanel">
+            <div class="panel-body">
+                <h1>
+                    <?= Html::encode($this->title) ?>
+                </h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+                <p>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        Add MSISDN
+                    </button>
+                </p>
 
-    <p>
-        <?= Html::a('Create Msisdn Blacklist', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+                <?php
+                echo GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        'msisdn',
+                        [
+                            'attribute' => 'operator_code',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) use ($model) {
+                                return $model->operators[$data['operator_code']];
+                            }
+                        ],
+                        [
+                            'attribute' => 'provider_name',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) use ($model) {
+                                return $model->providers[$data['provider_name']];
+                            }
+                        ],
+                        'created_at',
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'header' => '',
+                            'headerOptions' => ['width' => '80'],
+                            'template' => '{view}{delete}',
+                        ],
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
 
-            'id',
-            'msisdn',
-            'provider_name',
-            'operator_code',
-            'created_at',
+<?php
+# Add MSISDN Modal window
+?>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <?php
+            $form = ActiveForm::begin([
+                'action' => '/blacklist/create'
+            ]);
+            ?>
+            <div class="color-line"></div>
+            <div class="modal-header text-center">
+                <h4 class="modal-title">
+                    Add MSISDN
+                </h4>
+            </div>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+            <div class="modal-body">
+                <?= $form->field($model, 'msisdn')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'provider_name')->dropDownList($model->providers) ?>
+                <?= $form->field($model, 'operator_code')->dropDownList($model->operators) ?>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
+            </div>
+
+            <?php
+            ActiveForm::end();
+            ?>
+        </div>
+    </div>
 </div>

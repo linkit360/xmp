@@ -24,7 +24,7 @@ use yii\helpers\Url;
 
         <ul class="nav" id="side-menu">
             <li>
-                <a href="<?= Url::to('/reports/index') ?>">
+                <a href="<?= Url::to('/reports') ?>">
                     <span class="nav-label">Advertising</span>
                 </a>
             </li>
@@ -36,26 +36,32 @@ use yii\helpers\Url;
             </li>
 
             <li>
-                <a href="<?= Url::to('/countries/index') ?>">
+                <a href="<?= Url::to('/countries') ?>">
                     <span class="nav-label">Countries</span>
                 </a>
             </li>
 
             <li>
-                <a href="<?= Url::to('/providers/index') ?>">
+                <a href="<?= Url::to('/providers') ?>">
                     <span class="nav-label">Providers</span>
                 </a>
             </li>
 
             <li>
-                <a href="<?= Url::to('/operators/index') ?>">
+                <a href="<?= Url::to('/operators') ?>">
                     <span class="nav-label">Operators</span>
                 </a>
             </li>
 
             <li>
-                <a href="<?= Url::to('/blacklist/index') ?>">
+                <a href="<?= Url::to('/blacklist') ?>">
                     <span class="nav-label">Blacklist</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="<?= Url::to('/logs') ?>">
+                    <span class="nav-label">Logs</span>
                 </a>
             </li>
         </ul>

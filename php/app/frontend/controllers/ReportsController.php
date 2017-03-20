@@ -18,13 +18,7 @@ class ReportsController extends Controller
     public function actionIndex()
     {
         $model = new ReportsForm();
-//        dump($model->attributes);
-//        dump(Yii::$app->request->get());
-
         $model->load(Yii::$app->request->get());
-
-//        dump($model->attributes);
-
         return $this->render('index', [
             'model' => $model,
         ]);

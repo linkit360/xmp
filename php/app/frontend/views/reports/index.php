@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="hpanel">
             <?php
             $form = ActiveForm::begin([
+                'action' => '/reports',
                 'method' => 'get',
             ]);
             ?>

@@ -1,13 +1,13 @@
 <?php
 namespace frontend\models;
 
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use common\models\Countries;
 use common\models\Operators;
 use common\models\Providers;
 use common\models\Reports;
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\db\Query;
 
 /**
  * Reports Form
@@ -148,8 +148,29 @@ class ReportsForm extends Model
                 'report_at_day' => SORT_DESC
             ]);
 
-        // TODO Country
         // TODO IDs
+
+        if ($this->country !== null && $this->country !== "0") {
+            $providers = Providers::find()
+                ->select([
+                    'id',
+                    'id_country'
+                ])
+                ->orderBy('id')
+                ->groupBy('id_country, id')
+                ->column();
+
+            $operators = Operators::find()
+                ->select('id')
+                ->where([
+                    'id_provider' => $providers,
+                ])
+                ->column();
+
+            $query->andWhere([
+                'id_operator' => $operators,
+            ]);
+        }
 
         if ($this->campaign !== null && $this->campaign !== "0") {
             $query->andWhere([

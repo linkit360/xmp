@@ -1,17 +1,16 @@
 <?php
-
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "xmp_transactions_results".
  *
- * @property string            $name
+ * @property string         $name
  *
- * @property XmpTransactions[] $xmpTransactions
+ * @property Transactions[] $xmpTransactions
  */
-class TransactionsResults extends \yii\db\ActiveRecord
+class TransactionsResults extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -47,6 +46,6 @@ class TransactionsResults extends \yii\db\ActiveRecord
      */
     public function getXmpTransactions()
     {
-        return $this->hasMany(XmpTransactions::className(), ['result' => 'name']);
+        return $this->hasMany(Transactions::className(), ['result' => 'name']);
     }
 }

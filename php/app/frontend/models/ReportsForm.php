@@ -131,6 +131,7 @@ class ReportsForm extends Model
                 'SUM(mo) as mo',
                 'SUM(mo_uniq) as mo_uniq',
                 'SUM(mo_success) as mo_success',
+                'SUM(retry_success) as retry_success',
                 'SUM(pixels) as pixels',
 
                 "date_trunc('day', report_at) as report_at_day",

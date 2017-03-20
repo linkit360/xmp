@@ -1,32 +1,29 @@
 FROM golang:1.6.2-alpine
-EXPOSE 3000
-ARG PROJECT_GITHUB
+EXPOSE 3000 50313 50314
 
 ENV TERM xterm
 RUN apk add --progress --no-cache \
     bash wget curl nano \
     icu-libs icu-dev \
     git zip unzip zlib-dev \
-    sudo su-exec
+    sudo su-exec openssh-client
 
 RUN addgroup -S -g 1000 docker \
     && adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
-USER docker
+# SSH && CONFIG
+COPY ssh /home/docker/.ssh
+COPY config/ /go/bin/config
+RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+RUN cp /go/bin/config/.bashrc /home/docker
+RUN mv /go/bin/config/.bashrc /root
+
+RUN chown -R 1000:1000 /home/docker && chmod -R 0700 /home/docker
+RUN chown -R 1000:1000 /go && chmod -R 0700 /go
+
+
 WORKDIR /go
-
-
-
-#https://scuzzlebuzzle:<MYTOKEN>@github.com/scuzzlebuzzle/ol3-1.git
-
-#RUN mkdir /home/docker/.ssh && echo "StrictHostKeyChecking no " > /home/docker/.ssh/config
-#RUN echo "[url \"git@github.com:\"]\n\tinsteadOf = https://github.com/" >> /home/docker/.gitconfig
-
-#RUN git config --global credential.helper 'cache --timeout=3600'
-#RUN git config --global user.email "8907722@gmail.com"
-
-RUN go get Caravus:${PROJECT_GITHUB}@github.com/vostrok/acceptor
-
-RUN ls -la /go
-
-ENTRYPOINT /go/bin/outyet
+USER docker
+RUN go get -v github.com/linkit360/go-acceptor/server
+ENTRYPOINT /go/bin/server --config=/go/bin/config/acceptor.dev.yml

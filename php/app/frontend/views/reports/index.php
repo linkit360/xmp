@@ -155,6 +155,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         ],
                         [
+                            'attribute' => 'retry_success',
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) {
+                                return number_format($data['retry_success']);
+                            }
+                        ],
+                        [
                             'attribute' => 'pixels',
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];

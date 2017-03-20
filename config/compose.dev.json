@@ -36,7 +36,7 @@
       ]
     },
     "pgsql": {
-      "image": "postgresql:latest",
+      "image": "xmp_postgresql:latest",
       "build": {
         "context": "../postgresql"
       },
@@ -52,6 +52,12 @@
       "volumes": [
         "../postgresql/data:/data"
       ]
+    },
+    "go": {
+      "image": "xmp_go:latest",
+      "build": {
+        "context": "../go"
+      }
     }
   }
 }

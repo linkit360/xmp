@@ -15,9 +15,9 @@ use yii\db\ActiveRecord;
 class MsisdnBlacklist extends ActiveRecord
 {
     # Data
-    public $countries = [];
-    public $operators = [];
-    public $providers = [];
+    private $countries = [];
+    private $operators = [];
+    private $providers = [];
 
     /**
      * @inheritdoc
@@ -52,50 +52,68 @@ class MsisdnBlacklist extends ActiveRecord
         ];
     }
 
-    public function init()
+    # Countries
+    public function getCountries()
     {
-        # Countries
-        $this->countries = Countries::find()
-            ->select([
-                'name',
-                'id'
-            ])
-            ->where([
-                'status' => 1
-            ])
-            ->orderBy([
-                'name' => SORT_ASC,
-            ])
-            ->indexBy('id')
-            ->column();
+        if (!count($this->countries)) {
+            $this->countries = Countries::find()
+                ->select([
+                    'name',
+                    'id'
+                ])
+                ->where([
+                    'status' => 1
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->column();
+        }
 
-        # Operators
-        $this->operators = Operators::find()
-            ->select([
-                'name',
-                'id',
-            ])
-            ->where([
-                'status' => 1
-            ])
-            ->orderBy([
-                'name' => SORT_ASC,
-            ])
-            ->indexBy('id')
-            ->column();
+        return $this->countries;
+    }
 
-        # Providers
-        $this->providers = Providers::find()
-            ->select([
-                'name',
-                'id',
-                'id_country'
-            ])
-            ->orderBy([
-                'name' => SORT_ASC,
-            ])
-            ->indexBy('id')
-            ->all();
+    # Operators
+    public function getOperators()
+    {
+        if (!count($this->operators)) {
+            $this->operators = Operators::find()
+                ->select([
+                    'name',
+                    'id',
+                ])
+                ->where([
+                    'status' => 1
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->column();
+        }
+
+        return $this->operators;
+    }
+
+    # Providers
+    public function getProviders()
+    {
+        if (!count($this->providers)) {
+            $this->providers = Providers::find()
+                ->select([
+                    'name',
+                    'id',
+                    'id_country'
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->all();
+        }
+
+        return $this->providers;
     }
 
     /**

@@ -3,10 +3,10 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\MsisdnBlacklist;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use common\models\MsisdnBlacklist;
 
 /**
  * BlacklistController implements the CRUD actions for MsisdnBlacklist model.

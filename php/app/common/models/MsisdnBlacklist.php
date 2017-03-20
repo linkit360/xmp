@@ -36,14 +36,19 @@ class MsisdnBlacklist extends ActiveRecord
             [
                 [
                     'msisdn',
-                    'provider_name',
-                    'operator_code',
+                    'id_provider',
+                    'id_operator',
                 ],
                 'required'
             ],
-            [['operator_code'], 'integer'],
+            [
+                [
+                    'id_provider',
+                    'id_operator'
+                ],
+                'integer'
+            ],
             [['msisdn'], 'string', 'max' => 32],
-            [['provider_name'], 'string', 'max' => 255],
         ];
     }
 
@@ -68,7 +73,7 @@ class MsisdnBlacklist extends ActiveRecord
         $this->operators = Operators::find()
             ->select([
                 'name',
-                'code',
+                'id',
             ])
             ->where([
                 'status' => 1
@@ -76,20 +81,20 @@ class MsisdnBlacklist extends ActiveRecord
             ->orderBy([
                 'name' => SORT_ASC,
             ])
-            ->indexBy('code')
+            ->indexBy('id')
             ->column();
 
         # Providers
         $this->providers = Providers::find()
             ->select([
                 'name',
-                'name_alias',
+                'id',
                 'id_country'
             ])
             ->orderBy([
                 'name' => SORT_ASC,
             ])
-            ->indexBy('name_alias')
+            ->indexBy('id')
             ->all();
     }
 
@@ -101,8 +106,8 @@ class MsisdnBlacklist extends ActiveRecord
         return [
             'id' => 'ID',
             'msisdn' => 'MSISDN',
-            'provider_name' => 'Provider',
-            'operator_code' => 'Operator',
+            'id_provider' => 'Provider',
+            'id_operator' => 'Operator',
             'created_at' => 'Created At',
         ];
     }

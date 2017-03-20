@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
  * @var \common\models\MsisdnBlacklist $model
  */
 
-$this->title = 'Msisdn Blacklist';
+$this->title = 'MSISDN Blacklist';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">
@@ -38,25 +38,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
-                                return $model->countries[$model->providers[$data['provider_name']]['id_country']];
+                                return $model->countries[$model->providers[$data['id_provider']]['id_country']];
                             }
                         ],
                         [
-                            'attribute' => 'operator_code',
+                            'attribute' => 'id_operator',
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
-                                return $model->operators[$data['operator_code']];
+                                return $model->operators[$data['id_operator']];
                             }
                         ],
                         [
-                            'attribute' => 'provider_name',
+                            'attribute' => 'id_provider',
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
-                                return $model->providers[$data['provider_name']]['name'];
+                                return $model->providers[$data['id_provider']]['name'];
                             }
                         ],
                         'created_at',
@@ -75,16 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <?php
-# Add MSISDN Modal window
+# 'Add MSISDN' Modal window
 ?>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <?php
-            $form = ActiveForm::begin([
-                'action' => '/blacklist/create'
-            ]);
-            ?>
             <div class="color-line"></div>
             <div class="modal-header text-center">
                 <h4 class="modal-title">
@@ -92,13 +87,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 </h4>
             </div>
 
+            <?php
+            $form = ActiveForm::begin([
+                'action' => '/blacklist/create'
+            ]);
+            ?>
             <div class="modal-body">
                 <?php
-
                 echo $form->field($model, 'msisdn')->textInput(['maxlength' => true]);
-                echo $form->field($model, 'provider_name')
-                    ->dropDownList(ArrayHelper::map($model->providers, 'name', 'name_alias'));
-                echo $form->field($model, 'operator_code')->dropDownList($model->operators);
+                echo $form->field($model, 'id_provider')
+                    ->dropDownList(ArrayHelper::map($model->providers, 'id', 'name'));
+                echo $form->field($model, 'id_operator')->dropDownList($model->operators);
                 ?>
             </div>
 
@@ -106,7 +105,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <?= Html::submitButton('Add', ['class' => 'btn btn-success']) ?>
             </div>
-
             <?php
             ActiveForm::end();
             ?>

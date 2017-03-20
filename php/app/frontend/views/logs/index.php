@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var frontend\models\LogsForm    $model
  */
-$this->title = 'Transactions';
+$this->title = 'Logs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">

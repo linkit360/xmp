@@ -64,10 +64,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="hpanel">
             <div class="panel-body">
-                <h1>
-                    <?= Html::encode($this->title) ?>
-                </h1>
-
                 <?php
                 echo GridView::widget([
                     'dataProvider' => $dataProvider,

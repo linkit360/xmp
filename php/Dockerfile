@@ -1,4 +1,4 @@
-FROM php:7.1.2-fpm-alpine
+FROM php:7.1.3-fpm-alpine
 
 EXPOSE 9000
 ARG PROJECT_GITHUB
@@ -32,13 +32,10 @@ RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3"
 RUN composer -n global require --prefer-dist "fxp/composer-asset-plugin:^1.2.0"
 USER root
 
-EXPOSE 50313 50315
-
 COPY composer/ /app/composer
 COPY app/ /app/php
 
-RUN chown -R docker:docker /app
-RUN chmod -R 0700 /app
+RUN chown -R 1000:1000 /app && chmod -R 0700 /app
 
 WORKDIR /app/php
 ENTRYPOINT ["bash", "/app/config/start.sh"]

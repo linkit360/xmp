@@ -1,5 +1,4 @@
 <?php
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\web\View;
@@ -14,16 +13,55 @@ use yii\widgets\ActiveForm;
 $this->title = 'MSISDN Blacklist';
 $this->params['breadcrumbs'][] = $this->title;
 
-/** @noinspection JSUnusedGlobalSymbols */
-$js = <<<JS
+$js = "
+    var providers_names = [];
+    var providers = [];
+    var operators_select = $('#msisdnblacklist-id_operator');
+    var providers_select = $('#msisdnblacklist-id_provider');
+";
+
+$providers = [];
+/** @var \common\models\Operators $operator */
+foreach ($model->getOperators() as $operator) {
+    $providers[$operator->id_provider][$operator->id] = $operator->name;
+}
+
+foreach ($providers as $id_provider => $operators) {
+    if (count($operators)) {
+        $js .= PHP_EOL . 'providers_names[' . $id_provider . '] = "' . $model->getProviders()[$id_provider]['name'] . '";' . PHP_EOL;
+        $js .= 'providers[' . $id_provider . '] = []' . PHP_EOL;
+        foreach ($operators as $id => $name) {
+            $js .= 'providers[' . $id_provider . '][' . $id . '] = "' . $name . '";' . PHP_EOL;
+        }
+    }
+}
+
+$this->registerJs($js, View::POS_END);
+$this->registerJs('load_operators();', View::POS_READY);
+?>
+<!--suppress JSUnusedLocalSymbols, JSUnresolvedVariable -->
+<script type="text/javascript">
     function check_msisdn(obj) {
         var input = $(obj);
         input.val(input.val().replace(/\D/g, ''));
     }
-JS;
 
-$this->registerJs($js, View::POS_BEGIN)
-?>
+    function change_operators(obj) {
+        operators_select.empty();
+        providers[obj.val()].forEach(function (element, index) {
+            operators_select.append($('<option value=' + index + '>' + element + '</option>'));
+        });
+    }
+
+    function load_operators() {
+        providers_select.empty();
+        providers_names.forEach(function (element, index) {
+            providers_select.append($('<option value=' + index + '>' + element + '</option>'));
+        });
+        change_operators(providers_select);
+    }
+</script>
+
 <div class="small-header transition animated fadeIn">
     <div class="hpanel">
         <div class="panel-body">
@@ -72,7 +110,7 @@ $this->registerJs($js, View::POS_BEGIN)
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
-                                return $model->getOperators()[$data['id_operator']];
+                                return $model->getOperators()[$data['id_operator']]['name'];
                             }
                         ],
                         [
@@ -136,13 +174,14 @@ $this->registerJs($js, View::POS_BEGIN)
 
                 echo $form->field($model, 'id_provider')
                     ->dropDownList(
-                        ArrayHelper::map($model->getProviders(), 'id', 'name'),
+                        [],
                         [
-//                            'onchange' => 'change_operators(this);'
+                            'onchange' => 'change_operators($(this));'
                         ]
                     );
 
-                echo $form->field($model, 'id_operator')->dropDownList($model->getOperators());
+                echo $form->field($model, 'id_operator')
+                    ->dropDownList([]);
                 ?>
             </div>
 
@@ -156,12 +195,3 @@ $this->registerJs($js, View::POS_BEGIN)
         </div>
     </div>
 </div>
-
-<!--
-<script type="text/javascript">
-    function change_operators(obj) {
-        var provider = $(obj);
-        console.log(provider.val());
-    }
-</script>
--->

@@ -74,28 +74,6 @@ class MsisdnBlacklist extends ActiveRecord
         return $this->countries;
     }
 
-    # Operators
-    public function getOperators()
-    {
-        if (!count($this->operators)) {
-            $this->operators = Operators::find()
-                ->select([
-                    'name',
-                    'id',
-                ])
-                ->where([
-                    'status' => 1
-                ])
-                ->orderBy([
-                    'name' => SORT_ASC,
-                ])
-                ->indexBy('id')
-                ->column();
-        }
-
-        return $this->operators;
-    }
-
     # Providers
     public function getProviders()
     {
@@ -114,6 +92,29 @@ class MsisdnBlacklist extends ActiveRecord
         }
 
         return $this->providers;
+    }
+
+    # Operators
+    public function getOperators()
+    {
+        if (!count($this->operators)) {
+            $this->operators = Operators::find()
+                ->select([
+                    'name',
+                    'id',
+                    'id_provider',
+                ])
+                ->where([
+                    'status' => 1
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->all();
+        }
+
+        return $this->operators;
     }
 
     /**

@@ -17,6 +17,7 @@ return [
             'username' => $db['user'],
             'password' => $db['password'],
             'charset' => 'utf8',
+            'tablePrefix' => 'xmp_',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

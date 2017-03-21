@@ -25,7 +25,7 @@ class Reports extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'xmp_reports';
+        return '{{%reports}}';
     }
 
     /**

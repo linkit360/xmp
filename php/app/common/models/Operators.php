@@ -26,7 +26,7 @@ class Operators extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'xmp_operators';
+        return '{{%operators}}';
     }
 
     /**

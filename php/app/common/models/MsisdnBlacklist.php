@@ -24,7 +24,7 @@ class MsisdnBlacklist extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'xmp_msisdn_blacklist';
+        return '{{%msisdn_blacklist}}';
     }
 
     /**

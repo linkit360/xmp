@@ -31,7 +31,7 @@ class Transactions extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'xmp_transactions';
+        return '{{%transactions}}';
     }
 
     /**

@@ -19,7 +19,7 @@ class Providers extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'xmp_providers';
+        return '{{%providers}}';
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 namespace common\models;
 
+use yii\db\ActiveRecord;
+
 /**
  * This is the model class for table "xmp_countries".
  *
@@ -11,14 +13,14 @@ namespace common\models;
  * @property string  $iso
  * @property integer $priority
  */
-class Countries extends \yii\db\ActiveRecord
+class Countries extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'xmp_countries';
+        return '{{%countries}}';
     }
 
     /**

@@ -22,8 +22,8 @@ RUN mv /go/bin/config/.bashrc /root
 RUN chown -R 1000:1000 /home/docker && chmod -R 0700 /home/docker
 RUN chown -R 1000:1000 /go && chmod -R 0700 /go
 
-
-WORKDIR /go
+WORKDIR /go/bin
 USER docker
+RUN echo 3 > /tmp/tmp
 RUN go get -v github.com/linkit360/go-acceptor/server
-ENTRYPOINT /go/bin/server --config=/go/bin/config/acceptor.dev.yml
+ENTRYPOINT server

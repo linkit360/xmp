@@ -23,6 +23,17 @@
       "volumes": [
         "web-app:/app"
       ]
+    },
+    "go": {
+      "image": "955441867202.dkr.ecr.eu-central-1.amazonaws.com/xmp/go:latest",
+      "restart": "always",
+      "links": [
+        "php"
+      ],
+      "environment": [
+        "PROJECT_ENV=test",
+        "GIN_MODE=release"
+      ]
     }
   },
   "volumes": {

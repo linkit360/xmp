@@ -2,10 +2,13 @@
   "version": "3",
   "services": {
     "nginx": {
-      "image": "xmp_nginx:latest",
+      "image": "xmp/nginx:latest",
       "build": {
         "context": "../nginx"
       },
+      "links": [
+        "php"
+      ],
       "environment": [
         "PROJECT_ENV=dev"
       ],
@@ -14,7 +17,7 @@
       ]
     },
     "php": {
-      "image": "xmp_php:latest",
+      "image": "xmp/php:latest",
       "links": [
         "pgsql"
       ],
@@ -35,8 +38,21 @@
         "../php/config:/app/config"
       ]
     },
+    "go": {
+      "image": "xmp/go:latest",
+      "build": {
+        "context": "../go"
+      },
+      "links": [
+        "php",
+        "pgsql"
+      ],
+      "environment": [
+        "PROJECT_ENV=dev"
+      ]
+    },
     "pgsql": {
-      "image": "xmp_postgresql:latest",
+      "image": "xmp/postgresql:latest",
       "build": {
         "context": "../postgresql"
       },
@@ -52,12 +68,6 @@
       "volumes": [
         "../postgresql/data:/data"
       ]
-    },
-    "go": {
-      "image": "xmp_go:latest",
-      "build": {
-        "context": "../go"
-      }
     }
   }
 }

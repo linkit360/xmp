@@ -1,32 +1,31 @@
 <?php
 use yii\helpers\Url;
 
+$url = Yii::$app->request->url;
 ?>
 <aside id="menu">
     <div id="navigation">
-        <!--
-        <div class="profile-picture">
-            <div class="stats-label text-color">
-                <span class="font-extra-bold font-uppercase">Username</span>
-
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <small class="text-muted">Links <b class="caret"></b></small>
-                    </a>
-                    <ul class="dropdown-menu animated flipInX m-t-xs">
-                        <li><a href="#">Example link</a></li>
-                        <li><a href="#">Example link</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        -->
-
         <ul class="nav" id="side-menu">
             <li>
-                <a href="<?= Url::to('/reports') ?>">
-                    <span class="nav-label">Advertising</span>
-                </a>
+                <a href="/"><span class="nav-label">Dashboard</span></a>
+            </li>
+
+            <li class="<?= substr($url, 0, 8) !== '/reports' ?: 'active' ?>">
+                <a href="#"><span class="nav-label">Reports</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li class="<?= substr($url, 0, 14) !== '/reports/index' ?: 'active' ?>">
+                        <a href="<?= Url::to('/reports/index') ?>">
+                            <span class="nav-label">Advertising</span>
+                        </a>
+                    </li>
+
+                    <li class="<?= substr($url, 0, 19) !== '/reports/conversion' ?: 'active' ?>">
+                        <a href="<?= Url::to('/reports/conversion') ?>">
+                            <span class="nav-label">Conversion</span>
+                        </a>
+                    </li>
+
+                </ul>
             </li>
 
             <li>

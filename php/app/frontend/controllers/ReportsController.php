@@ -12,7 +12,8 @@ use frontend\models\ReportsForm;
 class ReportsController extends Controller
 {
     /**
-     * Reports Search Form
+     * AD REPORT
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -20,6 +21,20 @@ class ReportsController extends Controller
         $model = new ReportsForm();
         $model->load(Yii::$app->request->get());
         return $this->render('index', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Conversion report
+     *
+     * @return mixed
+     */
+    public function actionConversion()
+    {
+        $model = new ReportsForm();
+        $model->load(Yii::$app->request->get());
+        return $this->render('conversion', [
             'model' => $model,
         ]);
     }

@@ -121,7 +121,7 @@ class ReportsForm extends Model
     /**
      * @return ActiveDataProvider
      */
-    public function dataProvider()
+    public function dataProviderAd()
     {
         $query = (new Query())
             ->from('xmp_reports')
@@ -149,6 +149,50 @@ class ReportsForm extends Model
                 'report_at_day' => SORT_DESC
             ]);
 
+        $query = $this->applyFilters($query);
+
+//        dump($query->createCommand()->getRawSql());
+//        dump($query->all());
+//        die;
+
+        return new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function dataProviderConv()
+    {
+        $query = (new Query())
+            ->from('xmp_reports')
+            ->select([
+                'SUM(lp_hits) as lp_hits',
+                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
+                'SUM(mo) as mo',
+                'SUM(mo_success) as mo_success',
+
+                "date_trunc('day', report_at) as report_at_day",
+                'id_campaign',
+            ])
+            ->groupBy([
+                'report_at_day',
+                'id_campaign',
+            ])
+            ->orderBy([
+                'report_at_day' => SORT_DESC
+            ]);
+
+        $query = $this->applyFilters($query);
+
+        return new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
+
+    private function applyFilters(Query $query)
+    {
         // TODO IDs
 
         if ($this->country !== null && $this->country !== "0") {
@@ -163,14 +207,10 @@ class ReportsForm extends Model
 
             $operators = Operators::find()
                 ->select('id')
-                ->where([
-                    'id_provider' => $providers,
-                ])
+                ->where(['id_provider' => $providers,])
                 ->column();
 
-            $query->andWhere([
-                'id_operator' => $operators,
-            ]);
+            $query->andWhere(['id_operator' => $operators,]);
         }
 
         if ($this->campaign !== null && $this->campaign !== "0") {
@@ -209,12 +249,6 @@ class ReportsForm extends Model
             ]);
         }
 
-//        dump($query->createCommand()->getRawSql());
-//        dump($query->all());
-//        die;
-
-        return new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        return $query;
     }
 }

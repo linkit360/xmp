@@ -10,7 +10,7 @@ use kartik\widgets\DatePicker;
  * @var frontend\models\ReportsForm $model
  */
 
-$this->title = 'Advertising';
+$this->title = 'Conversion';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="hpanel">
             <?php
             $form = ActiveForm::begin([
-                'action' => '/reports/index',
+                'action' => '/reports/conversion',
                 'method' => 'get',
             ]);
             ?>
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel-body">
                 <?php
                 echo GridView::widget([
-                    'dataProvider' => $model->dataProviderAd(),
+                    'dataProvider' => $model->dataProviderConv(),
                     'columns' => [
                         [
                             'attribute' => 'report_date',
@@ -91,24 +91,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         ],
                         'id_campaign',
-                        [
-                            'attribute' => 'id_provider',
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
-                            'content' => function ($data) use ($model) {
-                                return $model->providers[$data['provider_name']];
-                            }
-                        ],
-                        [
-                            'attribute' => 'id_operator',
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
-                            'content' => function ($data) use ($model) {
-                                return $model->operators[$data['operator_code']];
-                            }
-                        ],
                         [
                             'attribute' => 'lp_hits',
                             'contentOptions' => function () {
@@ -137,15 +119,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         ],
                         [
-                            'attribute' => 'mo_uniq',
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
-                            'content' => function ($data) {
-                                return number_format($data['mo_uniq']);
-                            }
-                        ],
-                        [
                             'attribute' => 'mo_success',
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
@@ -155,22 +128,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         ],
                         [
-                            'attribute' => 'retry_success',
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
+                            'label' => 'Conversion Rate',
                             'content' => function ($data) {
-                                return number_format($data['retry_success']);
-                            }
-                        ],
-                        [
-                            'attribute' => 'pixels',
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
+                                $conv = 0;
+                                if ($data['lp_hits']) {
+                                    $conv = number_format($data['mo'] / $data['lp_hits'] * 100, 2);
+                                }
+                                return $conv . '%';
                             },
-                            'content' => function ($data) {
-                                return number_format($data['pixels']);
-                            }
                         ],
                     ],
                 ]);

@@ -96,12 +96,13 @@ class UsersController extends Controller
      * Updates an existing Users model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param string $id
-     *
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
+        return $this->redirect(['index']);
+
+        /*
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -111,6 +112,7 @@ class UsersController extends Controller
                 'model' => $model,
             ]);
         }
+        */
     }
 
     /**

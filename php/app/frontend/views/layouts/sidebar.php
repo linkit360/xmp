@@ -39,33 +39,45 @@ $url = Yii::$app->request->url;
             </li>
 
             <li>
-                <a href="<?= Url::to('/countries') ?>">
-                    <span class="nav-label">Countries</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="<?= Url::to('/providers') ?>">
-                    <span class="nav-label">Providers</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="<?= Url::to('/operators') ?>">
-                    <span class="nav-label">Operators</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="<?= Url::to('/blacklist') ?>">
-                    <span class="nav-label">Blacklist</span>
-                </a>
-            </li>
-
-            <li>
                 <a href="<?= Url::to('/logs') ?>">
                     <span class="nav-label">Logs</span>
                 </a>
+            </li>
+
+            <li>
+                <a href="#"><span class="nav-label">Admin</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+
+                    <li>
+                        <a href="<?= Url::to('/countries') ?>">
+                            <span class="nav-label">Countries</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?= Url::to('/providers') ?>">
+                            <span class="nav-label">Providers</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?= Url::to('/operators') ?>">
+                            <span class="nav-label">Operators</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?= Url::to('/blacklist') ?>">
+                            <span class="nav-label">Blacklist</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?= Url::to('/users') ?>">
+                            <span class="nav-label">Users</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>

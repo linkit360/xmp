@@ -9,12 +9,13 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-use common\models\Operators;
+use common\models\Users;
+use frontend\models\Users\CreateForm;
 
 /**
- * OperatorsController implements the CRUD actions for Operators model.
+ * UsersController implements the CRUD actions for Users model.
  */
-class OperatorsController extends Controller
+class UsersController extends Controller
 {
     /**
      * @inheritdoc
@@ -44,13 +45,13 @@ class OperatorsController extends Controller
     }
 
     /**
-     * Lists all Operators models.
+     * Lists all Users models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Operators::find(),
+            'query' => Users::find(),
         ]);
 
         return $this->render('index', [
@@ -59,9 +60,9 @@ class OperatorsController extends Controller
     }
 
     /**
-     * Displays a single Operators model.
+     * Displays a single Users model.
      *
-     * @param integer $id
+     * @param string $id
      *
      * @return mixed
      */
@@ -73,16 +74,17 @@ class OperatorsController extends Controller
     }
 
     /**
-     * Creates a new Operators model.
+     * Creates a new Users model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Operators();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new CreateForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->create()) {
+                return $this->redirect(['view', 'id' => $user->id]);
+            }
         }
 
         return $this->render('create', [
@@ -91,10 +93,10 @@ class OperatorsController extends Controller
     }
 
     /**
-     * Updates an existing Operators model.
+     * Updates an existing Users model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
-     * @param integer $id
+     * @param string $id
      *
      * @return mixed
      */
@@ -112,10 +114,10 @@ class OperatorsController extends Controller
     }
 
     /**
-     * Deletes an existing Operators model.
+     * Deletes an existing Users model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
-     * @param integer $id
+     * @param string $id
      *
      * @return mixed
      */
@@ -127,17 +129,17 @@ class OperatorsController extends Controller
     }
 
     /**
-     * Finds the Operators model based on its primary key value.
+     * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
-     * @param integer $id
+     * @param string $id
      *
-     * @return Operators the loaded model
+     * @return Users the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Operators::findOne($id)) !== null) {
+        if (($model = Users::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

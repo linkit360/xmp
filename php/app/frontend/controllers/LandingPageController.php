@@ -3,26 +3,27 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use ZipArchive;
 
 class LandingPageController extends Controller
 {
-    /*
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-//                'only' => ['index', 'add', 'edit', 'designer', 'template'],
                 'rules' => [
-//                    [
-//                        'allow' => true,
-//                        'actions' => ['logout', 'index', 'add', 'edit', 'designer', 'template', 'download'],
-//                        'actions' => UserRoles::getPermissions(Yii::$app->user->id, $this->section_name),
-                    'roles' => ['@'],
-//                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                     [
                         'allow' => false,
                     ],
@@ -30,7 +31,6 @@ class LandingPageController extends Controller
             ],
         ];
     }
-    */
 
     public function actionDesigner()
     {

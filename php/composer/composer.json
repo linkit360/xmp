@@ -37,10 +37,8 @@
     "codeception/verify": "~0.3.1"
   },
   "config": {
-    "process-timeout": 1800
-  },
-  "extra": {
-    "asset-installer-paths": {
+    "process-timeout": 1800,
+    "fxp-asset.installer-paths": {
       "npm-asset-library": "vendor/npm",
       "bower-asset-library": "vendor/bower"
     }

@@ -1,13 +1,14 @@
 <?php
-namespace frontend\models;
+namespace frontend\models\Users;
 
-use common\models\Users;
 use yii\base\Model;
 
+use common\models\Users;
+
 /**
- * Signup form
+ * Create User Form
  */
-class SignupForm extends Model
+class CreateForm extends Model
 {
     public $username;
     public $email;
@@ -46,11 +47,11 @@ class SignupForm extends Model
     }
 
     /**
-     * Signs user up.
+     * Create User
      *
      * @return Users|null the saved model or null if saving fails
      */
-    public function signup()
+    public function create()
     {
         if (!$this->validate()) {
             return null;

@@ -5,10 +5,15 @@
  */
 
 use yii\helpers\Html;
-use app\assets\HomerAsset;
 use yii\helpers\Url;
 
+use app\assets\HomerAsset;
+
 HomerAsset::register($this);
+
+/** @var \common\models\Users $user */
+$user = Yii::$app->user->identity;
+
 $this->beginPage();
 ?>
     <!DOCTYPE html>
@@ -94,6 +99,12 @@ $this->beginPage();
 
             <div class="navbar-right">
                 <ul class="nav navbar-nav no-borders">
+                    <li>
+                        <h3>
+                            <?= $user->username ?>
+                        </h3>
+                    </li>
+
                     <li>
                         <a href="<?= Url::toRoute('/site/logout') ?>">
                             <i class="pe-7s-upload pe-rotate-90"></i>

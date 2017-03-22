@@ -3,7 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+
 use frontend\models\ReportsForm;
 
 /**
@@ -11,6 +13,27 @@ use frontend\models\ReportsForm;
  */
 class ReportsController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => false,
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * AD REPORT
      *

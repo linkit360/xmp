@@ -41,6 +41,12 @@ $config = [
             'rules' => [
                 '' => 'site/index',
                 'lp/<url:(.*)>' => 'landing-page/template',
+                'debug/<controller>/<action>' => 'debug/<controller>/<action>',
+                '<controller:\w+(-\w+)*>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+(-\w+)*>/<id:\\w+-\\w+-\\w+-\\w+-\\w+>' => '<controller>/view',
+                '<controller:\w+(-\w+)*>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+(-\w+)*>/<action:\w+>/<id:\\w+-\\w+-\\w+-\\w+-\\w+>' => '<controller>/<action>',
+                '<controller:\w+(-\w+)*>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
     ],

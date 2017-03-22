@@ -6,8 +6,12 @@ $url = Yii::$app->request->url;
 <aside id="menu">
     <div id="navigation">
         <ul class="nav" id="side-menu">
-            <li>
+            <li class="<?= $url !== '/' ?: 'active' ?>">
                 <a href="/"><span class="nav-label">Dashboard</span></a>
+            </li>
+
+            <li class="<?= substr($url, 0, 16) !== '/site/monitoring' ?: 'active' ?>">
+                <a href="<?= Url::to('/site/monitoring') ?>"><span class="nav-label">Monitoring</span></a>
             </li>
 
             <li class="<?= substr($url, 0, 8) !== '/reports' ?: 'active' ?>">

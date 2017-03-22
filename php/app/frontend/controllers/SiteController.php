@@ -71,6 +71,16 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays monitoring page.
+     *
+     * @return mixed
+     */
+    public function actionMonitoring()
+    {
+        return $this->render('monitoring');
+    }
+
+    /**
      * Logs in a user.
      *
      * @return mixed

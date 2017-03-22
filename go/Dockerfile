@@ -24,6 +24,6 @@ RUN chown -R 1000:1000 /go && chmod -R 0700 /go
 
 WORKDIR /go/bin
 USER docker
-RUN echo 3 > /tmp/tmp
+RUN echo 4 > /tmp/tmp
 RUN go get -v github.com/linkit360/go-acceptor/server
 ENTRYPOINT server

@@ -9,7 +9,7 @@
  */
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
-defined('YII_ENV') or define('YII_ENV', getenv('PROJECT_ENV'));
+defined('YII_ENV') or define('YII_ENV', 'dev');
 error_reporting(-1);
 
 require(__DIR__ . '/../composer/vendor/autoload.php');

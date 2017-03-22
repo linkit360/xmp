@@ -90,17 +90,17 @@ $this->beginPage();
                     </ul>
                 </div>
             </div>
+            -->
 
             <div class="navbar-right">
                 <ul class="nav navbar-nav no-borders">
                     <li>
-                        <a href="#">
+                        <a href="<?= Url::toRoute('/site/logout') ?>">
                             <i class="pe-7s-upload pe-rotate-90"></i>
                         </a>
                     </li>
                 </ul>
             </div>
-            -->
         </nav>
     </div>
 

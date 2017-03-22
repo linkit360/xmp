@@ -1,8 +1,8 @@
 <?php
 namespace frontend\models;
 
+use common\models\Users;
 use yii\base\Model;
-use common\models\User;
 
 /**
  * Signup form
@@ -12,7 +12,6 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
 
     /**
      * @inheritdoc
@@ -25,7 +24,7 @@ class SignupForm extends Model
             [
                 'username',
                 'unique',
-                'targetClass' => '\common\models\User',
+                'targetClass' => '\common\models\Users',
                 'message' => 'This username has already been taken.'
             ],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -37,7 +36,7 @@ class SignupForm extends Model
             [
                 'email',
                 'unique',
-                'targetClass' => '\common\models\User',
+                'targetClass' => '\common\models\Users',
                 'message' => 'This email address has already been taken.'
             ],
 
@@ -49,7 +48,7 @@ class SignupForm extends Model
     /**
      * Signs user up.
      *
-     * @return User|null the saved model or null if saving fails
+     * @return Users|null the saved model or null if saving fails
      */
     public function signup()
     {
@@ -57,7 +56,7 @@ class SignupForm extends Model
             return null;
         }
 
-        $user = new User();
+        $user = new Users();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);

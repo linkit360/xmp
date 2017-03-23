@@ -1,84 +1,123 @@
 <?php
-use yii\helpers\Url;
+$menu = [];
 
-$url = Yii::$app->request->url;
+$menu[] = [
+    'name' => 'Dashboard',
+    'url' => '/',
+];
+
+$menu[] = [
+    'name' => 'Reports',
+    'items' => [
+        [
+            'name' => 'Advertising',
+            'url' => 'reports/index',
+        ],
+        [
+            'name' => 'Conversion',
+            'url' => 'reports/conversion',
+        ],
+    ],
+];
+
+$menu[] = [
+    'name' => 'LP Designer',
+    'url' => 'landing-page/designer',
+];
+
+$menu[] = [
+    'name' => 'Logs',
+    'url' => 'logs/index',
+];
+
+$menu[] = [
+    'name' => 'Admin',
+    'items' => [
+        [
+            'name' => 'Monitoring',
+            'url' => 'site/monitoring',
+        ],
+        [
+            'name' => 'Countries',
+            'url' => 'countries/index',
+        ],
+        [
+            'name' => 'Providers',
+            'url' => 'providers/index',
+        ],
+        [
+            'name' => 'Operators',
+            'url' => 'operators/index',
+        ],
+        [
+            'name' => 'Blacklist',
+            'url' => 'blacklist/index',
+        ],
+        [
+            'name' => 'Users',
+            'url' => 'users/index',
+        ],
+    ],
+];
+
+function drawItem($item)
+{
+    $url = $item['url'];
+    if ($url == '/') {
+        $url = '';
+    }
+
+    $active = '';
+    if ($url === Yii::$app->request->pathInfo) {
+        $active = ' class="active"';
+    }
+    ?>
+    <li<?= $active ?>>
+        <a href="/<?= $url ?>"><span class="nav-label"><?= $item['name'] ?></span></a>
+    </li>
+    <?php
+}
+
+function drawSub($menu)
+{
+
+    $urls = [];
+    foreach ($menu['items'] as $item) {
+        $urls[] = $item['url'];
+    }
+
+    $active = '';
+    if (in_array(Yii::$app->request->pathInfo, $urls)) {
+        $active = ' class="active"';
+    }
+    ?>
+
+    <li<?= $active ?>>
+        <a href="#"><span class="nav-label"><?= $menu['name'] ?></span><span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+            <?php
+            foreach ($menu['items'] as $item) {
+                drawItem($item);
+            }
+            ?>
+        </ul>
+    </li>
+    <?php
+}
+
 ?>
 <aside id="menu">
     <div id="navigation">
         <ul class="nav" id="side-menu">
-            <li class="<?= $url !== '/' ?: 'active' ?>">
-                <a href="/"><span class="nav-label">Dashboard</span></a>
-            </li>
-
-            <li class="<?= substr($url, 0, 16) !== '/site/monitoring' ?: 'active' ?>">
-                <a href="<?= Url::to('/site/monitoring') ?>"><span class="nav-label">Monitoring</span></a>
-            </li>
-
-            <li class="<?= substr($url, 0, 8) !== '/reports' ?: 'active' ?>">
-                <a href="#"><span class="nav-label">Reports</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li class="<?= substr($url, 0, 14) !== '/reports/index' ?: 'active' ?>">
-                        <a href="<?= Url::to('/reports/index') ?>">
-                            <span class="nav-label">Advertising</span>
-                        </a>
-                    </li>
-
-                    <li class="<?= substr($url, 0, 19) !== '/reports/conversion' ?: 'active' ?>">
-                        <a href="<?= Url::to('/reports/conversion') ?>">
-                            <span class="nav-label">Conversion</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-
-            <li>
-                <a href="<?= Url::to('/landing-page/designer') ?>">
-                    <span class="nav-label">LP Designer</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="<?= Url::to('/logs') ?>">
-                    <span class="nav-label">Logs</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="#"><span class="nav-label">Admin</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-
-                    <li>
-                        <a href="<?= Url::to('/countries') ?>">
-                            <span class="nav-label">Countries</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= Url::to('/providers') ?>">
-                            <span class="nav-label">Providers</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= Url::to('/operators') ?>">
-                            <span class="nav-label">Operators</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= Url::to('/blacklist') ?>">
-                            <span class="nav-label">Blacklist</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="<?= Url::to('/users') ?>">
-                            <span class="nav-label">Users</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            <?php
+            foreach ($menu as $item) {
+                if (!array_key_exists('url', $item)) {
+                    drawSub($item);
+                } else {
+                    drawItem($item);
+                }
+            }
+            ?>
         </ul>
     </div>
 </aside>

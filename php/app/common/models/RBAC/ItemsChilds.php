@@ -1,8 +1,7 @@
 <?php
-
 namespace common\models\RBAC;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%rbac_items_childs}}".
@@ -10,10 +9,10 @@ use Yii;
  * @property string $parent
  * @property string $child
  *
- * @property RbacItems $parent0
- * @property RbacItems $child0
+ * @property Items  $parent0
+ * @property Items  $child0
  */
-class ItemsChilds extends \yii\db\ActiveRecord
+class ItemsChilds extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -35,14 +34,14 @@ class ItemsChilds extends \yii\db\ActiveRecord
                 ['parent'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => RbacItems::className(),
+                'targetClass' => Items::className(),
                 'targetAttribute' => ['parent' => 'name']
             ],
             [
                 ['child'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => RbacItems::className(),
+                'targetClass' => Items::className(),
                 'targetAttribute' => ['child' => 'name']
             ],
         ];
@@ -64,7 +63,7 @@ class ItemsChilds extends \yii\db\ActiveRecord
      */
     public function getParent0()
     {
-        return $this->hasOne(RbacItems::className(), ['name' => 'parent']);
+        return $this->hasOne(Items::className(), ['name' => 'parent']);
     }
 
     /**
@@ -72,6 +71,6 @@ class ItemsChilds extends \yii\db\ActiveRecord
      */
     public function getChild0()
     {
-        return $this->hasOne(RbacItems::className(), ['name' => 'child']);
+        return $this->hasOne(Items::className(), ['name' => 'child']);
     }
 }

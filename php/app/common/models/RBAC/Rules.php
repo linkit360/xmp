@@ -1,20 +1,19 @@
 <?php
-
 namespace common\models\RBAC;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%rbac_rules}}".
  *
- * @property string      $name
- * @property resource    $data
- * @property integer     $created_at
- * @property integer     $updated_at
+ * @property string   $name
+ * @property resource $data
+ * @property integer  $created_at
+ * @property integer  $updated_at
  *
- * @property RbacItems[] $rbacItems
+ * @property Items[]  $rbacItems
  */
-class Rules extends \yii\db\ActiveRecord
+class Rules extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -55,6 +54,6 @@ class Rules extends \yii\db\ActiveRecord
      */
     public function getRbacItems()
     {
-        return $this->hasMany(RbacItems::className(), ['rule_name' => 'name']);
+        return $this->hasMany(Items::className(), ['rule_name' => 'name']);
     }
 }

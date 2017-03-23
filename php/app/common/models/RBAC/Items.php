@@ -1,28 +1,27 @@
 <?php
-
 namespace common\models\RBAC;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%rbac_items}}".
  *
- * @property string            $name
- * @property integer           $type
- * @property string            $description
- * @property string            $rule_name
- * @property resource          $data
- * @property integer           $created_at
- * @property integer           $updated_at
+ * @property string        $name
+ * @property integer       $type
+ * @property string        $description
+ * @property string        $rule_name
+ * @property resource      $data
+ * @property integer       $created_at
+ * @property integer       $updated_at
  *
- * @property RbacAssignments[] $rbacAssignments
- * @property RbacRules         $ruleName
- * @property RbacItemsChilds[] $rbacItemsChilds
- * @property RbacItemsChilds[] $rbacItemsChilds0
- * @property Items[]           $children
- * @property Items[]           $parents
+ * @property Assignments[] $rbacAssignments
+ * @property Rules         $ruleName
+ * @property ItemsChilds[] $rbacItemsChilds
+ * @property ItemsChilds[] $rbacItemsChilds0
+ * @property Items[]       $children
+ * @property Items[]       $parents
  */
-class Items extends \yii\db\ActiveRecord
+class Items extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -46,7 +45,7 @@ class Items extends \yii\db\ActiveRecord
                 ['rule_name'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => RbacRules::className(),
+                'targetClass' => Rules::className(),
                 'targetAttribute' => ['rule_name' => 'name']
             ],
         ];
@@ -73,7 +72,7 @@ class Items extends \yii\db\ActiveRecord
      */
     public function getRbacAssignments()
     {
-        return $this->hasMany(RbacAssignments::className(), ['item_name' => 'name']);
+        return $this->hasMany(Assignments::className(), ['item_name' => 'name']);
     }
 
     /**
@@ -81,7 +80,7 @@ class Items extends \yii\db\ActiveRecord
      */
     public function getRuleName()
     {
-        return $this->hasOne(RbacRules::className(), ['name' => 'rule_name']);
+        return $this->hasOne(Rules::className(), ['name' => 'rule_name']);
     }
 
     /**
@@ -89,7 +88,7 @@ class Items extends \yii\db\ActiveRecord
      */
     public function getRbacItemsChilds()
     {
-        return $this->hasMany(RbacItemsChilds::className(), ['parent' => 'name']);
+        return $this->hasMany(ItemsChilds::className(), ['parent' => 'name']);
     }
 
     /**
@@ -97,7 +96,7 @@ class Items extends \yii\db\ActiveRecord
      */
     public function getRbacItemsChilds0()
     {
-        return $this->hasMany(RbacItemsChilds::className(), ['child' => 'name']);
+        return $this->hasMany(ItemsChilds::className(), ['child' => 'name']);
     }
 
     /**
@@ -105,8 +104,15 @@ class Items extends \yii\db\ActiveRecord
      */
     public function getChildren()
     {
-        return $this->hasMany(Items::className(), ['name' => 'child'])->viaTable('{{%rbac_items_childs}}',
-            ['parent' => 'name']);
+        return $this
+            ->hasMany(
+                Items::className(),
+                ['name' => 'child']
+            )
+            ->viaTable(
+                '{{%rbac_items_childs}}',
+                ['parent' => 'name']
+            );
     }
 
     /**
@@ -114,7 +120,14 @@ class Items extends \yii\db\ActiveRecord
      */
     public function getParents()
     {
-        return $this->hasMany(Items::className(), ['name' => 'parent'])->viaTable('{{%rbac_items_childs}}',
-            ['child' => 'name']);
+        return $this
+            ->hasMany(
+                Items::className(),
+                ['name' => 'parent']
+            )
+            ->viaTable(
+                '{{%rbac_items_childs}}',
+                ['child' => 'name']
+            );
     }
 }

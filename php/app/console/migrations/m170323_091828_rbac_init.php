@@ -55,6 +55,15 @@ class m170323_091828_rbac_init extends Migration
                               FOREIGN KEY ("item_name") REFERENCES "xmp_rbac_items" ("name") ON DELETE CASCADE ON UPDATE CASCADE
                             );
                         ');
+
+        // permission
+        // INSERT INTO public.xmp_rbac_items (name, type, description, rule_name, data, created_at, updated_at) VALUES ('createPost', 2, 'Create a post', null, null, 1490262887, 1490262887);
+
+        // role
+        // INSERT INTO public.xmp_rbac_items (name, type, description, rule_name, data, created_at, updated_at) VALUES ('admin', 1, null, null, null, 1490263083, 1490263083);
+
+        // assign
+        // INSERT INTO public.xmp_rbac_items_childs (parent, child) VALUES ('admin', 'createPost');
     }
 
     public function safeDown()

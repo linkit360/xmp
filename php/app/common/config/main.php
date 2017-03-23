@@ -19,6 +19,17 @@ return [
             'charset' => 'utf8',
             'tablePrefix' => 'xmp_',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            // the table for storing authorization items. Defaults to "auth_item".
+            'itemTable' => '{{%rbac_items}}',
+            // the table for storing authorization item hierarchy. Defaults to "auth_item_child".
+            'itemChildTable' => '{{%rbac_items_childs}}',
+            // the table for storing authorization item assignments. Defaults to "auth_assignment".
+            'assignmentTable' => '{{%rbac_assignments}}',
+            // the table for storing rules. Defaults to "auth_rule".
+            'ruleTable' => '{{%rbac_rules}}',
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',

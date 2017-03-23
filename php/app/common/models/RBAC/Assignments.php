@@ -1,19 +1,18 @@
 <?php
-
 namespace common\models\RBAC;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%rbac_assignments}}".
  *
- * @property string    $item_name
- * @property string    $user_id
- * @property integer   $created_at
+ * @property string  $item_name
+ * @property string  $user_id
+ * @property integer $created_at
  *
- * @property RbacItems $itemName
+ * @property Items   $itemName
  */
-class Assignments extends \yii\db\ActiveRecord
+class Assignments extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -37,7 +36,7 @@ class Assignments extends \yii\db\ActiveRecord
                 ['item_name'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => RbacItems::className(),
+                'targetClass' => Items::className(),
                 'targetAttribute' => ['item_name' => 'name']
             ],
         ];
@@ -60,6 +59,6 @@ class Assignments extends \yii\db\ActiveRecord
      */
     public function getItemName()
     {
-        return $this->hasOne(RbacItems::className(), ['name' => 'item_name']);
+        return $this->hasOne(Items::className(), ['name' => 'item_name']);
     }
 }

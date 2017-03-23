@@ -14,13 +14,13 @@ $config = [
             'csrfParam' => '_csrf-frontend',
             'cookieValidationKey' => 'sWOHQyhRudhCz9j_z5s4BW_5p3dtjVCe',
         ],
+        'session' => [
+            'name' => 'advanced-frontend',
+        ],
         'user' => [
             'identityClass' => 'common\models\Users',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
-        ],
-        'session' => [
-            'name' => 'advanced-frontend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

@@ -3,8 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\RBAC\Items */
+/**
+ * @var yii\web\View             $this
+ * @var common\models\RBAC\Items $model
+ * @var array                    $perms
+ */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Items', 'url' => ['index']];
@@ -12,10 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">
     <div class="row">
-        <div class="hpanel">
+        <div class="hpanel col-lg-6">
             <div class="panel-body">
                 <h1>
-                    <?= Html::encode($this->title) ?>
+                    Role: <?= Html::encode($this->title) ?>
                 </h1>
 
                 <p>
@@ -29,19 +32,47 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]) ?>
                 </p>
 
-                <?= DetailView::widget([
+                <?php
+                echo DetailView::widget([
                     'model' => $model,
                     'attributes' => [
                         'name',
-                        'type',
+//                            'type',
                         'description:ntext',
-                        'rule_name',
-                        'data',
-                        'created_at',
-                        'updated_at',
+//                            'rule_name',
+//                            'data',
+                        'created_at:datetime',
+                        'updated_at:datetime',
                     ],
-                ]) ?>
+                ]);
+                ?>
+            </div>
+        </div>
 
+        <div class="hpanel col-lg-6">
+            <div class="panel-body">
+                <h1>
+                    Permissions
+                </h1>
+
+                <table class="table table-condensed">
+                    <?php
+                    /** @var \yii\rbac\Permission $perm */
+                    foreach ($perms as $perm) {
+                        ?>
+                        <tr>
+                            <td>
+                                <?= Html::encode($perm->name) ?>
+                            </td>
+
+                            <td>
+                                <?= nl2br(Html::encode($perm->description)) ?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
             </div>
         </div>
     </div>

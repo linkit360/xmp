@@ -3,10 +3,10 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /**
- * @var yii\web\View             $this
- * @var common\models\RBAC\Items $model
- * @var yii\widgets\ActiveForm   $form
- * @var string                   $title
+ * @var yii\web\View              $this
+ * @var \frontend\models\RbacForm $model
+ * @var yii\widgets\ActiveForm    $form
+ * @var string                    $title
  */
 ?>
 <div class="content animate-panel">
@@ -22,8 +22,13 @@ use yii\widgets\ActiveForm;
                     $form = ActiveForm::begin();
                     echo $form->field($model, 'name')->textInput(['maxlength' => true]);
                     echo $form->field($model, 'description')->textarea(['rows' => 6]);
+                    echo $form->field($model, 'permissions')->checkboxList(
+                        $model->getPermissionsAll(),
+                        [
+                            'separator' => '<br/>',
+                        ]
+                    );
                     ?>
-
                     <div class="form-group">
                         <?php
                         echo Html::submitButton(
@@ -32,7 +37,6 @@ use yii\widgets\ActiveForm;
                         );
                         ?>
                     </div>
-
                     <?php
                     ActiveForm::end();
                     ?>

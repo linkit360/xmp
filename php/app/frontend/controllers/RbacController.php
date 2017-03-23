@@ -16,6 +16,14 @@ use frontend\models\RbacForm;
  */
 class RbacController extends Controller
 {
+    /** @var \yii\rbac\ManagerInterface */
+    public $auth;
+
+    public function init()
+    {
+        $this->auth = Yii::$app->getAuthManager();
+    }
+
     /**
      * @inheritdoc
      */
@@ -49,15 +57,9 @@ class RbacController extends Controller
      */
     public function actionIndex()
     {
-        $auth = Yii::$app->getAuthManager();
-
         $data = [];
-        $data['roles'] = $auth->getRoles();
-        $data['permissions'] = $auth->getPermissions();
-
-
-//        dump($data);
-//        return '';
+        $data['roles'] = $this->auth->getRoles();
+        $data['permissions'] = $this->auth->getPermissions();
 
         return $this->render('index', [
             'data' => $data,
@@ -73,8 +75,10 @@ class RbacController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'perms' => $this->auth->getPermissionsByRole($model->name),
         ]);
     }
 
@@ -86,7 +90,7 @@ class RbacController extends Controller
     public function actionCreate()
     {
         $model = new RbacForm();
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->name]);
         }
@@ -106,15 +110,16 @@ class RbacController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
+        $model = new RbacForm();
+        $model->set($id);
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->name]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

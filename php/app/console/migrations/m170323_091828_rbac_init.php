@@ -56,6 +56,15 @@ class m170323_091828_rbac_init extends Migration
                             );
                         ');
 
+        $auth = Yii::$app->authManager;
+
+        // add "logs" permission
+        $perm = $auth->createPermission('logsView');
+        $perm->description = 'Logs View';
+        $auth->add($perm);
+
+
+        // DO NOT USE
         // permission
         // INSERT INTO public.xmp_rbac_items (name, type, description, rule_name, data, created_at, updated_at) VALUES ('createPost', 2, 'Create a post', null, null, 1490262887, 1490262887);
 

@@ -3,11 +3,13 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\RBAC\Items;
-use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use common\models\RBAC\Items;
+use frontend\models\RbacForm;
 
 /**
  * RbacController implements the CRUD actions for Items model.
@@ -20,6 +22,18 @@ class RbacController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => false,
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,17 +44,23 @@ class RbacController extends Controller
     }
 
     /**
-     * Lists all Items models.
+     * Lists all Roles and Permissions.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Items::find(),
-        ]);
+        $auth = Yii::$app->getAuthManager();
+
+        $data = [];
+        $data['roles'] = $auth->getRoles();
+        $data['permissions'] = $auth->getPermissions();
+
+
+//        dump($data);
+//        return '';
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+            'data' => $data,
         ]);
     }
 
@@ -65,15 +85,15 @@ class RbacController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Items();
-
+        $model = new RbacForm();
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->name]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

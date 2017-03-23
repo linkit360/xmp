@@ -57,6 +57,10 @@ $menu[] = [
             'name' => 'Users',
             'url' => 'users/index',
         ],
+        [
+            'name' => 'RBAC',
+            'url' => 'rbac/index',
+        ],
     ],
 ];
 
@@ -80,10 +84,16 @@ function drawItem($item)
 
 function drawSub($menu)
 {
-
     $urls = [];
     foreach ($menu['items'] as $item) {
         $urls[] = $item['url'];
+
+        // crud
+        if (substr_count($item['url'], '/index')) {
+            $urls[] = str_replace('/index', '/view', $item['url']);
+            $urls[] = str_replace('/index', '/create', $item['url']);
+            $urls[] = str_replace('/index', '/update', $item['url']);
+        }
     }
 
     $active = '';

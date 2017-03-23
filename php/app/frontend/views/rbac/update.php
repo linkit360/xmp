@@ -1,21 +1,14 @@
 <?php
+/**
+ * @var yii\web\View             $this
+ * @var common\models\RBAC\Items $model
+ */
 
-use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\RBAC\Items */
-
-$this->title = 'Update Items: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Items', 'url' => ['index']];
+$this->title = 'Update Role: ' . $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'RBAC', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->name]];
 $this->params['breadcrumbs'][] = 'Update';
-?>
-<div class="items-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+echo $this->render('_form', [
+    'model' => $model,
+    'title' => $this->title,
+]);

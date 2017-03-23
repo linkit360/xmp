@@ -1,21 +1,12 @@
 <?php
-
-use yii\helpers\Html;
-
-
-/* @var $this yii\web\View */
-/* @var $model common\models\RBAC\Items */
-
-$this->title = 'Create Items';
-$this->params['breadcrumbs'][] = ['label' => 'Items', 'url' => ['index']];
+/**
+ * @var $this  yii\web\View
+ * @var $model common\models\RBAC\Items
+ */
+$this->title = 'Create Role';
+$this->params['breadcrumbs'][] = ['label' => 'RBAC', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="items-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
-</div>
+echo $this->render('_form', [
+    'model' => $model,
+    'title' => $this->title,
+]);

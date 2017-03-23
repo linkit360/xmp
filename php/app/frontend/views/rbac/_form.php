@@ -1,36 +1,43 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\RBAC\Items */
-/* @var $form yii\widgets\ActiveForm */
+/**
+ * @var yii\web\View             $this
+ * @var common\models\RBAC\Items $model
+ * @var yii\widgets\ActiveForm   $form
+ * @var string                   $title
+ */
 ?>
+<div class="content animate-panel">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <h1>
+                        <?= Html::encode($title) ?>
+                    </h1>
 
-<div class="items-form">
+                    <?php
+                    $form = ActiveForm::begin();
+                    echo $form->field($model, 'name')->textInput(['maxlength' => true]);
+                    echo $form->field($model, 'description')->textarea(['rows' => 6]);
+                    ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+                    <div class="form-group">
+                        <?php
+                        echo Html::submitButton(
+                            $model->isNewRecord ? 'Create' : 'Update',
+                            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
+                        );
+                        ?>
+                    </div>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'type')->textInput() ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'rule_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'data')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update',
-            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                    <?php
+                    ActiveForm::end();
+                    ?>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>

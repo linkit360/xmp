@@ -17,9 +17,13 @@ $this->title = 'Monitoring';
     <div class="row">
         <div class="hpanel">
             <div class="panel-body">
-                <p>Full version: <a target="_blank" href="http://monitoring.linkit360.ru/dashboard/db/mumbai">HERE</a>
+                <p>
+                    Full version: <a target="_blank" href="http://monitoring.linkit360.ru/dashboard/db/mumbai">HERE</a>
                 </p>
-                <p>user: <b>mobile</b> password: <b>m0b1l3</b></p>
+
+                <p>
+                    user: <b>mobile</b> password: <b>m0b1l3</b>
+                </p>
                 <iframe id="monIframe" src="http://monitoring.linkit360.ru/dashboard/db/mumbai"></iframe>
             </div>
         </div>

@@ -23,7 +23,6 @@
     "yiisoft/yii2": "~2.0.6",
     "yiisoft/yii2-bootstrap": "~2.0.0",
     "yiisoft/yii2-swiftmailer": "~2.0.0",
-    "react/http": "^0.6.0",
     "symfony/var-dumper": "^3.2",
     "kartik-v/yii2-widgets": "^3.4",
     "kartik-v/yii2-field-range": "^1.3",

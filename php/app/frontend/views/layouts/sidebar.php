@@ -1,4 +1,5 @@
 <?php
+$u = \Yii::$app->user;
 $menu = [];
 
 $menu[] = [
@@ -6,29 +7,41 @@ $menu[] = [
     'url' => '/',
 ];
 
-$menu[] = [
+# Reports
+$menu['Reports'] = [
     'name' => 'Reports',
-    'items' => [
-        [
-            'name' => 'Advertising',
-            'url' => 'reports/index',
-        ],
-        [
-            'name' => 'Conversion',
-            'url' => 'reports/conversion',
-        ],
-    ],
+    'items' => [],
 ];
+
+if ($u->can('reportsAdvertisingView')) {
+    $menu['Reports']['items'][] = [
+        'name' => 'Advertising',
+        'url' => 'reports/index',
+    ];
+}
+
+if ($u->can('reportsConversionView')) {
+    $menu['Reports']['items'][] = [
+        'name' => 'Conversion',
+        'url' => 'reports/conversion',
+    ];
+}
+
+if (!count($menu['Reports']['items'])) {
+    unset($menu['Reports']);
+}
 
 $menu[] = [
     'name' => 'LP Designer',
     'url' => 'landing-page/designer',
 ];
 
-$menu[] = [
-    'name' => 'Logs',
-    'url' => 'logs/index',
-];
+if ($u->can('logsView')) {
+    $menu[] = [
+        'name' => 'Logs',
+        'url' => 'logs/index',
+    ];
+}
 
 $menu[] = [
     'name' => 'Admin',

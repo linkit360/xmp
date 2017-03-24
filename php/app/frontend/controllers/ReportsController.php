@@ -24,7 +24,21 @@ class ReportsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'actions' => [
+                            'index',
+                        ],
+                        'roles' => [
+                            'reportsAdvertisingView',
+                        ],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => [
+                            'conversion',
+                        ],
+                        'roles' => [
+                            'reportsConversionView',
+                        ],
                     ],
                     [
                         'allow' => false,

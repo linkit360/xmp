@@ -1,21 +1,43 @@
 <?php
-
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Users */
+/**
+ * @var yii\web\View                      $this
+ * @var \frontend\models\Users\UpdateForm $model
+ */
 
-$this->title = 'Update Users: ' . $model->id;
+$this->title = 'Update User: ' . $model->user->username;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->user->username, 'url' => ['view', 'id' => $model->user->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="users-update">
+<div class="content animate-panel">
+    <div class="row">
+        <div class="hpanel">
+            <div class="panel-body">
+                <h1>
+                    <?= Html::encode($this->title) ?>
+                </h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+                <?php
+                $form = ActiveForm::begin();
+                echo $form->field($model, 'roles')->checkboxList(
+                    $model->getRolessAll(),
+                    [
+                        'separator' => '<br/>',
+                    ]
+                );
+                ?>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+                <div class="form-group">
+                    <?= Html::submitButton('Update', ['class' => 'btn btn-success']) ?>
+                </div>
 
+                <?php
+                ActiveForm::end();
+                ?>
+            </div>
+        </div>
+    </div>
 </div>

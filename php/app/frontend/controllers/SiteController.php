@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use Yii;
@@ -129,8 +130,10 @@ class SiteController extends Controller
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error',
-                    'Sorry, we are unable to reset password for the provided email address.');
+                Yii::$app->session->setFlash(
+                    'error',
+                    'Sorry, we are unable to reset password for the provided email address.'
+                );
             }
         }
 

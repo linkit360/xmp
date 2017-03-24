@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Users\UpdateForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -96,23 +97,22 @@ class UsersController extends Controller
      * Updates an existing Users model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
+     * @param string $id
+     *
      * @return mixed
      */
-    public function actionUpdate()
+    public function actionUpdate($id)
     {
-        return $this->redirect(['index']);
-
-        /*
-        $model = $this->findModel($id);
+        $model = new UpdateForm();
+        $model->set($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['view', 'id' => $model->user->id]);
         }
-        */
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**

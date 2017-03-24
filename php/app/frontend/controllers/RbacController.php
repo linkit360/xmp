@@ -42,12 +42,6 @@ class RbacController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
         ];
     }
 
@@ -112,7 +106,7 @@ class RbacController extends Controller
     {
         $model = new RbacForm();
         $model->set($id);
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->name]);
         }

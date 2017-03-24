@@ -116,7 +116,9 @@ $this->beginPage();
     </div>
 
     <!-- Navigation -->
-    <?= $this->render('sidebar') ?>
+    <?php
+    echo $this->render('sidebar');
+    ?>
 
     <!-- Main Wrapper -->
     <div id="wrapper">

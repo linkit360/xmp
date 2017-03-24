@@ -5,18 +5,20 @@
  */
 $this->title = 'Landing Page Designer';
 ?>
-<div class="small-header transition animated fadeIn">
-    <div class="hpanel">
-        <div class="panel-body">
-            <h2 class="font-light m-b-xs">
-                Landing Page Designer
-            </h2>
-            <small>Step 1 of 2</small>
+<div class="content animate-panel">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <h2 class="font-light m-b-xs">
+                        Landing Page Designer
+                    </h2>
+                    <small>Step 1 of 2</small>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="content animate-panel">
     <div class="row">
         <div class="col-md-12">
             <div class="hpanel">

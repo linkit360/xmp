@@ -11,15 +11,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content animate-panel">
     <div class="row">
-        <div class="hpanel">
+        <div class="hpanel col-lg-6">
             <div class="panel-body">
-                <h1>
+                <h2>
                     <?= Html::encode($this->title) ?>
-                </h1>
-
-                <p>
                     <?= Html::a('Create Provider', ['create'], ['class' => 'btn btn-success']) ?>
-                </p>
+                </h2>
 
                 <?php
                 echo GridView::widget([

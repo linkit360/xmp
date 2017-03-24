@@ -1,9 +1,12 @@
 <?php
+use yii\helpers\Url;
+
 /**
  * @var yii\web\View $this
  * @var string       $template
  */
-$this->title = 'LANDING PAGE DESIGNER';
+
+$this->title = 'Landing Page Designer';
 ?>
 <script type="text/javascript">
     function done() {
@@ -12,37 +15,37 @@ $this->title = 'LANDING PAGE DESIGNER';
     }
 </script>
 
-<div class="small-header transition animated fadeIn">
-    <div class="hpanel">
-        <div class="panel-body">
-            <h2 class="font-light m-b-xs">
-                Landing Page Designer
-            </h2>
-            <small>Step 2 of 2</small>
+<div class="content animate-panel">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <h2 class="font-light m-b-xs">
+                        Landing Page Designer
+                    </h2>
+                    <small>Step 2 of 2</small>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="content animate-panel">
     <div class="row">
         <div class="col-md-12">
             <div class="hpanel">
                 <div class="panel-body">
-                    <h1>
+                    <h2>
                         Customize Template
-                    </h1>
 
-                    <a href="/landing-page/designer"
-                       class="btn btn-default">
-                        Back To Template Selection
-                    </a>
-                    <br/><br/>
+                        <a href="<?= Url::to('/landing-page/designer') ?>" class="btn btn-default">
+                            Back To Template Selection
+                        </a>
 
-                    <button id="teml_download" onclick="document.getElementById('tmpl_frame').contentWindow.download();"
-                            class="btn btn-info">
-                        Download Template
-                    </button>
-                    <br/><br/>
+                        <button id="teml_download"
+                                onclick="document.getElementById('tmpl_frame').contentWindow.download();"
+                                class="btn btn-info">
+                            Download Template
+                        </button>
+                    </h2>
 
                     <div id="tmpl_load">
                         Loading...

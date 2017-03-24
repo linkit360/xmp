@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-su-exec docker php /app/php/yii migrate/up --interactive=0
+php /app/php/yii migrate/up --interactive=0
 if [ $? -eq 0 ]; then
     php-fpm --fpm-config /usr/local/etc/php-fpm.conf
 else

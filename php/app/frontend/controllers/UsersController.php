@@ -29,7 +29,24 @@ class UsersController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'actions' => [
+                            'index',
+                            'view',
+                            'update',
+                            'delete',
+                        ],
+                        'roles' => [
+                            'usersView',
+                        ],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => [
+                            'create',
+                        ],
+                        'roles' => [
+                            'usersCreate',
+                        ],
                     ],
                     [
                         'allow' => false,
@@ -125,7 +142,9 @@ class UsersController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $user = $this->findModel($id);
+        $user->status = 0;
+        $user->save();
 
         return $this->redirect(['index']);
     }
@@ -143,8 +162,7 @@ class UsersController extends Controller
     {
         if (($model = Users::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

@@ -30,10 +30,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body">
                     <h1>
                         Roles
-                        <small><?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success btn-xs']) ?></small>
+                        <small><?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?></small>
                     </h1>
 
                     <table class="table table-condensed">
+                        <tr>
+                            <th style="width: 1%;">Name</th>
+                            <th>Description</th>
+                        </tr>
+
                         <?php
                         /** @var \yii\rbac\Role $role */
                         foreach ($data['roles'] as $role) {
@@ -68,6 +73,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     </h1>
 
                     <table class="table table-condensed">
+                        <tr>
+                            <th style="width: 1%;">Name</th>
+                            <th>Description</th>
+                        </tr>
+
                         <?php
                         /** @var \yii\rbac\Permission $perm */
                         foreach ($data['permissions'] as $perm) {

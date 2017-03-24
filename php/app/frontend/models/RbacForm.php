@@ -1,6 +1,9 @@
 <?php
+
 namespace frontend\models;
 
+use function str_replace;
+use function trim;
 use Yii;
 use yii\base\Model;
 use yii\rbac\Permission;
@@ -63,41 +66,46 @@ class RbacForm extends Model
 
     public function save()
     {
-        if ($this->validate()) {
-            $role = $this->auth->getRole($this->oldName);
-            if ($this->isNewRecord) {
-                if ($role !== null) {
-                    $this->addError('name', 'Role already exists.');
-                    return false;
-                }
-                $role = $this->auth->createRole($this->name);
-                $role->name = $this->name;
-                $role->description = $this->description;
-                $this->auth->add($role);
-            } else {
-                $role->name = $this->name;
-                $role->description = $this->description;
-                $this->auth->update($this->oldName, $role);
-            }
+        $this->name = trim($this->name);
+        $this->name = ucwords($this->name);
+        $this->name = str_replace(' ', '', $this->name);
 
-            // Remove all
-            foreach ($this->auth->getPermissionsByRole($role->name) as $perm) {
-                $this->auth->removeChild($role, $perm);
-            }
-
-            // Add from form
-            if (count($this->permissions)) {
-                foreach ($this->permissions as $perm) {
-                    $perm = $this->auth->getPermission($perm);
-                    if ($perm) {
-                        $this->auth->addChild($role, $perm);
-                    }
-                }
-            }
-
-            return true;
+        if (!$this->validate()) {
+            return false;
         }
-        return false;
+
+        $role = $this->auth->getRole($this->oldName);
+        if ($this->isNewRecord) {
+            if ($role !== null) {
+                $this->addError('name', 'Role already exists.');
+                return false;
+            }
+            $role = $this->auth->createRole($this->name);
+            $role->name = $this->name;
+            $role->description = $this->description;
+            $this->auth->add($role);
+        } else {
+            $role->name = $this->name;
+            $role->description = $this->description;
+            $this->auth->update($this->oldName, $role);
+        }
+
+        // Remove all
+        foreach ($this->auth->getPermissionsByRole($role->name) as $perm) {
+            $this->auth->removeChild($role, $perm);
+        }
+
+        // Add from form
+        if (count($this->permissions)) {
+            foreach ($this->permissions as $perm) {
+                $perm = $this->auth->getPermission($perm);
+                if ($perm) {
+                    $this->auth->addChild($role, $perm);
+                }
+            }
+        }
+
+        return true;
     }
 
     public function getPermissionsAll()

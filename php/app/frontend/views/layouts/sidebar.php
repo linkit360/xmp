@@ -1,7 +1,8 @@
 <?php
-$u = \Yii::$app->user;
-$menu = [];
+$permissions = Yii::$app->getAuthManager()->getPermissionsByUser(Yii::$app->user->id);
+$permissions = array_keys($permissions);
 
+$menu = [];
 $menu[] = [
     'name' => 'Dashboard',
     'url' => '/',
@@ -13,14 +14,14 @@ $menu['Reports'] = [
     'items' => [],
 ];
 
-if ($u->can('reportsAdvertisingView')) {
+if (in_array('reportsAdvertisingView', $permissions)) {
     $menu['Reports']['items'][] = [
         'name' => 'Advertising',
         'url' => 'reports/index',
     ];
 }
 
-if ($u->can('reportsConversionView')) {
+if (in_array('reportsConversionView', $permissions)) {
     $menu['Reports']['items'][] = [
         'name' => 'Conversion',
         'url' => 'reports/conversion',
@@ -32,7 +33,7 @@ if (!count($menu['Reports']['items'])) {
 }
 
 # Landing Pages
-if ($u->can('lpCreate')) {
+if (in_array('lpCreate', $permissions)) {
     $menu[] = [
         'name' => 'LP Designer',
         'url' => 'landing-page/designer',
@@ -40,7 +41,7 @@ if ($u->can('lpCreate')) {
 }
 
 # Logs
-if ($u->can('logsView')) {
+if (in_array('logsView', $permissions)) {
     $menu[] = [
         'name' => 'Logs',
         'url' => 'logs/index',
@@ -53,49 +54,49 @@ $menu['Admin'] = [
     'items' => [],
 ];
 
-if ($u->can('monitoringView')) {
+if (in_array('monitoringView', $permissions)) {
     $menu['Admin']['items'][] = [
         'name' => 'Monitoring',
         'url' => 'site/monitoring',
     ];
 }
 
-if ($u->can('countriesManage')) {
+if (in_array('countriesManage', $permissions)) {
     $menu['Admin']['items'][] = [
         'name' => 'Countries',
         'url' => 'countries/index',
     ];
 }
 
-if ($u->can('providersManage')) {
+if (in_array('providersManage', $permissions)) {
     $menu['Admin']['items'][] = [
         'name' => 'Providers',
         'url' => 'providers/index',
     ];
 }
 
-if ($u->can('operatorsManage')) {
+if (in_array('operatorsManage', $permissions)) {
     $menu['Admin']['items'][] = [
         'name' => 'Operators',
         'url' => 'operators/index',
     ];
 }
 
-if ($u->can('Admin')) {
-    $menu['Admin']['items'][] = [
-        'name' => 'Blacklist',
-        'url' => 'blacklist/index',
-    ];
-}
+//if ($u->can('Admin')) {
+//    $menu['Admin']['items'][] = [
+//        'name' => 'Blacklist',
+//        'url' => 'blacklist/index',
+//    ];
+//}
 
-if ($u->can('usersManage')) {
+if (in_array('usersManage', $permissions)) {
     $menu['Admin']['items'][] = [
         'name' => 'Users',
         'url' => 'users/index',
     ];
 }
 
-if ($u->can('rbacManage')) {
+if (in_array('rbacManage', $permissions)) {
     $menu['Admin']['items'][] = [
         'name' => 'RBAC',
         'url' => 'rbac/index',

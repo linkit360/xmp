@@ -26,7 +26,7 @@
       "build": {
         "context": "../php",
         "args": {
-          "PROJECT_GITHUB": "04f432534b1d36f91ee44ef58b056ef225cc2138"
+          "PROJECT_GITHUB": "3486fd4758227338f7ec7731fca73afb4896f6aa"
         }
       },
       "environment": [

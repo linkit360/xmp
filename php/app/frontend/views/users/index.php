@@ -15,8 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="hpanel col-lg-6">
             <div class="panel-body">
                 <h2>
-                    <?= Html::encode($this->title) ?>
-                    <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+                    <?php
+                    echo Html::encode($this->title);
+                    if (Yii::$app->user->can('usersCreate')) {
+                        echo Html::a('Create User', ['create'], ['class' => 'btn btn-success']);
+                    }
+                    ?>
                 </h2>
 
                 <?php

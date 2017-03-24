@@ -31,11 +31,15 @@ if (!count($menu['Reports']['items'])) {
     unset($menu['Reports']);
 }
 
-$menu[] = [
-    'name' => 'LP Designer',
-    'url' => 'landing-page/designer',
-];
+# Landing Pages
+if ($u->can('lpCreate')) {
+    $menu[] = [
+        'name' => 'LP Designer',
+        'url' => 'landing-page/designer',
+    ];
+}
 
+# Logs
 if ($u->can('logsView')) {
     $menu[] = [
         'name' => 'Logs',
@@ -43,39 +47,64 @@ if ($u->can('logsView')) {
     ];
 }
 
-$menu[] = [
+# Admin
+$menu['Admin'] = [
     'name' => 'Admin',
-    'items' => [
-        [
-            'name' => 'Monitoring',
-            'url' => 'site/monitoring',
-        ],
-        [
-            'name' => 'Countries',
-            'url' => 'countries/index',
-        ],
-        [
-            'name' => 'Providers',
-            'url' => 'providers/index',
-        ],
-        [
-            'name' => 'Operators',
-            'url' => 'operators/index',
-        ],
-        [
-            'name' => 'Blacklist',
-            'url' => 'blacklist/index',
-        ],
-        [
-            'name' => 'Users',
-            'url' => 'users/index',
-        ],
-        [
-            'name' => 'RBAC',
-            'url' => 'rbac/index',
-        ],
-    ],
+    'items' => [],
 ];
+
+if ($u->can('monitoringView')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Monitoring',
+        'url' => 'site/monitoring',
+    ];
+}
+
+if ($u->can('countriesManage')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Countries',
+        'url' => 'countries/index',
+    ];
+}
+
+if ($u->can('providersManage')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Providers',
+        'url' => 'providers/index',
+    ];
+}
+
+if ($u->can('operatorsManage')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Operators',
+        'url' => 'operators/index',
+    ];
+}
+
+if ($u->can('Admin')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Blacklist',
+        'url' => 'blacklist/index',
+    ];
+}
+
+if ($u->can('usersManage')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Users',
+        'url' => 'users/index',
+    ];
+}
+
+if ($u->can('rbacManage')) {
+    $menu['Admin']['items'][] = [
+        'name' => 'RBAC',
+        'url' => 'rbac/index',
+    ];
+}
+
+if (!count($menu['Admin']['items'])) {
+    unset($menu['Admin']);
+}
 
 function drawItem($item)
 {

@@ -6,7 +6,6 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 use common\models\RBAC\Items;
 use frontend\models\RbacForm;
@@ -35,7 +34,7 @@ class RbacController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['rbacManage'],
                     ],
                     [
                         'allow' => false,

@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use common\models\MsisdnBlacklist;
 
 /**
@@ -25,7 +26,7 @@ class BlacklistController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['Admin'],
                     ],
                     [
                         'allow' => false,

@@ -73,6 +73,10 @@ class m170324_095345_rbac_permissions extends Migration
         // "lpCreate" to "User"
         $perm = $this->auth->getPermission('lpCreate');
         $this->auth->addChild($user, $perm);
+
+        // superadmin to "test" user
+        $this->auth->assign($adminU, '96c571ea-2a95-46d3-b2ad-f8b3d1c9ee6a');
+        $this->auth->assign($admin, '96c571ea-2a95-46d3-b2ad-f8b3d1c9ee6a');
     }
 
     public function safeDown()

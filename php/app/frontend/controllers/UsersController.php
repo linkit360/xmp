@@ -36,7 +36,7 @@ class UsersController extends Controller
                             'delete',
                         ],
                         'roles' => [
-                            'usersView',
+                            'usersManage',
                         ],
                     ],
                     [

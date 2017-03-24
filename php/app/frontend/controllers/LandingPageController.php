@@ -22,7 +22,7 @@ class LandingPageController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['lpCreate'],
                     ],
                     [
                         'allow' => false,

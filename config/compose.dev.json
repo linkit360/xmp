@@ -24,10 +24,7 @@
       "ports": [
       ],
       "build": {
-        "context": "../php",
-        "args": {
-          "PROJECT_GITHUB": "3486fd4758227338f7ec7731fca73afb4896f6aa"
-        }
+        "context": "../php"
       },
       "environment": [
         "PROJECT_ENV=dev"

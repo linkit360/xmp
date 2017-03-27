@@ -9,13 +9,13 @@ db:
   user: linkit
   pass: E0kZN8pUAs63wePepf
   port: 5432
-  host: linkit.cz3twmoynbq5.eu-central-1.rds.amazonaws.com
+  host: linkit-prod.ceta2yrq1zco.ap-southeast-1.rds.amazonaws.com
   ssl_mode: disable
   table_prefix: xmp_
 
 server:
-  rpc_port: 50313
-  http_port: 50314
+  rpc_port: 50315
+  http_port: 50316
 
 acceptor_client:
   dsn: :50313

@@ -1,9 +1,9 @@
 FROM php:7.1.3-fpm-alpine
 
 EXPOSE 9000
-ARG PROJECT_GITHUB
-
 ENV TERM xterm
+
+# Deps
 RUN apk add --progress --no-cache \
     bash wget curl nano \
     icu-libs icu-dev \
@@ -11,10 +11,11 @@ RUN apk add --progress --no-cache \
     openssl libmcrypt-dev libxml2-dev \
     sudo su-exec postgresql-dev
 
-# PHP
-RUN docker-php-ext-install mbstring pdo pdo_pgsql json intl sockets mcrypt iconv zip tokenizer xml calendar
+# PHP Ext
+RUN docker-php-ext-install opcache mbstring pdo pdo_pgsql json intl sockets mcrypt iconv zip
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Add Group and User
 RUN addgroup -S -g 1000 docker
 RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
@@ -33,7 +34,6 @@ WORKDIR /app/php
 
 # REMEMBER: only RUN under non-root USER, not COPY
 USER 1000
-RUN composer -n global config github-oauth.github.com ${PROJECT_GITHUB}
 RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3"
 RUN composer -n global require --prefer-dist "fxp/composer-asset-plugin:^1.2.0"
 ENTRYPOINT ["bash", "/app/config/start.sh"]

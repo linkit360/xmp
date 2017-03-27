@@ -27,14 +27,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'columns' => [
                     'username',
-//                        'auth_key',
-//                        'password_hash',
-//                        'password_reset_token',
+//                    'auth_key',
+//                    'password_hash',
+//                    'password_reset_token',
                     'email:email',
-//                        'status',
+                    [
+                        'header' => 'Roles',
+                        'content' => function ($data) {
+                            return '1';
+                        },
+                    ],
+//                    'status',
                     'created_at:datetime',
                     'updated_at:datetime',
-//                        'id',
+//                    'id',
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]);

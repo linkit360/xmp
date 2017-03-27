@@ -11,12 +11,12 @@ RUN apk add --progress --no-cache \
     openssl libmcrypt-dev libxml2-dev \
     sudo su-exec postgresql-dev
 
-RUN addgroup -S -g 1000 docker \
-    && adduser -S -D -s /bin/bash -u 1000 -G docker docker
-
 # PHP
 RUN docker-php-ext-install mbstring pdo pdo_pgsql json intl sockets mcrypt iconv zip tokenizer xml calendar
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN addgroup -S -g 1000 docker
+RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
 # Configs
 COPY config/ /app/config

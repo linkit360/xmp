@@ -8,8 +8,8 @@ RUN apk add --progress --no-cache \
     git zip unzip zlib-dev \
     sudo su-exec openssh-client
 
-RUN addgroup -S -g 1000 docker \
-    && adduser -S -D -s /bin/bash -u 1000 -G docker docker
+RUN addgroup -S -g 1000 docker
+RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
 # SSH && CONFIG
 COPY ssh /home/docker/.ssh
@@ -19,11 +19,14 @@ RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
 RUN cp /go/bin/config/.bashrc /home/docker
 RUN mv /go/bin/config/.bashrc /root
 
-RUN chown -R 1000:1000 /home/docker && chmod -R 0700 /home/docker
-RUN chown -R 1000:1000 /go && chmod -R 0700 /go
+RUN chown -R 1000:1000 /home/docker
+RUN chown -R 1000:1000 /go
+
+RUN chmod -R 0700 /home/docker
+RUN chmod -R 0700 /go
 
 WORKDIR /go/bin
-USER docker
-RUN echo 4 > /tmp/tmp
+USER 1000
+RUN echo 6 > /tmp/tmp
 RUN go get -v github.com/linkit360/go-acceptor/server
 ENTRYPOINT server

@@ -1,4 +1,4 @@
-user docker docker;
+# user docker docker;
 worker_processes  1;
 daemon off;
 
@@ -24,8 +24,8 @@ http {
     gzip  on;
 
     server {
-        listen 80;
-        listen [::]:80;
+        listen 8080;
+        listen [::]:8080;
         server_name localhost "" www.*;
         root /app/php/frontend/web;
 

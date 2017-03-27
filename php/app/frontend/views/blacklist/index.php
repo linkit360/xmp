@@ -91,47 +91,47 @@ $this->registerJs('load_operators();', View::POS_READY);
                             'header' => 'Country',
                             'headerOptions' => [
                                 'width' => '140',
-                                'class' => 'text-right'
+                                'class' => 'text-right',
                             ],
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
                                 return $model->getCountries()[$model->getProviders()[$data['id_provider']]['id_country']];
-                            }
+                            },
                         ],
                         [
                             'attribute' => 'id_operator',
                             'headerOptions' => [
                                 'width' => '140',
-                                'class' => 'text-right'
+                                'class' => 'text-right',
                             ],
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
                                 return $model->getOperators()[$data['id_operator']]['name'];
-                            }
+                            },
                         ],
                         [
                             'attribute' => 'id_provider',
                             'headerOptions' => [
                                 'width' => '140',
-                                'class' => 'text-right'
+                                'class' => 'text-right',
                             ],
                             'contentOptions' => function () {
                                 return ['class' => 'text-right'];
                             },
                             'content' => function ($data) use ($model) {
                                 return $model->getProviders()[$data['id_provider']]['name'];
-                            }
+                            },
                         ],
                         [
                             'attribute' => 'created_at',
                             'headerOptions' => ['width' => '140'],
                             'content' => function ($data) {
                                 return date('Y-m-d H:i:s', strtotime($data->created_at));
-                            }
+                            },
                         ],
                         [
                             'class' => 'yii\grid\ActionColumn',
@@ -162,21 +162,21 @@ $this->registerJs('load_operators();', View::POS_READY);
 
             <?php
             $form = ActiveForm::begin([
-                'action' => '/blacklist/create'
+                'action' => '/blacklist/create',
             ]);
             ?>
             <div class="modal-body">
                 <?php
                 echo $form->field($model, 'msisdn')->textInput([
                     'maxlength' => true,
-                    'onkeyup' => 'check_msisdn(this);'
+                    'onkeyup' => 'check_msisdn(this);',
                 ]);
 
                 echo $form->field($model, 'id_provider')
                     ->dropDownList(
                         [],
                         [
-                            'onchange' => 'change_operators($(this));'
+                            'onchange' => 'change_operators($(this));',
                         ]
                     );
 

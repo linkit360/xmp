@@ -10,37 +10,35 @@ use yii\grid\GridView;
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="content animate-panel">
-    <div class="row">
-        <div class="hpanel col-lg-6">
-            <div class="panel-body">
-                <h2>
-                    <?php
-                    echo Html::encode($this->title);
-                    if (Yii::$app->user->can('usersCreate')) {
-                        echo Html::a('Create User', ['create'], ['class' => 'btn btn-success']);
-                    }
-                    ?>
-                </h2>
-
+<div class="content animate-panel row">
+    <div class="hpanel col-lg-6">
+        <div class="panel-body">
+            <h2>
                 <?php
-                echo GridView::widget([
-                    'dataProvider' => $dataProvider,
-                    'columns' => [
-                        'username',
+                echo Html::encode($this->title);
+                if (Yii::$app->user->can('usersCreate')) {
+                    echo '&nbsp;' . Html::a('Create User', ['create'], ['class' => 'btn btn-success']);
+                }
+                ?>
+            </h2>
+
+            <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'username',
 //                        'auth_key',
 //                        'password_hash',
 //                        'password_reset_token',
-                        'email:email',
+                    'email:email',
 //                        'status',
-                        'created_at:datetime',
-                        'updated_at:datetime',
+                    'created_at:datetime',
+                    'updated_at:datetime',
 //                        'id',
-                        ['class' => 'yii\grid\ActionColumn'],
-                    ],
-                ]);
-                ?>
-            </div>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]);
+            ?>
         </div>
     </div>
 </div>

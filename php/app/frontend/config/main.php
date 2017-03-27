@@ -55,13 +55,13 @@ $config = [
 
 if (defined('YII_ENV') && (YII_ENV === 'dev' || YII_ENV === 'test')) {
     $ips = [
-        '*'
+        '*',
     ];
 
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => $ips
+        'allowedIPs' => $ips,
     ];
 
     $config['bootstrap'][] = 'gii';

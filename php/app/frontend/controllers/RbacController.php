@@ -2,13 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\models\RBAC\Items;
+use frontend\models\RbacForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-
-use common\models\RBAC\Items;
-use frontend\models\RbacForm;
 
 /**
  * RbacController implements the CRUD actions for Items model.
@@ -54,9 +53,15 @@ class RbacController extends Controller
         $data['roles'] = $this->auth->getRoles();
         $data['permissions'] = $this->auth->getPermissions();
 
-        return $this->render('index', [
-            'data' => $data,
-        ]);
+        ksort($data['roles']);
+        ksort($data['permissions']);
+
+        return $this->render(
+            'index',
+            [
+                'data' => $data,
+            ]
+        );
     }
 
     /**
@@ -73,6 +78,24 @@ class RbacController extends Controller
             'model' => $model,
             'perms' => $this->auth->getPermissionsByRole($model->name),
         ]);
+    }
+
+    /**
+     * Finds the Items model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param string $id
+     *
+     * @return Items the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Items::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -128,23 +151,5 @@ class RbacController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Items model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param string $id
-     *
-     * @return Items the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Items::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

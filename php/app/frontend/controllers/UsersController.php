@@ -2,16 +2,16 @@
 
 namespace frontend\controllers;
 
-use frontend\models\Users\UpdateForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 use common\models\Users;
 use frontend\models\Users\CreateForm;
+use frontend\models\Users\UpdateForm;
 
 /**
  * UsersController implements the CRUD actions for Users model.
@@ -69,12 +69,18 @@ class UsersController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Users::find(),
+            'query' => Users::find()
+                ->where([
+                    'status' => 1,
+                ]),
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**
@@ -89,6 +95,23 @@ class UsersController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    /**
+     * Finds the Users model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param string $id
+     *
+     * @return Users the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Users::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     /**
@@ -147,22 +170,5 @@ class UsersController extends Controller
         $user->save();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Users model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param string $id
-     *
-     * @return Users the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Users::findOne($id)) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

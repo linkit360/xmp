@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-body">
             <h1>
                 Roles
-                <small><?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?></small>
+                <?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success btn-sm']) ?>
             </h1>
 
             <table class="table table-condensed">

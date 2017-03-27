@@ -1,5 +1,5 @@
 FROM golang:1.6.2-alpine
-EXPOSE 3000 50313 50314
+EXPOSE 10000 10001
 
 ENV TERM xterm
 RUN apk add --progress --no-cache \
@@ -27,6 +27,6 @@ RUN chmod -R 0700 /go
 
 WORKDIR /go/bin
 USER 1000
-RUN echo 6 > /tmp/tmp
+RUN echo 8 > /tmp/tmp
 RUN go get -v github.com/linkit360/go-acceptor/server
 ENTRYPOINT server

@@ -31,12 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
 //                    'password_hash',
 //                    'password_reset_token',
                     'email:email',
-                    [
-                        'header' => 'Roles',
-                        'content' => function ($data) {
-                            return '1';
-                        },
-                    ],
+//                    [
+//                        'header' => 'Roles',
+//                        'content' => function ($data) {
+//                            return '1';
+//                        },
+//                    ],
 //                    'status',
                     'created_at:datetime',
                     'updated_at:datetime',

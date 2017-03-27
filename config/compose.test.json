@@ -31,8 +31,7 @@
         "php"
       ],
       "environment": [
-        "PROJECT_ENV=test",
-        "GIN_MODE=release"
+        "PROJECT_ENV=test"
       ]
     }
   },

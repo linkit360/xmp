@@ -14,8 +14,8 @@ db:
   table_prefix: xmp_
 
 server:
-  rpc_port: 50315
-  http_port: 50316
+  rpc_port: 10000
+  http_port: 10001
 
 acceptor_client:
   dsn: :50313

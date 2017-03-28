@@ -2,9 +2,8 @@
 
 namespace frontend\models;
 
-use function date;
-use function ksort;
-use function strtotime;
+use function in_array;
+use const SORT_ASC;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -190,10 +189,33 @@ class ReportsForm extends Model
             ]);
 
         $query = $this->applyFilters($query);
-        $data = $query->all();
-        krsort($data);
 
-        $this->chart = [
+        return new ActiveDataProvider([
+            'query' => $query,
+        ]);
+    }
+
+    public function dataConvChart()
+    {
+        $query = (new Query())
+            ->from('xmp_reports')
+            ->select([
+                'SUM(lp_hits) as lp_hits',
+//                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
+//                'SUM(mo) as mo',
+//                'SUM(mo_success) as mo_success',
+
+                "date_trunc('day', report_at) as report_at_day",
+            ])
+            ->groupBy([
+                'report_at_day',
+            ])
+            ->orderBy([
+                'report_at_day' => SORT_ASC,
+            ]);
+        $query = $this->applyFilters($query);
+
+        $chart = [
             'sum' => 0,
             'days' => [],
             'series' => [
@@ -204,16 +226,21 @@ class ReportsForm extends Model
             ],
         ];
 
-        foreach ($data as $row) {
-            $date = date('Y.m.d', strtotime($row['report_at_day']));
-            $this->chart['sum'] += $row['lp_hits'];
-            $this->chart['days'][] = $date;
-            $this->chart['series'][0]['data'][] = (int)$row['lp_hits'];
+        foreach ($query->all() as $row) {
+            $date = date(
+                'Y.m.d',
+                strtotime($row['report_at_day'])
+            );
+
+            if (!in_array($date, $chart['days'])) {
+                $chart['days'][] = $date;
+            }
+
+            $chart['series'][0]['data'][] = (int)$row['lp_hits'];
+            $chart['sum'] += $row['lp_hits'];
         }
 
-        return new ActiveDataProvider([
-            'query' => $query,
-        ]);
+        $this->chart = $chart;
     }
 
     private function applyFilters(Query $query)

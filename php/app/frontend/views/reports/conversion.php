@@ -12,9 +12,8 @@ use kartik\widgets\DatePicker;
 
 $this->title = 'Conversion';
 $this->params['breadcrumbs'][] = $this->title;
-$dataProvider = $model->dataConv();
 ?>
-<div class="content animate-panel">
+<div class="content animate-panel row">
     <div class="hpanel col-lg-6">
         <?php
         $form = ActiveForm::begin([
@@ -79,10 +78,12 @@ $dataProvider = $model->dataConv();
     <div class="hpanel col-lg-6">
         <div class="panel-body">
             <?php
+            $model->dataConvChart();
             if (array_key_exists('sum', $model->chart) && $model->chart['sum'] > 0) {
                 echo Highcharts::widget([
                     'options' => [
                         'chart' => [
+                            'height' => 282,
                             'zoomType' => 'x',
                             'type' => 'column',
                         ],
@@ -125,7 +126,7 @@ $dataProvider = $model->dataConv();
         <div class="panel-body">
             <?php
             echo GridView::widget([
-                'dataProvider' => $dataProvider,
+                'dataProvider' => $model->dataConv(),
                 'columns' => [
                     [
                         'attribute' => 'report_date',

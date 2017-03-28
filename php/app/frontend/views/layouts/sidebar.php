@@ -4,13 +4,13 @@ $permissions = array_keys($permissions);
 
 $menu = [];
 $menu[] = [
-    'name' => 'Dashboard',
+    'name' => '<i class="fa fa-th-large"></i> Dashboard',
     'url' => '/',
 ];
 
 # Reports
 $menu['Reports'] = [
-    'name' => 'Reports',
+    'name' => '<i class="fa fa-bar-chart-o"></i> Reports',
     'items' => [],
 ];
 
@@ -35,7 +35,7 @@ if (!count($menu['Reports']['items'])) {
 # Landing Pages
 if (in_array('lpCreate', $permissions)) {
     $menu[] = [
-        'name' => 'LP Designer',
+        'name' => '<i class="fa fa-map"></i> LP Designer',
         'url' => 'landing-page/designer',
     ];
 }
@@ -43,14 +43,14 @@ if (in_array('lpCreate', $permissions)) {
 # Logs
 if (in_array('logsView', $permissions)) {
     $menu[] = [
-        'name' => 'Logs',
+        'name' => '<i class="fa fa-list"></i> Logs',
         'url' => 'logs/index',
     ];
 }
 
 # Admin
 $menu['Admin'] = [
-    'name' => 'Admin',
+    'name' => '<i class="fa fa-keyboard-o"></i> Admin',
     'items' => [],
 ];
 

@@ -2,13 +2,13 @@
 /**
  * @var $this yii\web\View
  */
+
+$this->title = 'Dashboard';
+$this->params['subtitle'] = 'Reports and Stats';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="content animate-panel">
-    <div class="row">
-        <div class="hpanel">
-            <div class="panel-body">
-                <?= Yii::powered() ?>
-            </div>
-        </div>
+<div class="hpanel col-lg-12">
+    <div class="panel-body">
+        Hello :)
     </div>
 </div>

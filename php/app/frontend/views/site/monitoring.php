@@ -3,7 +3,8 @@
  * @var $this yii\web\View
  */
 $this->title = 'Monitoring';
-
+$this->params['subtitle'] = 'Service map';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <style type="text/css">
     #monIframe {
@@ -13,19 +14,15 @@ $this->title = 'Monitoring';
     }
 </style>
 
-<div class="content animate-panel">
-    <div class="row">
-        <div class="hpanel">
-            <div class="panel-body">
-                <p>
-                    Full version: <a target="_blank" href="http://monitoring.linkit360.ru/dashboard/db/mumbai">HERE</a>
-                </p>
+<div class="hpanel col-lg-12">
+    <div class="panel-body">
+        <p>
+            Full version: <a target="_blank" href="http://monitoring.linkit360.ru/dashboard/db/mumbai">HERE</a>
+        </p>
 
-                <p>
-                    user: <b>mobile</b> password: <b>m0b1l3</b>
-                </p>
-                <iframe id="monIframe" src="http://monitoring.linkit360.ru/dashboard/db/mumbai"></iframe>
-            </div>
-        </div>
+        <p>
+            user: <b>mobile</b> password: <b>m0b1l3</b>
+        </p>
+        <iframe id="monIframe" src="http://monitoring.linkit360.ru/dashboard/db/mumbai"></iframe>
     </div>
 </div>

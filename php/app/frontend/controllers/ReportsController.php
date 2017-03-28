@@ -57,6 +57,8 @@ class ReportsController extends Controller
     {
         $model = new ReportsForm();
         $model->load(Yii::$app->request->get());
+        $model->dataAdChart();
+
         return $this->render('index', [
             'model' => $model,
         ]);
@@ -71,6 +73,8 @@ class ReportsController extends Controller
     {
         $model = new ReportsForm();
         $model->load(Yii::$app->request->get());
+        $model->dataConvChart();
+
         return $this->render(
             'conversion',
             [

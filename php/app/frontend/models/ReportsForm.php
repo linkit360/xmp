@@ -243,6 +243,64 @@ class ReportsForm extends Model
         $this->chart = $chart;
     }
 
+    public function dataAdChart()
+    {
+        $query = (new Query())
+            ->from('xmp_reports')
+            ->select([
+                'SUM(lp_hits) as lp_hits',
+                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
+                'SUM(mo) as mo',
+                'SUM(mo_success) as mo_success',
+
+                "date_trunc('day', report_at) as report_at_day",
+            ])
+            ->groupBy([
+                'report_at_day',
+            ])
+            ->orderBy([
+                'report_at_day' => SORT_ASC,
+            ]);
+        $query = $this->applyFilters($query);
+
+        $chart = [
+            'sum' => 0,
+            'days' => [],
+            'series' => [
+                [
+                    'name' => 'Lp Hits',
+                    'data' => [],
+                ],
+                [
+                    'name' => 'Mo',
+                    'data' => [],
+                ],
+                [
+                    'name' => 'Mo Success',
+                    'data' => [],
+                ],
+            ],
+        ];
+
+        foreach ($query->all() as $row) {
+            $date = date(
+                'Y.m.d',
+                strtotime($row['report_at_day'])
+            );
+
+            if (!in_array($date, $chart['days'])) {
+                $chart['days'][] = $date;
+            }
+
+            $chart['series'][0]['data'][] = (int)$row['lp_hits'];
+            $chart['series'][1]['data'][] = (int)$row['mo'];
+            $chart['series'][2]['data'][] = (int)$row['mo_success'];
+            $chart['sum'] += $row['lp_hits'];
+        }
+
+        $this->chart = $chart;
+    }
+
     private function applyFilters(Query $query)
     {
         // TODO IDs

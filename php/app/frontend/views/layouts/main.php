@@ -6,6 +6,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 
 use app\assets\HomerAsset;
 
@@ -36,7 +37,8 @@ $this->beginPage();
     <!-- Simple splash screen-->
     <div class="splash">
         <div class="color-line"></div>
-        <div class="splash-title"><h1>LinkIT 360</h1>
+        <div class="splash-title">
+            <img src="/img/LinkIT360_logo.png"/>
             <p>
                 XMP
             </p>
@@ -60,16 +62,18 @@ $this->beginPage();
     <!-- Header -->
     <div id="header">
         <div class="color-line"></div>
-
         <div id="logo" class="light-version">
-            <!--            <span><a href="/"><img src="/img/LinkIT360_logo.png"/></a></span>-->
-            <span><a href="<?= Url::to('/site/index') ?>">LinkIT 360</a></span>
+            <a href="<?= Url::to('/site/index') ?>">
+                <img src="/img/LinkIT360_logo.png" border="0"/>
+            </a>
         </div>
 
         <nav role="navigation">
             <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
             <div class="small-logo">
-                <span class="text-primary">LinkIT 360</span>
+                <a href="<?= Url::to('/site/index') ?>">
+                    <img src="/img/LinkIT360_logo.png" border="0"/>
+                </a>
             </div>
 
             <!--
@@ -122,13 +126,30 @@ $this->beginPage();
 
     <!-- Main Wrapper -->
     <div id="wrapper">
-        <?php
-        //                echo Breadcrumbs::widget([
-        //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        //                ]);
+        <div class="content animate-panel row">
+            <div class="hpanel col-lg-12">
+                <div class="panel-body">
+                    <div id="hbreadcrumb" class="pull-right m-t-lg">
+                        <?php
+                        echo Breadcrumbs::widget([
+                            'homeLink' => ['label' => 'XMP', 'url' => '/'],
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                            'class' => 'hbreadcrumb breadcrumb',
+                        ]);
+                        ?>
+                    </div>
 
-        echo $content;
-        ?>
+                    <h2 class="font-light m-b-xs">
+                        <?= Html::encode($this->title) ?>
+                    </h2>
+
+                    <small>
+                        <?= array_key_exists('subtitle', $this->params) ? $this->params['subtitle'] : '' ?>
+                    </small>
+                </div>
+            </div>
+            <?= $content ?>
+        </div>
     </div>
     <?php
     $this->endBody();

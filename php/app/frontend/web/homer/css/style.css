@@ -1750,7 +1750,7 @@ h3,
     padding: 0;
     width: 22px;
     height: 22px;
-    background: url("img/green.png") no-repeat;
+    /*background: url("img/green.png") no-repeat;*/
     border: none;
     cursor: pointer;
 }
@@ -1801,7 +1801,7 @@ h3,
 @media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
     .icheckbox_square-green,
     .iradio_square-green {
-        background-image: url("img/green@2x.png");
+        /*background-image: url("img/green@2x.png");*/
         -webkit-background-size: 240px 24px;
         background-size: 240px 24px;
     }
@@ -2682,7 +2682,7 @@ body.fullscreen-panel-mode {
     float: left;
     width: 180px;
     background-color: #34495e;
-    padding: 18px 10px 18px 18px;
+    padding: 0 10px 18px 18px;
     height: 56px;
     text-align: center;
 }
@@ -3178,7 +3178,7 @@ h6 {
 .small-logo {
     display: none;
     text-align: center;
-    padding-top: 18px;
+    padding-top: 0;
     font-size: 14px;
     font-weight: 800;
 }
@@ -4306,7 +4306,7 @@ ul.h-list li:hover a {
 }
 
 .landing-page header {
-    background: url('../images/landing/header.jpg') 50% 0 no-repeat;
+    /*background: url('../images/landing/header.jpg') 50% 0 no-repeat;*/
     height: 480px;
     padding-top: 50px;
     margin-bottom: 30px;

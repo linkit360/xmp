@@ -8,5 +8,4 @@ $this->params['breadcrumbs'][] = ['label' => 'RBAC', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('_form', [
     'model' => $model,
-    'title' => $this->title,
 ]);

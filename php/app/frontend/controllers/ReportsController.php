@@ -71,8 +71,11 @@ class ReportsController extends Controller
     {
         $model = new ReportsForm();
         $model->load(Yii::$app->request->get());
-        return $this->render('conversion', [
-            'model' => $model,
-        ]);
+        return $this->render(
+            'conversion',
+            [
+                'model' => $model,
+            ]
+        );
     }
 }

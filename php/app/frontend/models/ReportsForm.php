@@ -1,6 +1,10 @@
 <?php
+
 namespace frontend\models;
 
+use function date;
+use function ksort;
+use function strtotime;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -28,6 +32,7 @@ class ReportsForm extends Model
     public $operators = [];
     public $providers = [];
     public $campaigns = [];
+    public $chart = [];
 
     public function init()
     {
@@ -43,10 +48,10 @@ class ReportsForm extends Model
             Countries::find()
                 ->select([
                     'name',
-                    'code'
+                    'code',
                 ])
                 ->where([
-                    'status' => 1
+                    'status' => 1,
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -74,7 +79,7 @@ class ReportsForm extends Model
                     'code',
                 ])
                 ->where([
-                    'status' => 1
+                    'status' => 1,
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -112,7 +117,7 @@ class ReportsForm extends Model
                     'dateFrom',
                     'dateTo',
                 ],
-                'string'
+                'string',
             ],
 
         ];
@@ -146,7 +151,7 @@ class ReportsForm extends Model
                 'operator_code',
             ])
             ->orderBy([
-                'report_at_day' => SORT_DESC
+                'report_at_day' => SORT_DESC,
             ]);
 
         $query = $this->applyFilters($query);
@@ -163,7 +168,7 @@ class ReportsForm extends Model
     /**
      * @return ActiveDataProvider
      */
-    public function dataProviderConv()
+    public function dataConv()
     {
         $query = (new Query())
             ->from('xmp_reports')
@@ -181,10 +186,30 @@ class ReportsForm extends Model
                 'id_campaign',
             ])
             ->orderBy([
-                'report_at_day' => SORT_DESC
+                'report_at_day' => SORT_DESC,
             ]);
 
         $query = $this->applyFilters($query);
+        $data = $query->all();
+        krsort($data);
+
+        $this->chart = [
+            'sum' => 0,
+            'days' => [],
+            'series' => [
+                [
+                    'name' => 'Lp Hits',
+                    'data' => [],
+                ],
+            ],
+        ];
+
+        foreach ($data as $row) {
+            $date = date('Y.m.d', strtotime($row['report_at_day']));
+            $this->chart['sum'] += $row['lp_hits'];
+            $this->chart['days'][] = $date;
+            $this->chart['series'][0]['data'][] = (int)$row['lp_hits'];
+        }
 
         return new ActiveDataProvider([
             'query' => $query,
@@ -199,7 +224,7 @@ class ReportsForm extends Model
             $providers = Providers::find()
                 ->select([
                     'id',
-                    'id_country'
+                    'id_country',
                 ])
                 ->orderBy('id')
                 ->groupBy('id_country, id')

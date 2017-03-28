@@ -1,4 +1,5 @@
 <?php
+use miloschuman\highcharts\Highcharts;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
@@ -6,12 +7,12 @@ use kartik\widgets\DatePicker;
 
 /**
  * @var yii\web\View                $this
- * @var yii\data\ActiveDataProvider $dataProvider
  * @var frontend\models\ReportsForm $model
  */
 
 $this->title = 'Conversion';
 $this->params['breadcrumbs'][] = $this->title;
+$dataProvider = $model->dataConv();
 ?>
 <div class="content animate-panel">
     <div class="hpanel col-lg-6">
@@ -60,11 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'pluginOptions' => [
                             'format' => 'yyyy-mm-dd',
                             'autoclose' => true,
-                        ]
+                        ],
                     ]);
 
                     echo '<br/>' . Html::submitButton('Search', [
-                            'class' => 'btn btn-info'
+                            'class' => 'btn btn-info',
                         ]);
                     ?>
                 </div>
@@ -75,17 +76,62 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
 
+    <div class="hpanel col-lg-6">
+        <div class="panel-body">
+            <?php
+            if (array_key_exists('sum', $model->chart) && $model->chart['sum'] > 0) {
+                echo Highcharts::widget([
+                    'options' => [
+                        'chart' => [
+                            'zoomType' => 'x',
+                            'type' => 'column',
+                        ],
+                        'title' => [
+                            'useHTML' => true,
+                            'text' => 'Total Lp Hits For Period: ' . $model->chart['sum'],
+                        ],
+                        'plotOptions' => [
+                            'series' => [
+                                'fillOpacity' => 0.7,
+                                'lineWidth' => 2,
+                            ],
+                        ],
+                        'xAxis' => [
+                            'gridLineColor' => '#BFC8CE',
+                            'gridLineDashStyle' => 'shortdash',
+                            'gridLineWidth' => '1',
+                            'min' => 0,
+                            'tickmarkPlacement' => 'on',
+                            'categories' => $model->chart['days'],
+                        ],
+                        'yAxis' => [
+                            'gridLineColor' => '#BFC8CE',
+                            'gridLineDashStyle' => 'shortdash',
+                            'gridLineWidth' => '1',
+                            'title' => ['text' => 'Lp Hits'],
+                        ],
+                        'credits' => ['enabled' => false],
+                        'series' => $model->chart['series'],
+                    ],
+                ]);
+            } else {
+                echo '<div style="text-align: center;">No data.</div>';
+            }
+            ?>
+        </div>
+    </div>
+
     <div class="hpanel col-lg-12">
         <div class="panel-body">
             <?php
             echo GridView::widget([
-                'dataProvider' => $model->dataProviderConv(),
+                'dataProvider' => $dataProvider,
                 'columns' => [
                     [
                         'attribute' => 'report_date',
                         'content' => function ($data) {
                             return date('Y-m-d', strtotime($data['report_at_day']));
-                        }
+                        },
                     ],
                     [
                         'attribute' => 'id_campaign',
@@ -94,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'content' => function ($data) {
                             return number_format($data['id_campaign']);
-                        }
+                        },
                     ],
                     [
                         'attribute' => 'lp_hits',
@@ -103,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'content' => function ($data) {
                             return number_format($data['lp_hits']);
-                        }
+                        },
                     ],
                     [
                         'attribute' => 'lp_msisdn_hits',
@@ -112,7 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'content' => function ($data) {
                             return number_format($data['lp_msisdn_hits']);
-                        }
+                        },
                     ],
                     [
                         'attribute' => 'mo',
@@ -121,7 +167,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'content' => function ($data) {
                             return number_format($data['mo']);
-                        }
+                        },
                     ],
                     [
                         'attribute' => 'mo_success',
@@ -130,7 +176,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'content' => function ($data) {
                             return number_format($data['mo_success']);
-                        }
+                        },
                     ],
                     [
                         'label' => 'Conversion Rate',

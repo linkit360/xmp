@@ -19,6 +19,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN addgroup -S -g 1000 docker
 RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
+# REMEMBER: only RUN under non-root USER, not COPY
+USER 1000
+RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3"
+RUN composer -n global require --prefer-dist "fxp/composer-asset-plugin:^1.2.0"
+USER root
+
 # Configs
 COPY config/ /app/config
 RUN mv /app/config/php.ini /usr/local/etc/php-fpm.conf
@@ -31,10 +37,7 @@ COPY app/ /app/php
 
 RUN chown -R 1000:1000 /app
 RUN chmod -R 0700 /app
-WORKDIR /app/php
 
-# REMEMBER: only RUN under non-root USER, not COPY
+WORKDIR /app/php
 USER 1000
-RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3"
-RUN composer -n global require --prefer-dist "fxp/composer-asset-plugin:^1.2.0"
 ENTRYPOINT ["bash", "/app/config/start.sh"]

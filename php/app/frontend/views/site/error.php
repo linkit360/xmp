@@ -28,7 +28,8 @@ $this->title = $name;
                 </p>
 
                 <p>
-                    Please contact us if you think this is a server error. Thank you.
+                    Please contact <a href="mailto:kirill.goryunov@linkit360.com">kirill.goryunov@linkit360.com</a>
+                    if you think this is a server error. Thank you.
                 </p>
             </div>
         </div>

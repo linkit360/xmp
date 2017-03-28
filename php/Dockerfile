@@ -29,7 +29,8 @@ RUN mv /app/config/.bashrc /root
 COPY composer/ /app/composer
 COPY app/ /app/php
 
-RUN chown -R 1000:1000 /app && chmod -R 0700 /app
+RUN chown -R 1000:1000 /app
+RUN chmod -R 0700 /app
 WORKDIR /app/php
 
 # REMEMBER: only RUN under non-root USER, not COPY

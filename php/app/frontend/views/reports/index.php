@@ -18,6 +18,11 @@ $this->params['breadcrumbs'][] = [
     'url' => '/reports/index',
 ];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+dump($model->getStruct());
+
+
 ?>
 <div class="hpanel col-lg-6">
     <div class="panel-body">
@@ -38,13 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
 
             <div class="col-md-6">
-                <?= $form->field($model, 'operator')->dropDownList($model->operators) ?>
+                <?= $form->field($model, 'provider')->dropDownList($model->providers) ?>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'provider')->dropDownList($model->providers) ?>
+                <?= $form->field($model, 'operator')->dropDownList($model->operators) ?>
             </div>
 
             <div class="col-md-6">

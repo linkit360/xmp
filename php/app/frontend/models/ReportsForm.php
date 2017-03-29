@@ -42,23 +42,6 @@ class ReportsForm extends Model
             0 => 'All',
         ];
 
-        # Countries
-        $this->countries = [0 => 'All'] +
-            Countries::find()
-                ->select([
-                    'name',
-                    'code',
-                ])
-                ->where([
-                    'status' => 1,
-                ])
-                ->orderBy([
-                    'name' => SORT_ASC,
-                ])
-                ->indexBy('code')
-                ->column();
-
-
         # Campaigns
         $db = Reports::find()
             ->select('DISTINCT ON (id_campaign) *')
@@ -69,13 +52,22 @@ class ReportsForm extends Model
             $this->campaigns[$report->id_campaign] = "" . $report->id_campaign;
         }
         unset($db);
+    }
 
-        # Operators
-        $this->operators = [0 => 'All'] +
-            Operators::find()
+    # Campaigns
+    public function getCampaigns()
+    {
+
+    }
+
+    # Countries
+    public function getCountries()
+    {
+        if (!count($this->countries)) {
+            $this->countries = Countries::find()
                 ->select([
                     'name',
-                    'code',
+                    'id',
                 ])
                 ->where([
                     'status' => 1,
@@ -83,21 +75,54 @@ class ReportsForm extends Model
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('code')
+                ->indexBy('id')
                 ->column();
+        }
 
-        # Providers
-        $this->providers = [0 => 'All'] +
-            Providers::find()
+        return $this->countries;
+    }
+
+    # Providers
+    public function getProviders()
+    {
+        if (!count($this->providers)) {
+            $this->providers = Providers::find()
                 ->select([
                     'name',
-                    'name_alias',
+                    'id',
+                    'id_country',
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('name_alias')
-                ->column();
+                ->indexBy('id')
+                ->all();
+        }
+
+        return $this->providers;
+    }
+
+    # Operators
+    public function getOperators()
+    {
+        if (!count($this->operators)) {
+            $this->operators = Operators::find()
+                ->select([
+                    'name',
+                    'id',
+                    'id_provider',
+                ])
+                ->where([
+                    'status' => 1,
+                ])
+                ->orderBy([
+                    'name' => SORT_ASC,
+                ])
+                ->indexBy('id')
+                ->all();
+        }
+
+        return $this->operators;
     }
 
     /**
@@ -299,6 +324,19 @@ class ReportsForm extends Model
         }
 
         $this->chart = $chart;
+    }
+
+    public function getStruct()
+    {
+        $struct = [];
+
+
+        $struct = $this->getCountries();
+//        $struct = $this->providers;
+//        $struct = $this->operators;
+
+
+        return $struct;
     }
 
     private function applyFilters(Query $query)

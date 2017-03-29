@@ -32,12 +32,14 @@ RUN mv /app/config/php-www.ini /usr/local/etc/php-fpm.d/www.conf
 RUN cp /app/config/.bashrc /home/docker
 RUN mv /app/config/.bashrc /root
 
+# App
 COPY composer/ /app/composer
 COPY app/ /app/php
 
 RUN chown -R 1000:1000 /app
 RUN chmod -R 0700 /app
 
+# User switch
 WORKDIR /app/php
 USER 1000
 ENTRYPOINT ["bash", "/app/config/start.sh"]

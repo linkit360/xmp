@@ -7,7 +7,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/jinzhu/configor"
-	"github.com/linkit360/go-acceptor/rpcclient"
+	"github.com/linkit360/go-acceptor-client/rpcclient"
 	"github.com/linkit360/go-utils/db"
 )
 

@@ -27,10 +27,8 @@ RUN chmod -R 0700 /go
 
 USER 1000
 RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
-
-#RUN go get -u github.com/golang/dep/...
+RUN go get -u github.com/golang/dep/...
 
 #RUN echo 8 > /tmp/tmp
-#RUN go get -v github.com/linkit360/go-acceptor/server
 #ENTRYPOINT server
 ENTRYPOINT ["bash", "/config/idle.sh"]

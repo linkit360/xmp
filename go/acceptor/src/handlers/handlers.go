@@ -1,9 +1,8 @@
 package handlers
 
 import (
+	"../base"
 	log "github.com/Sirupsen/logrus"
-
-	"github.com/linkit360/go-acceptor/server/src/base"
 )
 
 func init() {

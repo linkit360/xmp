@@ -4,14 +4,16 @@ URL=955441867202.dkr.ecr.eu-central-1.amazonaws.com
 
 # Reset to local docker
 eval $(docker-machine env -u)
-export COMPOSE_PROJECT_NAME=xmp
 
 # Build All
-docker-compose -f config/compose.common.json -f config/compose.dev.json build
+docker-compose -f config/compose.common.json -f config/compose.dev.json -p xmp build
 if [ $? != 0 ]; then
     printf "\n\n BUILD FAIL \n\n"
     exit 1
 fi
+
+# For Testing
+#exit 1
 
 printf "\n\n"
 # Login to AWS

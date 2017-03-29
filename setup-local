@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
 eval $(docker-machine env -u)
-export COMPOSE_PROJECT_NAME=xmp
-docker-compose -f ./config/compose.common.json -f ./config/compose.dev.json down
-docker-compose -f ./config/compose.common.json -f ./config/compose.dev.json up --abort-on-container-exit
+docker-compose -f ./config/compose.common.json -f ./config/compose.dev.json -p xmp down
+docker-compose -f ./config/compose.common.json -f ./config/compose.dev.json -p xmp up --abort-on-container-exit

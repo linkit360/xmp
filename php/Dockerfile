@@ -36,6 +36,7 @@ RUN mv /app/config/.bashrc /root
 COPY composer/ /app/composer
 COPY app/ /app/php
 
+# Permissions
 RUN chown -R 1000:1000 /app
 RUN chmod -R 0700 /app
 

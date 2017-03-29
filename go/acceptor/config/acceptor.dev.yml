@@ -16,7 +16,3 @@ db:
 server:
   rpc_port: 50313
   http_port: 50314
-
-acceptor_client:
-  dsn: :50313
-  timeout: 10

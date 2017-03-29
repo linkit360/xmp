@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/jinzhu/configor"
 	"github.com/stretchr/testify/assert"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -13,7 +12,7 @@ func TestConfig(t *testing.T) {
 	var appConfigConfigor AppConfig
 	envConfigPath := "../../dev/acceptor.dev.yml"
 
-	err := configor.Load(&appConfigConfigor, envConfigPath)
+	//err := configor.Load(&appConfigConfigor, envConfigPath)
 	assert.NoError(t, err, "configor load")
 
 	data, err := ioutil.ReadFile(envConfigPath)

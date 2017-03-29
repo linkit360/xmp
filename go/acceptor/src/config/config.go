@@ -7,7 +7,6 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/jinzhu/configor"
-	"github.com/linkit360/go-acceptor-client/rpcclient"
 	"github.com/linkit360/go-utils/db"
 )
 
@@ -17,10 +16,9 @@ type ServerConfig struct {
 }
 
 type AppConfig struct {
-	AppName string                 `yaml:"app_name"`
-	Server  ServerConfig           `yaml:"server"`
-	Client  rpcclient.ClientConfig `yaml:"acceptor_client"`
-	DbConf  db.DataBaseConfig      `yaml:"db"`
+	AppName string            `yaml:"app_name"`
+	Server  ServerConfig      `yaml:"server"`
+	DbConf  db.DataBaseConfig `yaml:"db"`
 }
 
 func LoadConfig() AppConfig {
@@ -28,7 +26,6 @@ func LoadConfig() AppConfig {
 
 	cfg := flag.String("config", envConfigFile, "configuration yml file")
 	flag.Parse()
-
 	var appConfig AppConfig
 	if *cfg != "" {
 		if err := configor.Load(&appConfig, *cfg); err != nil {

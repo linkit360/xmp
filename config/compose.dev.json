@@ -1,0 +1,70 @@
+{
+  "version": "3",
+  "services": {
+    "nginx": {
+      "image": "xmp/nginx:latest",
+      "build": {
+        "context": "../nginx"
+      },
+      "links": [
+        "php"
+      ],
+      "environment": [
+        "PROJECT_ENV=dev"
+      ],
+      "volumes": [
+        "../php/app:/app/php"
+      ]
+    },
+    "php": {
+      "image": "xmp/php:latest",
+      "links": [
+        "pgsql"
+      ],
+      "ports": [
+      ],
+      "build": {
+        "context": "../php"
+      },
+      "environment": [
+        "PROJECT_ENV=dev"
+      ],
+      "volumes": [
+        "../php/app:/app/php",
+        "../php/composer:/app/composer",
+        "../php/config:/app/config"
+      ]
+    },
+    "go": {
+      "image": "xmp/go:latest",
+      "build": {
+        "context": "../go"
+      },
+      "links": [
+        "php",
+        "pgsql"
+      ],
+      "environment": [
+        "PROJECT_ENV=dev"
+      ]
+    },
+    "pgsql": {
+      "image": "xmp/postgresql:latest",
+      "build": {
+        "context": "../postgresql"
+      },
+      "ports": [
+        "5432:5432"
+      ],
+      "environment": [
+        "POSTGRES_USER=test",
+        "POSTGRES_PASSWORD=test",
+        "POSTGRES_DB=linkit_test",
+        "PGDATA=/data"
+      ],
+      "volumes": [
+        "../postgresql/data:/data"
+      ]
+    }
+  }
+}

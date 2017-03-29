@@ -1,0 +1,42 @@
+{
+  "version": "3",
+  "services": {
+    "nginx": {
+      "image": "955441867202.dkr.ecr.eu-central-1.amazonaws.com/xmp/nginx:latest",
+      "restart": "always",
+      "links": [
+        "php"
+      ],
+      "environment": [
+        "PROJECT_ENV=test"
+      ],
+      "volumes": [
+        "web-app:/app"
+      ]
+    },
+    "php": {
+      "image": "955441867202.dkr.ecr.eu-central-1.amazonaws.com/xmp/php:latest",
+      "restart": "always",
+      "environment": [
+        "PROJECT_ENV=test"
+      ],
+      "volumes": [
+        "web-app:/app"
+      ]
+    },
+    "go": {
+      "image": "955441867202.dkr.ecr.eu-central-1.amazonaws.com/xmp/go:latest",
+      "restart": "always",
+      "links": [
+        "php"
+      ],
+      "environment": [
+        "PROJECT_ENV=test"
+      ]
+    }
+  },
+  "volumes": {
+    "web-app": {
+    }
+  }
+}

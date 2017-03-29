@@ -38,7 +38,7 @@ $this->beginPage();
     <div class="splash">
         <div class="color-line"></div>
         <div class="splash-title">
-            <img src="/img/LinkIT360_logo.png"/>
+            <img src="/img/linkitlogo.png"/>
             <p>
                 XMP
             </p>
@@ -64,7 +64,7 @@ $this->beginPage();
         <div class="color-line"></div>
         <div id="logo" class="light-version">
             <a href="<?= Url::to('/site/index') ?>">
-                <img src="/img/LinkIT360_logo.png" border="0"/>
+                <img src="/img/linkitlogo.png" border="0"/>
             </a>
         </div>
 
@@ -72,7 +72,7 @@ $this->beginPage();
             <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
             <div class="small-logo">
                 <a href="<?= Url::to('/site/index') ?>">
-                    <img src="/img/LinkIT360_logo.png" border="0"/>
+                    <img src="/img/linkitlogo.png" border="0"/>
                 </a>
             </div>
 

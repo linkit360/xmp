@@ -2682,7 +2682,7 @@ body.fullscreen-panel-mode {
     float: left;
     width: 180px;
     background-color: #34495e;
-    padding: 0 10px 18px 18px;
+    padding: 18px 10px 18px 18px;
     height: 56px;
     text-align: center;
 }
@@ -3178,7 +3178,7 @@ h6 {
 .small-logo {
     display: none;
     text-align: center;
-    padding-top: 0;
+    padding-top: 18px;
     font-size: 14px;
     font-weight: 800;
 }

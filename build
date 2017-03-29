@@ -8,26 +8,27 @@ export COMPOSE_PROJECT_NAME=xmp
 
 # Build All
 docker-compose -f config/compose.common.json -f config/compose.dev.json build
-if [ $? -eq 0 ]; then
-    printf "\n\n"
-    # Login to AWS
-    eval $(aws ecr get-login --region eu-central-1 --profile=xmp)
-
-    # Tag
-    docker tag xmp/nginx:latest ${URL}/xmp/nginx:latest
-    docker tag xmp/php:latest ${URL}/xmp/php:latest
-    docker tag xmp/go:latest ${URL}/xmp/go:latest
-
-    # Push
-    printf "\n\n"
-    docker push ${URL}/xmp/nginx:latest
-    printf "\n\n"
-    docker push ${URL}/xmp/php:latest
-    printf "\n\n"
-    docker push ${URL}/xmp/go:latest
-else
-    printf "\n\n FAIL BUILD"
+if [ $? != 0 ]; then
+    printf "\n\n BUILD FAIL \n\n"
+    exit 1
 fi
+
+printf "\n\n"
+# Login to AWS
+eval $(aws ecr get-login --region eu-central-1 --profile=xmp)
+
+# Tag
+docker tag xmp/nginx:latest ${URL}/xmp/nginx:latest
+docker tag xmp/php:latest ${URL}/xmp/php:latest
+docker tag xmp/go:latest ${URL}/xmp/go:latest
+
+# Push
+printf "\n\n"
+docker push ${URL}/xmp/nginx:latest
+printf "\n\n"
+docker push ${URL}/xmp/php:latest
+printf "\n\n"
+docker push ${URL}/xmp/go:latest
 
 # Reset to local docker
 eval $(docker-machine env -u)

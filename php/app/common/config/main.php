@@ -1,8 +1,13 @@
 <?php
-$db = file_get_contents('/app/config/db_' . YII_ENV . '.json');
+if (!is_file('/run/secrets/database')) {
+    echo PHP_EOL . PHP_EOL . 'Config Error: No Config' . PHP_EOL . PHP_EOL;
+    exit(1);
+}
+$db = file_get_contents('/run/secrets/database');
 $db = json_decode($db, true);
 if (!count($db)) {
-    die('Config error' . PHP_EOL);
+    echo PHP_EOL . PHP_EOL . 'Config Error: Invalid Config' . PHP_EOL . PHP_EOL;
+    exit(1);
 }
 
 return [

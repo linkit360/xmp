@@ -14,8 +14,8 @@ RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
 # Configs
 COPY config/ /config
-RUN cp /app/config/.bashrc /home/docker
-RUN mv /app/config/.bashrc /root
+RUN cp /config/.bashrc /home/docker
+RUN mv /config/.bashrc /root
 RUN mv /config/nginx.nginx /etc/nginx/nginx.conf
 RUN mv /config/nginx.vh.default.nginx /etc/nginx/conf.d/default.conf
 

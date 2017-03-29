@@ -1,4 +1,6 @@
 FROM nginx:1.11.10-alpine
+
+# Env
 EXPOSE 80 443
 ENV TERM xterm
 
@@ -6,27 +8,27 @@ RUN apk add --progress --no-cache \
     bash curl wget git zip unzip bc nano \
     sudo su-exec openssl certbot
 
-# add user docker and sudo permissions for him
+# Add Group and User
 RUN addgroup -g 1000 docker
 RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
-RUN mkdir -p /etc/nginx/cert /var/cache/nginx /certs
+# Configs
+COPY config/ /config
+RUN cp /app/config/.bashrc /home/docker
+RUN mv /app/config/.bashrc /root
+RUN mv /config/nginx.nginx /etc/nginx/nginx.conf
+RUN mv /config/nginx.vh.default.nginx /etc/nginx/conf.d/default.conf
 
-COPY start.sh /
-#COPY certs/ /etc/nginx/certs
-COPY .bashrc /root
-COPY .bashrc /home/docker
-COPY nginx.nginx /etc/nginx/nginx.conf
-COPY nginx.vh.default.nginx /etc/nginx/conf.d/default.conf
-
+# Permissions
 RUN touch /var/run/nginx.pid
-RUN chown -R docker:docker /var/run/nginx.pid
+RUN mkdir -p /var/cache/nginx
+RUN chown -R 1000:1000 /var/cache/nginx
+RUN chown -R 1000:1000 /etc/nginx
+RUN chown -R 1000:1000 /var/log/nginx
+RUN chown -R 1000:1000 /var/run/nginx.pid
+RUN chmod +x /config/start.sh
 
-RUN chown -R docker:docker /etc/nginx
-RUN chown -R docker:docker /var/log/nginx
-RUN chown -R docker:docker /var/cache/nginx
-RUN chmod +x /start.sh
-
-WORKDIR /
+# User switch
+WORKDIR /config
 USER 1000
-ENTRYPOINT ["bash", "/start.sh"]
+ENTRYPOINT ["bash", "/config/start.sh"]

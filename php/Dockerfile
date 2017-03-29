@@ -1,5 +1,6 @@
 FROM php:7.1.3-fpm-alpine
 
+# Env
 EXPOSE 9000
 ENV TERM xterm
 

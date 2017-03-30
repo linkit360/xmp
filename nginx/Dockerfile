@@ -1,7 +1,7 @@
 FROM nginx:1.11.10-alpine
 
 # Env
-EXPOSE 80 443
+EXPOSE 8080 8443
 ENV TERM xterm
 
 RUN apk add --progress --no-cache \

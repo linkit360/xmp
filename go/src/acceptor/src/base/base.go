@@ -77,3 +77,18 @@ func SaveRows(rows []Aggregate) error {
 	log.Info("Reports save: ", saveCount)
 	return nil
 }
+
+func GetLpHits() uint {
+	var lp_hits uint
+	rows, err := pgsql.Query("SELECT SUM(lp_hits) AS lp_hits FROM xmp_reports WHERE report_at >= '2017-03-01' AND report_at < '2017-03-31'")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer rows.Close()
+	for rows.Next() {
+		rows.Scan(&lp_hits)
+	}
+
+	return lp_hits
+}

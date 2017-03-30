@@ -1,9 +1,7 @@
 <?php
-use miloschuman\highcharts\Highcharts;
-use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\ActiveForm;
-use kartik\widgets\DatePicker;
+
+use miloschuman\highcharts\Highcharts;
 
 /**
  * @var yii\web\View                $this
@@ -19,64 +17,20 @@ $this->params['breadcrumbs'][] = [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="hpanel col-lg-6">
-    <?php
-    $form = ActiveForm::begin([
-        'action' => '/reports/conversion',
-        'method' => 'get',
-    ]);
-    ?>
     <div class="panel-body">
         <h4>
             Filter
         </h4>
 
-        <div class="row">
-            <div class="col-md-6">
-                <?= $form->field($model, 'country')->dropDownList($model->countries) ?>
-            </div>
-
-            <div class="col-md-6">
-                <?= $form->field($model, 'operator')->dropDownList($model->operators) ?>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <?= $form->field($model, 'provider')->dropDownList($model->providers) ?>
-            </div>
-
-            <div class="col-md-6">
-                <?= $form->field($model, 'campaign')->dropDownList($model->campaigns) ?>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                echo DatePicker::widget([
-                    'type' => DatePicker::TYPE_RANGE,
-                    'form' => $form,
-                    'model' => $model,
-                    'attribute' => 'dateFrom',
-                    'attribute2' => 'dateTo',
-                    'options' => ['placeholder' => 'Start date'],
-                    'options2' => ['placeholder' => 'End date'],
-                    'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd',
-                        'autoclose' => true,
-                    ],
-                ]);
-
-                echo '<br/>' . Html::submitButton('Search', [
-                        'class' => 'btn btn-info',
-                    ]);
-                ?>
-            </div>
-        </div>
+        <?php
+        echo $this->render(
+            'filter',
+            [
+                'model' => $model,
+            ]
+        );
+        ?>
     </div>
-    <?php
-    ActiveForm::end();
-    ?>
 </div>
 
 <div class="hpanel col-lg-6">

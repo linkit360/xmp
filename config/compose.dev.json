@@ -69,10 +69,5 @@
         "../postgresql/data:/data"
       ]
     }
-  },
-  "secrets": {
-    "database": {
-      "file": "./secrets/db.dev.json"
-    }
   }
 }

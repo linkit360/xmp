@@ -9,18 +9,12 @@
     },
     "php": {
       "ports": [
-      ],
-      "secrets": [
-        "database"
       ]
     },
     "go": {
       "ports": [
         "20000:10000",
         "20001:10001"
-      ],
-      "secrets": [
-        "database"
       ]
     }
   }

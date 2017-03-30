@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use function array_keys;
+use function count;
 use function in_array;
 use const SORT_ASC;
 use yii\base\Model;
@@ -11,6 +13,7 @@ use common\models\Countries;
 use common\models\Operators;
 use common\models\Providers;
 use common\models\Reports;
+use yii\helpers\ArrayHelper;
 
 /**
  * Reports Form
@@ -29,35 +32,35 @@ class ReportsForm extends Model
     # Data
     public $countries = [];
     public $operators = [];
+    public $operatorsByCode = [];
     public $providers = [];
+    public $providersByNames = [];
     public $campaigns = [];
     public $chart = [];
+    public $struct = [];
 
     public function init()
     {
         $this->dateFrom = date('Y-m-d');
         $this->dateTo = date('Y-m-d');
-
-        $this->campaigns = [
-            0 => 'All',
-        ];
-
-        # Campaigns
-        $db = Reports::find()
-            ->select('DISTINCT ON (id_campaign) *')
-            ->all();
-
-        /** @var Reports $report */
-        foreach ($db as $report) {
-            $this->campaigns[$report->id_campaign] = "" . $report->id_campaign;
-        }
-        unset($db);
     }
 
     # Campaigns
     public function getCampaigns()
     {
+        if (!count($this->campaigns)) {
+            $this->campaigns = [];
+            $db = Reports::find()
+                ->select('DISTINCT ON (id_campaign) *')
+                ->all();
 
+            /** @var Reports $report */
+            foreach ($db as $report) {
+                $this->campaigns[$report->id_campaign] = "" . $report->id_campaign;
+            }
+        }
+
+        return $this->campaigns;
     }
 
     # Countries
@@ -75,8 +78,8 @@ class ReportsForm extends Model
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('id')
-                ->column();
+                ->asArray()
+                ->all();
         }
 
         return $this->countries;
@@ -89,14 +92,21 @@ class ReportsForm extends Model
             $this->providers = Providers::find()
                 ->select([
                     'name',
+                    'name_alias',
                     'id',
                     'id_country',
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('id')
+                ->asArray()
                 ->all();
+
+            $this->providersByNames = ArrayHelper::map(
+                $this->providers,
+                'name',
+                'name_alias'
+            );
         }
 
         return $this->providers;
@@ -110,6 +120,7 @@ class ReportsForm extends Model
                 ->select([
                     'name',
                     'id',
+                    'code',
                     'id_provider',
                 ])
                 ->where([
@@ -118,8 +129,15 @@ class ReportsForm extends Model
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
-                ->indexBy('id')
+                ->asArray()
                 ->all();
+
+
+            $this->operatorsByCode = ArrayHelper::map(
+                $this->operators,
+                'code',
+                'name'
+            );
         }
 
         return $this->operators;
@@ -143,7 +161,6 @@ class ReportsForm extends Model
                 ],
                 'string',
             ],
-
         ];
     }
 
@@ -328,54 +345,94 @@ class ReportsForm extends Model
 
     public function getStruct()
     {
-        $struct = [];
+        if (!count($this->struct)) {
+            $struct = [];
+            foreach ($this->getCountries() as $country) {
+                $struct[$country['id']] = [
+                    'name' => $country['name'],
+                    'items' => [],
+                ];
 
+                foreach ($this->getProviders() as $provider) {
+                    if ($provider['id_country'] !== $country['id']) {
+                        continue;
+                    }
 
-        $struct = $this->getCountries();
-//        $struct = $this->providers;
-//        $struct = $this->operators;
+                    $struct[$country['id']]['items'][$provider['id']] = [
+                        'name' => $provider['name_alias'],
+                        'items' => [],
+                    ];
 
+                    foreach ($this->getOperators() as $operator) {
+                        if ($operator['id_provider'] !== $provider['id']) {
+                            continue;
+                        }
 
-        return $struct;
+                        $struct[$country['id']]['items'][$provider['id']]['items'][$operator['id']] = $operator['name'];
+                    }
+                }
+            }
+            $this->struct = $struct;
+        }
+
+        return $this->struct;
     }
 
     private function applyFilters(Query $query)
     {
-        // TODO IDs
-
-        if ($this->country !== null && $this->country !== "0") {
-            $providers = Providers::find()
-                ->select([
+        # Provider
+        if ($this->provider !== null && $this->provider !== "0") {
+            $query->andWhere([
+                'provider_name' => ArrayHelper::map(
+                    $this->getProviders(),
                     'id',
-                    'id_country',
-                ])
-                ->orderBy('id')
-                ->groupBy('id_country, id')
-                ->column();
-
-            $operators = Operators::find()
-                ->select('id')
-                ->where(['id_provider' => $providers,])
-                ->column();
-
-            $query->andWhere(['id_operator' => $operators,]);
+                    'name'
+                )[$this->provider],
+            ]);
         }
 
+        # Operator
+        if ($this->operator !== null && $this->operator !== "0") {
+            $operator = Operators::find()
+                ->select('code')
+                ->where([
+                    'id' => $this->operator,
+                ])
+                ->column();
+
+            $query->andWhere([
+                'operator_code' => $operator[0],
+            ]);
+        } else {
+            # Country
+            if ($this->country !== null && $this->country !== "0") {
+                $operators = [];
+
+                foreach ($this->getStruct()[$this->country]['items'] as $provider) {
+                    if (count($provider['items'])) {
+                        foreach ($provider['items'] as $opId => $oper) {
+                            $operators[$opId] = true;
+                        }
+                    }
+                }
+
+                $operators = Operators::find()
+                    ->select('code')
+                    ->where([
+                        'id' => array_keys($operators),
+                    ])
+                    ->column();
+
+                $query->andWhere([
+                    'operator_code' => $operators,
+                ]);
+            }
+        }
+
+        # Campaign
         if ($this->campaign !== null && $this->campaign !== "0") {
             $query->andWhere([
                 'id_campaign' => $this->campaign,
-            ]);
-        }
-
-        if ($this->provider !== null && $this->provider !== "0") {
-            $query->andWhere([
-                'id_provider' => $this->provider,
-            ]);
-        }
-
-        if ($this->operator !== null && $this->operator !== "0") {
-            $query->andWhere([
-                'id_operator' => $this->operator,
             ]);
         }
 

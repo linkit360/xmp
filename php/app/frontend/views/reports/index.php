@@ -1,4 +1,5 @@
 <?php
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\ActiveForm;
@@ -18,12 +19,54 @@ $this->params['breadcrumbs'][] = [
     'url' => '/reports/index',
 ];
 $this->params['breadcrumbs'][] = $this->title;
-
-
-dump($model->getStruct());
-
-
 ?>
+<script type="text/javascript">
+    var struct = {};
+    <?= 'struct = ' . json_encode($model->getStruct(), JSON_PRETTY_PRINT) . ';' ?>
+
+    function checkForm(obj) {
+        var country = $('#reportsform-country');
+        var provider = $('#reportsform-provider');
+        var operator = $('#reportsform-operator');
+
+        var countryId = parseInt(country.val());
+        var providerId = parseInt(provider.val());
+
+        if ($(obj).attr('id') === 'reportsform-country') {
+            provider.empty();
+            provider.append($('<option value=0>All</option>'));
+
+            operator.empty();
+            operator.append($('<option value=0>All</option>'));
+
+            if (countryId !== 0) {
+                $.each(struct[countryId]['items'], function (index, value) {
+                    provider.append($('<option value=' + index + '>' + value['name'] + '</option>'));
+                });
+            }
+
+            return true;
+        }
+
+        if ($(obj).attr('id') === 'reportsform-provider') {
+
+            operator.empty();
+            operator.append($('<option value=0>All</option>'));
+
+            if (providerId !== 0) {
+                $.each(struct[countryId]['items'][providerId]['items'], function (index, value) {
+                    operator.append($('<option value=' + index + '>' + value + '</option>'));
+                });
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+    //    checkForm();
+</script>
+
 <div class="hpanel col-lg-6">
     <div class="panel-body">
         <h4>
@@ -39,21 +82,72 @@ dump($model->getStruct());
 
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'country')->dropDownList($model->countries) ?>
+                <?php
+                echo $form
+                    ->field($model, 'country')
+                    ->dropDownList(
+                        [0 => 'All'] +
+                        ArrayHelper::map(
+                            $model->getCountries(),
+                            'id',
+                            'name'
+                        ),
+                        [
+                            'onchange' => 'checkForm(this);',
+                        ]
+                    );
+                ?>
             </div>
 
             <div class="col-md-6">
-                <?= $form->field($model, 'provider')->dropDownList($model->providers) ?>
+                <?php
+                $providers = [];
+                if ($model->country !== "0") {
+                    foreach ($model->getStruct()[$model->country]['items'] as $providerId => $provider) {
+                        $providers[$providerId] = $provider['name'];
+                    }
+                }
+
+                echo $form
+                    ->field($model, 'provider')
+                    ->dropDownList(
+                        [0 => 'All'] + $providers,
+                        [
+                            'onchange' => 'checkForm(this);',
+                        ]
+                    );
+                ?>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'operator')->dropDownList($model->operators) ?>
+                <?php
+                $operators = [];
+                if ($model->country !== "0" and $model->provider !== "0") {
+                    $operators = $model->getStruct()[$model->country]['items'][$model->provider]['items'];
+                }
+
+                echo $form
+                    ->field($model, 'operator')
+                    ->dropDownList(
+                        [0 => 'All'] + $operators,
+                        [
+                            'onchange' => 'checkForm(this);',
+                        ]
+                    );
+                ?>
             </div>
 
             <div class="col-md-6">
-                <?= $form->field($model, 'campaign')->dropDownList($model->campaigns) ?>
+                <?php
+                echo $form
+                    ->field($model, 'campaign')
+                    ->dropDownList(
+                        [0 => 'All'] +
+                        $model->getCampaigns()
+                    );
+                ?>
             </div>
         </div>
 
@@ -158,7 +252,7 @@ dump($model->getStruct());
                         return ['class' => 'text-right'];
                     },
                     'content' => function ($data) use ($model) {
-                        return $model->providers[$data['provider_name']];
+                        return $model->providersByNames[$data['provider_name']];
                     },
                 ],
                 [
@@ -167,7 +261,7 @@ dump($model->getStruct());
                         return ['class' => 'text-right'];
                     },
                     'content' => function ($data) use ($model) {
-                        return $model->operators[$data['operator_code']];
+                        return $model->operatorsByCode[$data['operator_code']];
                     },
                 ],
                 [

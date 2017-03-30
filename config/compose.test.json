@@ -38,5 +38,10 @@
   "volumes": {
     "web-app": {
     }
+  },
+  "secrets": {
+    "database": {
+      "file": "./secrets/db.test.json"
+    }
   }
 }

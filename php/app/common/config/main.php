@@ -1,9 +1,9 @@
 <?php
-if (!is_file('/run/secrets/database')) {
+if (!is_file('/app/config/db.' . YII_ENV . '.json')) {
     echo PHP_EOL . PHP_EOL . 'Config Error: No Config' . PHP_EOL . PHP_EOL;
     exit(1);
 }
-$db = file_get_contents('/run/secrets/database');
+$db = file_get_contents('/app/config/db.' . YII_ENV . '.json');
 $db = json_decode($db, true);
 if (!count($db)) {
     echo PHP_EOL . PHP_EOL . 'Config Error: Invalid Config' . PHP_EOL . PHP_EOL;

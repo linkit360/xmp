@@ -20,15 +20,15 @@ RUN mv /config/.bashrc /root
 RUN chown -R 1000:1000 /home/docker
 RUN chmod -R 0700 /home/docker
 
-COPY acceptor/ /go/src/acceptor
+COPY src/ /go/src
 
 RUN chown -R 1000:1000 /go
 RUN chmod -R 0700 /go
 
+WORKDIR /go/src
 USER 1000
 RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
-RUN go get -u github.com/golang/dep/...
+RUN go get ./...
 
-#RUN echo 8 > /tmp/tmp
 #ENTRYPOINT server
 ENTRYPOINT ["bash", "/config/idle.sh"]

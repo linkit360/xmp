@@ -6,9 +6,9 @@ import (
 	"net/rpc/jsonrpc"
 	"runtime"
 
-	"./src/base"
-	"./src/config"
-	"./src/handlers"
+	"acceptor/src/base"
+	"acceptor/src/config"
+	"acceptor/src/handlers"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 	m "github.com/linkit360/go-utils/metrics"

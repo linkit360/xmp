@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"../base"
+	"acceptor/src/base"
 	log "github.com/Sirupsen/logrus"
 )
 

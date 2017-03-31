@@ -33,8 +33,10 @@ func main() {
 }
 
 func runGin(appConfig config.AppConfig) {
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 	m.AddHandler(r)
+
 	r.Run(":" + appConfig.Server.HttpPort)
 	log.WithField("port", appConfig.Server.HttpPort).Info("service port")
 }
@@ -48,6 +50,7 @@ func runRPC(appConfig config.AppConfig) {
 
 	server := rpc.NewServer()
 	server.HandleHTTP(rpc.DefaultRPCPath, rpc.DefaultDebugPath)
+	server.HandleHTTP("/", "/debug")
 	server.RegisterName("Aggregate", &handlers.Aggregate{})
 
 	for {

@@ -3,6 +3,7 @@ package base
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/linkit360/go-utils/db"
@@ -78,9 +79,10 @@ func SaveRows(rows []Aggregate) error {
 	return nil
 }
 
-func GetLpHits() uint {
-	var lp_hits uint
-	rows, err := pgsql.Query("SELECT SUM(lp_hits) AS lp_hits FROM xmp_reports WHERE report_at >= '2017-03-01' AND report_at < '2017-03-31'")
+func GetLpHits() uint64 {
+	var lp_hits uint64
+
+	rows, err := pgsql.Query("SELECT SUM(lp_hits) AS lp_hits FROM xmp_reports WHERE report_at >= '" + time.Now().Format("2006-01-02") + "'")
 	if err != nil {
 		log.Fatal(err)
 	}

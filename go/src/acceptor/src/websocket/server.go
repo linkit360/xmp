@@ -12,6 +12,8 @@ import (
 
 //var counter uint = 0
 //var clients map[uint]string
+var lpHits uint64 = 0
+
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
@@ -19,6 +21,10 @@ var upgrader = websocket.Upgrader{
 }
 
 func Init() {
+
+	// init starting value
+	lpHits = base.GetLpHits()
+
 	http.HandleFunc("/echo", echo)
 	log.Println("WS: Init Done")
 	log.Fatal(http.ListenAndServe(":3000", nil))
@@ -32,7 +38,6 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		log.Print("upgrade:", err)
 		return
 	}
-
 	defer c.Close()
 
 	ticker := time.NewTicker(time.Second)
@@ -41,15 +46,23 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case <-ticker.C:
-			err := c.WriteMessage(websocket.TextMessage, []byte(sendTotal()))
+			err := c.WriteMessage(websocket.TextMessage, []byte(fmt.Sprint(lpHits)))
 			if err != nil {
-				log.Println("write: ", err)
+				//log.Println("write: ", err)
+				c.Close()
 				return
 			}
 		}
 	}
 }
 
-func sendTotal() string {
-	return fmt.Sprint(base.GetLpHits())
+func LpHitsToday(rows []base.Aggregate) {
+	hitsOld := lpHits
+	for _, row := range rows {
+		lpHits = lpHits + uint64(row.LpHits)
+	}
+	log.Println(
+		"LpHitsToday ", lpHits,
+		"( +", lpHits-hitsOld, ")",
+	)
 }

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"acceptor/src/base"
+	"acceptor/src/websocket"
 	log "github.com/Sirupsen/logrus"
 )
 
@@ -18,7 +19,15 @@ type AggregateData struct {
 }
 
 func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
-	return base.SaveRows(req.Aggregated)
+	rows := req.Aggregated
+	log.Infoln("Receive: ", len(rows))
+	websocket.LpHitsToday(rows)
+	return base.SaveRows(rows)
+}
+
+func (rpc *Aggregate) ReceiveTest(req interface{}, res *Response) error {
+	log.Infoln(req)
+	return nil
 }
 
 type BlackList struct{}

@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
 
-echo "This is a idle script (infinite loop) to keep container running."
-echo "Please replace this script."
+if [ "${PROJECT_ENV}" = "dev" ]
+then
+    echo "This is a idle script (infinite loop) to keep container running."
+    echo "Please replace this script."
 
-cleanup ()
-{
-  kill -s SIGTERM $!
-  exit 0
-}
+    cleanup ()
+    {
+      kill -s SIGTERM $!
+      exit 0
+    }
 
-trap cleanup SIGINT SIGTERM
+    trap cleanup SIGINT SIGTERM
 
-while [ 1 ]
-do
-  sleep 60 &
-  wait $!
-done
+    while [ 1 ]
+    do
+      sleep 60 &
+      wait $!
+    done
+fi
+
+cd /go/src/acceptor
+go run main.go

@@ -38,8 +38,7 @@ COPY composer/ /app/composer
 COPY app/ /app/php
 
 # Permissions
-RUN chown -R 1000:1000 /app
-RUN chmod -R 0700 /app
+RUN chown -R 1000:1000 /app && chmod -R 0700 /app
 
 # User switch
 WORKDIR /app/php

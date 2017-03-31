@@ -6,6 +6,11 @@
 $this->title = 'Dashboard';
 $this->params['subtitle'] = 'Reports and Stats';
 $this->params['breadcrumbs'][] = $this->title;
+
+$host = 'test.xmp2.linkit360.ru';
+if (YII_ENV === "dev") {
+    $host = "127.0.0.1";
+}
 ?>
 <div class="hpanel col-md-3">
     <div class="panel-body">
@@ -25,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/javascript">
     var ws;
-    var server = "ws://127.0.0.1:3000/echo";
+    var server = "ws://<?=$host?>:3000/echo";
     function print(message) {
         console.log(message);
     }

@@ -12,9 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="stats-title pull-left">
             <h4>LP Hits Today</h4>
         </div>
+
         <div class="stats-icon pull-right">
             <i class="pe-7s-shuffle fa-4x"></i>
         </div>
+
         <div class="m-t-xl">
             <h1 class="text-info" id="output">462</h1>
         </div>

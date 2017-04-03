@@ -82,12 +82,10 @@ if (in_array('operatorsManage', $permissions)) {
     ];
 }
 
-//if ($u->can('Admin')) {
-//    $menu['Admin']['items'][] = [
-//        'name' => 'Blacklist',
-//        'url' => 'blacklist/index',
-//    ];
-//}
+$menu['Admin']['items'][] = [
+    'name' => 'Blacklist',
+    'url' => 'blacklist/index',
+];
 
 if (in_array('usersManage', $permissions)) {
     $menu['Admin']['items'][] = [
@@ -120,7 +118,9 @@ function drawItem($item)
     }
     ?>
     <li<?= $active ?>>
-        <a href="/<?= $url ?>"><span class="nav-label"><?= $item['name'] ?></span></a>
+        <a href="/<?= $url ?>">
+            <?= $item['name'] ?>
+        </a>
     </li>
     <?php
 }
@@ -144,10 +144,10 @@ function drawSub($menu)
         $active = ' class="active"';
     }
     ?>
-
     <li<?= $active ?>>
-        <a href="#"><span class="nav-label"><?= $menu['name'] ?></span><span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level">
+        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label"><?= $menu['name'] ?></span> <span
+                    class="fa arrow"></span></a>
+        <ul class="nav nav-second-level collapse">
             <?php
             foreach ($menu['items'] as $item) {
                 drawItem($item);
@@ -159,9 +159,19 @@ function drawSub($menu)
 }
 
 ?>
-<aside id="menu">
-    <div id="navigation">
-        <ul class="nav" id="side-menu">
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header" style="background: none;">
+                <div class="profile-element text-center">
+                    <img src="/img/linkitlogo.png"/>
+                </div>
+
+                <div class="logo-element">
+                    XMP
+                </div>
+            </li>
+
             <?php
             foreach ($menu as $item) {
                 if (!array_key_exists('url', $item)) {
@@ -173,4 +183,4 @@ function drawSub($menu)
             ?>
         </ul>
     </div>
-</aside>
+</nav>

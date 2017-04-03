@@ -3,7 +3,7 @@
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
-use app\assets\HomerAsset;
+use app\assets\InspiniaAsset;
 
 /**
  * Frontend dashboard asset bundle.
@@ -18,6 +18,6 @@ class DashboardAsset extends AssetBundle
         'js/dashboard.js',
     ];
     public $depends = [
-        HomerAsset::class,
+        InspiniaAsset::class,
     ];
 }

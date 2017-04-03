@@ -159,7 +159,7 @@ $form = ActiveForm::begin([
             echo Html::submitButton(
                 'Search',
                 [
-                    'class' => 'btn btn-info',
+                    'class' => 'btn btn-success',
                 ]
             );
             ?>

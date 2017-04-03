@@ -8,11 +8,11 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use app\assets\HomerAsset;
+use app\assets\InspiniaAsset;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
-HomerAsset::register($this);
+InspiniaAsset::register($this);
 ?>
     <!DOCTYPE html>
     <html>

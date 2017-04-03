@@ -11,7 +11,7 @@ use yii\web\JqueryAsset;
 class InspiniaAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = '@web/theme';
+    public $sourcePath = __DIR__ . '/theme';
 
     public $css = [
         'font-awesome/css/font-awesome.css',

@@ -1,34 +1,46 @@
 package websocket
 
 import (
-	"fmt"
-	"log"
+	"encoding/json"
 	"net/http"
 	"time"
 
 	"acceptor/src/base"
+	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
 )
 
-var lpHits uint64 = 0
-
+var lastResetTime int = 0
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
 }
 
+type Data struct {
+	LpHits    uint64 `json:"lp"`
+	Mo        uint64 `json:"mo"`
+	MoSuccess uint64 `json:"mos"`
+}
+
+var data = Data{}
+
 func Init() {
-	// init starting value
-	lpHits = base.GetLpHits()
+	reset()
+	go resetDay()
 
 	http.HandleFunc("/echo", echo)
-	log.Println("WS:", "Init Done")
+	log.WithFields(log.Fields{
+		"prefix": "WS",
+	}).Info("Init Done")
+
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
 func echo(w http.ResponseWriter, r *http.Request) {
-	log.Println("WS:", "Echo")
+	log.WithFields(log.Fields{
+		"prefix": "WS",
+	}).Info("Connect")
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -43,7 +55,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case <-ticker.C:
-			err := c.WriteMessage(websocket.TextMessage, []byte(fmt.Sprint(lpHits)))
+			err := c.WriteMessage(websocket.TextMessage, []byte(prepData()))
 			if err != nil {
 				//log.Println("WS:","write: ", err)
 				c.Close()
@@ -53,14 +65,39 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func LpHitsToday(rows []base.Aggregate) {
-	hitsOld := lpHits
+func NewReports(rows []base.Aggregate) {
+	//hitsOld := dataLp
 	for _, row := range rows {
-		lpHits = lpHits + uint64(row.LpHits)
+		data.LpHits = data.LpHits + uint64(row.LpHits)
+		data.Mo = data.Mo + uint64(row.Mo)
+		data.MoSuccess = data.MoSuccess + uint64(row.MoSuccess)
 	}
-	log.Println(
-		"WS:",
-		"LpHitsToday", lpHits,
-		"( +", lpHits - hitsOld, ")",
-	)
+
+	log.WithFields(log.Fields{
+		"prefix": "WS",
+	}).Info("New Reports")
+}
+
+func resetDay() {
+	ticker := time.NewTicker(time.Minute)
+	go func() {
+		for t := range ticker.C {
+			if lastResetTime != t.Day() {
+				reset()
+				log.WithFields(log.Fields{
+					"prefix": "WS",
+				}).Info("Reset Day")
+			}
+		}
+	}()
+}
+
+func reset() {
+	data.LpHits, data.Mo, data.MoSuccess = base.GetWsData()
+	lastResetTime = time.Now().Day()
+}
+
+func prepData() string {
+	mapB, _ := json.Marshal(data)
+	return string(mapB)
 }

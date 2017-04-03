@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"log"
-
 	"acceptor/src/base"
 	"acceptor/src/websocket"
+	log "github.com/Sirupsen/logrus"
 )
 
 type Response struct{}
@@ -17,8 +16,10 @@ type AggregateData struct {
 
 func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
 	rows := req.Aggregated
-	log.Println("Handlers:", "Receive:", len(rows))
-	websocket.LpHitsToday(rows)
+	log.WithFields(log.Fields{
+		"prefix": "Handlers",
+	}).Info("Receive:", len(rows))
+	websocket.NewReports(rows)
 	return base.SaveRows(rows)
 }
 

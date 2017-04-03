@@ -75,22 +75,66 @@ func SaveRows(rows []Aggregate) error {
 		saveCount += 1
 	}
 
-	log.Info("Reports save: ", saveCount)
+	log.WithFields(log.Fields{
+		"prefix": "Base",
+	}).Info("Reports save: ", saveCount)
+
 	return nil
 }
 
-func GetLpHits() uint64 {
-	var lp_hits uint64
+func GetWsData() (uint64, uint64, uint64) {
+	// widgets
+	rows, err := pgsql.Query("SELECT " +
+		"SUM(lp_hits) AS LpHits, " +
+		"SUM(mo) AS Mo, " +
+		"SUM(mo_success) AS MoSuccess " +
+		"FROM xmp_reports WHERE " +
+		"report_at >=  '" + time.Now().Format("2006-01-02") + "'",
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
 
-	rows, err := pgsql.Query("SELECT SUM(lp_hits) AS lp_hits FROM xmp_reports WHERE report_at >= '" + time.Now().Format("2006-01-02") + "'")
+	var LpHits uint64 = 0
+	var Mo uint64 = 0
+	var MoSuccess uint64 = 0
+	for rows.Next() {
+		rows.Scan(
+			&LpHits,
+			&Mo,
+			&MoSuccess,
+		)
+	}
+
+	// map
+	//noinspection SqlResolve
+	rows, err = pgsql.Query("SELECT " +
+		"lower(c.iso), p.name, p.id " +
+		"FROM xmp_providers as p " +
+		"INNER JOIN xmp_countries as c " +
+		"ON (p.id_country = c.id);",
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	defer rows.Close()
+	var iso string
+	var prov string
+	var id uint64
+
+	var provs = map[string]string{}
 	for rows.Next() {
-		rows.Scan(&lp_hits)
+		rows.Scan(
+			&iso,
+			&prov,
+			&id,
+		)
+
+		provs[prov] = iso
 	}
 
-	return lp_hits
+	fmt.Printf("%+v", provs)
+
+	return LpHits, Mo, MoSuccess
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
@@ -11,13 +10,17 @@ import (
 	"acceptor/src/config"
 	"acceptor/src/handlers"
 	"acceptor/src/websocket"
+	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 	m "github.com/linkit360/go-utils/metrics"
+	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 )
 
 var appConfig config.AppConfig
 
 func main() {
+	log.SetFormatter(new(prefixed.TextFormatter))
+
 	appConfig = config.LoadConfig()
 
 	base.Init(appConfig.DbConf)
@@ -29,6 +32,11 @@ func main() {
 
 	go runGin(appConfig)
 	go websocket.Init()
+
+	log.WithFields(log.Fields{
+		"prefix": "Main",
+	}).Info("Init Done")
+
 	runRPC(appConfig)
 }
 
@@ -44,9 +52,17 @@ func runGin(appConfig config.AppConfig) {
 func runRPC(appConfig config.AppConfig) {
 	l, err := net.Listen("tcp", "0.0.0.0:" + appConfig.Server.RPCPort)
 	if err != nil {
-		log.Fatal("netListen ", err.Error())
+		log.Fatal()
+
+		log.WithFields(log.Fields{
+			"prefix": "Main",
+		}).Fatal("netListen ", err.Error())
 	}
-	log.Println("Main:", "RPC Port:", appConfig.Server.RPCPort)
+
+	log.WithFields(log.Fields{
+		"prefix":   "Main",
+		"RPC Port": appConfig.Server.RPCPort,
+	}).Info()
 
 	server := rpc.NewServer()
 	server.HandleHTTP(rpc.DefaultRPCPath, rpc.DefaultDebugPath)
@@ -57,7 +73,9 @@ func runRPC(appConfig config.AppConfig) {
 		if conn, err := l.Accept(); err == nil {
 			go server.ServeCodec(jsonrpc.NewServerCodec(conn))
 		} else {
-			log.Println("Main:", "accept", err.Error())
+			log.WithFields(log.Fields{
+				"prefix": "Main",
+			}).Info("Main:", "accept", err.Error())
 		}
 	}
 }

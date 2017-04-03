@@ -1,5 +1,5 @@
 FROM golang:1.8.0-alpine
-EXPOSE 3000 10000 10001
+EXPOSE 3000 50318 50319
 
 ENV TERM xterm
 RUN apk add --progress --no-cache \

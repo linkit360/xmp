@@ -10,8 +10,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-//var counter uint = 0
-//var clients map[uint]string
 var lpHits uint64 = 0
 
 var upgrader = websocket.Upgrader{
@@ -21,17 +19,16 @@ var upgrader = websocket.Upgrader{
 }
 
 func Init() {
-
 	// init starting value
 	lpHits = base.GetLpHits()
 
 	http.HandleFunc("/echo", echo)
-	log.Println("WS: Init Done")
+	log.Println("WS:", "Init Done")
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
 func echo(w http.ResponseWriter, r *http.Request) {
-	log.Println("WS: echo")
+	log.Println("WS:", "Echo")
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -48,7 +45,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 		case <-ticker.C:
 			err := c.WriteMessage(websocket.TextMessage, []byte(fmt.Sprint(lpHits)))
 			if err != nil {
-				//log.Println("write: ", err)
+				//log.Println("WS:","write: ", err)
 				c.Close()
 				return
 			}
@@ -62,7 +59,8 @@ func LpHitsToday(rows []base.Aggregate) {
 		lpHits = lpHits + uint64(row.LpHits)
 	}
 	log.Println(
-		"LpHitsToday ", lpHits,
-		"( +", lpHits-hitsOld, ")",
+		"WS:",
+		"LpHitsToday", lpHits,
+		"( +", lpHits - hitsOld, ")",
 	)
 }

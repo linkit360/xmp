@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
@@ -10,7 +11,6 @@ import (
 	"acceptor/src/config"
 	"acceptor/src/handlers"
 	"acceptor/src/websocket"
-	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
 	m "github.com/linkit360/go-utils/metrics"
 )
@@ -25,7 +25,7 @@ func main() {
 
 	nuCPU := runtime.NumCPU()
 	runtime.GOMAXPROCS(nuCPU)
-	log.WithField("CPUCount", nuCPU)
+	//log.WithField("CPUCount", nuCPU)
 
 	go runGin(appConfig)
 	go websocket.Init()
@@ -38,15 +38,15 @@ func runGin(appConfig config.AppConfig) {
 	m.AddHandler(r)
 
 	r.Run(":" + appConfig.Server.HttpPort)
-	log.WithField("port", appConfig.Server.HttpPort).Info("service port")
+	//log.WithField("port", appConfig.Server.HttpPort).Info("service port")
 }
 
 func runRPC(appConfig config.AppConfig) {
-	l, err := net.Listen("tcp", "0.0.0.0:"+appConfig.Server.RPCPort)
+	l, err := net.Listen("tcp", "0.0.0.0:" + appConfig.Server.RPCPort)
 	if err != nil {
 		log.Fatal("netListen ", err.Error())
 	}
-	log.WithField("port", appConfig.Server.RPCPort).Info("rpc port")
+	log.Println("Main:", "RPC Port:", appConfig.Server.RPCPort)
 
 	server := rpc.NewServer()
 	server.HandleHTTP(rpc.DefaultRPCPath, rpc.DefaultDebugPath)
@@ -57,7 +57,7 @@ func runRPC(appConfig config.AppConfig) {
 		if conn, err := l.Accept(); err == nil {
 			go server.ServeCodec(jsonrpc.NewServerCodec(conn))
 		} else {
-			log.WithField("error", err.Error()).Error("accept")
+			log.Println("Main:", "accept", err.Error())
 		}
 	}
 }

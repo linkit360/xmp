@@ -33,22 +33,22 @@ func Init(dbConfig db.DataBaseConfig) {
 
 func SaveRows(rows []Aggregate) error {
 	var query string = fmt.Sprintf(
-		"INSERT INTO %sreports ("+
+		"INSERT INTO %sreports (" +
 
-			"report_at, "+
-			"id_campaign, "+
-			"provider_name, "+
-			"operator_code, "+
-			"lp_hits, "+
-			"lp_msisdn_hits, "+
-			"mo, "+
-			"mo_uniq, "+
-			"mo_success, "+"retry_success, "+
-			"pixels"+
+			"report_at, " +
+			"id_campaign, " +
+			"provider_name, " +
+			"operator_code, " +
+			"lp_hits, " +
+			"lp_msisdn_hits, " +
+			"mo, " +
+			"mo_uniq, " +
+			"mo_success, " + "retry_success, " +
+			"pixels" +
 
-			") VALUES ("+
+			") VALUES (" +
 
-			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11"+
+			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11" +
 
 			");",
 		config.TablePrefix)

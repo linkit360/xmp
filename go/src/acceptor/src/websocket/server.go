@@ -18,12 +18,14 @@ var upgrader = websocket.Upgrader{
 }
 
 type Data struct {
-	LpHits    uint64 `json:"lp"`
-	Mo        uint64 `json:"mo"`
-	MoSuccess uint64 `json:"mos"`
+	LpHits    uint64            `json:"lp"`
+	Mo        uint64            `json:"mo"`
+	MoSuccess uint64            `json:"mos"`
+	Countries map[string]uint64 `json:"countries"`
 }
 
 var data = Data{}
+var provs = map[string]string{}
 
 func Init() {
 	reset()
@@ -71,6 +73,8 @@ func NewReports(rows []base.Aggregate) {
 		data.LpHits = data.LpHits + uint64(row.LpHits)
 		data.Mo = data.Mo + uint64(row.Mo)
 		data.MoSuccess = data.MoSuccess + uint64(row.MoSuccess)
+
+		data.Countries[row.ProviderName] = data.LpHits
 	}
 
 	log.WithFields(log.Fields{
@@ -93,8 +97,11 @@ func resetDay() {
 }
 
 func reset() {
-	data.LpHits, data.Mo, data.MoSuccess = base.GetWsData()
+	data.Countries, provs, data.LpHits, data.Mo, data.MoSuccess = base.GetWsData()
 	lastResetTime = time.Now().Day()
+
+	//fmt.Printf("%+v", provs)
+
 }
 
 func prepData() string {

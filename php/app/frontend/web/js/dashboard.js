@@ -25,7 +25,7 @@ function start() {
 
         ws.onmessage = function (evt) {
             var data = JSON.parse(evt.data);
-            con(data);
+            // con(data);
 
             // Widgets
             output[0].innerText = formatNumber(data['lp']);
@@ -40,8 +40,18 @@ function start() {
             output[3].innerText = conv + "%";
 
             // Chart
+            var keys = Object.keys(data['countries']);
+            // con(keys);
 
-
+            chart.series[0]['data'].forEach(function (element) {
+                if (keys.indexOf(element['hc-key']) !== -1) {
+                    // con(element);
+                    element['value'] = data['countries'][element['hc-key']];
+                } else {
+                    element['value'] = 0;
+                }
+            });
+            chart.redraw();
         };
 
         ws.onerror = function (evt) {
@@ -52,26 +62,12 @@ function start() {
 }
 
 window.addEventListener("load", function () {
+    chart = $("#hmap").highcharts();
     output[0] = document.getElementById("output_lp");
     output[1] = document.getElementById("output_mo");
     output[2] = document.getElementById("output_mos");
     output[3] = document.getElementById("output_conv");
     start();
-
-    chart = $("#hmap").highcharts();
-
-    chart.series[0]['data'].forEach(function (element, index) {
-        if (element['hc-key'] === 'ru') {
-            // con(element);
-            element['value'] = 777;
-        }
-    });
-
-
-    // con(chart);
-    // chart.axes[2].showAxis = false;
-    // chart.redraw();
-
 });
 
 function formatNumber(number) {

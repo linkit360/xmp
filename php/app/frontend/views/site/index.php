@@ -95,6 +95,18 @@ $this->registerJs('server = "ws://' . $host . ':3000/echo";');
             ]
         );
 
+        $countries = \common\models\Countries::find()
+            ->select([
+                'lower(iso) as iso',
+            ])
+            ->asArray()
+            ->all();
+
+        $data = [];
+        foreach ($countries as $country) {
+            $data[] = ['hc-key' => $country['iso'], 'value' => 0];
+        }
+
         echo Highmaps::widget([
             'id' => 'hmap',
             'options' => [
@@ -117,20 +129,7 @@ $this->registerJs('server = "ws://' . $host . ':3000/echo";');
                 ],
                 'series' => [
                     [
-                        'data' => [
-//                            ['hc-key' => 'id', 'value' => $model->countries_data['Indonesia']['total_lp_click']],
-//                            ['hc-key' => 'th', 'value' => $model->countries_data['Thailand']['total_lp_click']],
-//                            ['hc-key' => 'pk', 'value' => $model->countries_data['Pakistan']['total_lp_click']],
-//                            ['hc-key' => 'ru', 'value' => $model->countries_data['Russia']['total_lp_click']],
-//                            ['hc-key' => 'br', 'value' => $model->countries_data['Brazil']['total_lp_click']],
-//                            ['hc-key' => 'eg', 'value' => $model->countries_data['Egypt']['total_lp_click']],
-//                            ['hc-key' => 'id', 'value' => 2],
-//                            ['hc-key' => 'th', 'value' => 3],
-//                            ['hc-key' => 'pk', 'value' => 1],
-//                            ['hc-key' => 'ru', 'value' => 10],
-//                            ['hc-key' => 'br', 'value' => 0],
-//                            ['hc-key' => 'eg', 'value' => 0],
-                        ],
+                        'data' => $data,
                         'mapData' => new JsExpression('Highcharts.maps["custom/world-eckert3-lowres"]'),
                         'joinBy' => 'hc-key',
                         'name' => 'Incoming Traffic (LP pages shown)',

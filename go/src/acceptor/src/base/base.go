@@ -82,7 +82,7 @@ func SaveRows(rows []Aggregate) error {
 	return nil
 }
 
-func GetWsData() (uint64, uint64, uint64) {
+func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) {
 	// widgets
 	rows, err := pgsql.Query("SELECT " +
 		"SUM(lp_hits) AS LpHits, " +
@@ -134,7 +134,25 @@ func GetWsData() (uint64, uint64, uint64) {
 		provs[prov] = iso
 	}
 
-	fmt.Printf("%+v", provs)
+	//fmt.Printf("%+v", provs)
 
-	return LpHits, Mo, MoSuccess
+	//noinspection SqlResolve
+	rows, err = pgsql.Query("SELECT provider_name, SUM(lp_hits) FROM xmp_reports WHERE report_at >= '2017-04-03' GROUP BY provider_name")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var sum uint64
+	var countries = map[string]uint64{}
+	for rows.Next() {
+		rows.Scan(
+			&prov,
+			&sum,
+		)
+
+		countries[provs[prov]] = sum
+	}
+	//fmt.Printf("%+v", countries)
+
+	return countries, provs, LpHits, Mo, MoSuccess
 }

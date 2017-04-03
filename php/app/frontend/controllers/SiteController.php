@@ -65,6 +65,15 @@ class SiteController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        if ($action->id === 'error' && Yii::$app->user->isGuest) {
+            $this->layout = 'empty';
+        }
+
+        return parent::beforeAction($action);
+    }
+
     /**
      * Displays homepage.
      *

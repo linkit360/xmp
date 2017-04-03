@@ -1,6 +1,6 @@
 <?php
 if (!is_file('/app/config/db.' . YII_ENV . '.json')) {
-    echo PHP_EOL . PHP_EOL . 'Config Error: No Config' . PHP_EOL . PHP_EOL;
+    echo PHP_EOL . PHP_EOL . 'Config Error: No Config for ' . YII_ENV . PHP_EOL . PHP_EOL;
     exit(1);
 }
 $db = file_get_contents('/app/config/db.' . YII_ENV . '.json');

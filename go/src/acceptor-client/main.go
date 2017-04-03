@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	cfg := acceptor_client.ClientConfig{DSN: ":10000", Timeout: 10}
+	cfg := acceptor_client.ClientConfig{DSN: ":50318", Timeout: 10}
 	if err := acceptor_client.Init(cfg); err != nil {
 		log.Println("cannot init acceptor client")
 	}

@@ -11,6 +11,7 @@ $config = [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'assetManager' => [
+            'class' => \yii\web\AssetManager::class,
             'appendTimestamp' => true,
         ],
         'request' => [
@@ -57,6 +58,9 @@ $config = [
 ];
 
 if (defined('YII_ENV') && (YII_ENV === 'dev' || YII_ENV === 'test')) {
+
+    $config['components']['assetManager']['forceCopy'] = true;
+
     $ips = [
         '*',
     ];

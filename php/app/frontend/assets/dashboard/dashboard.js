@@ -2,6 +2,7 @@ var output = [];
 var ws;
 var server;
 var chart;
+var mapData;
 
 function print(message) {
     console.log(message);
@@ -40,18 +41,10 @@ function start() {
             output[3].innerText = conv + "%";
 
             // Chart
-            var keys = Object.keys(data['countries']);
-            // con(keys);
-
-            chart.series[0]['data'].forEach(function (element) {
-                if (keys.indexOf(element['hc-key']) !== -1) {
-                    // con(element);
-                    element['value'] = data['countries'][element['hc-key']];
-                } else {
-                    element['value'] = 0;
-                }
-            });
-            chart.redraw();
+            if (chart) {
+                mapData = data['countries'];
+                chart.series['regions'][0].setValues(data['countries']);
+            }
         };
 
         ws.onerror = function (evt) {
@@ -62,12 +55,41 @@ function start() {
 }
 
 window.addEventListener("load", function () {
-    chart = $("#hmap").highcharts();
+    // chart = $("#hmap").highcharts();
     output[0] = document.getElementById("output_lp");
     output[1] = document.getElementById("output_mo");
     output[2] = document.getElementById("output_mos");
     output[3] = document.getElementById("output_conv");
     start();
+
+    chart = new jvm.Map({
+        map: 'world_mill_en',
+        container: $('#world-map'),
+        backgroundColor: "transparent",
+        regionStyle: {
+            initial: {
+                fill: '#e4e4e4',
+                "fill-opacity": 0.9,
+                stroke: 'none',
+                "stroke-width": 0,
+                "stroke-opacity": 0
+            }
+        },
+        series: {
+            regions: [{
+                values: {},
+                scale: ["#1ab394", "#22d6b1"],
+                normalizeFunction: 'polynomial'
+            }]
+        },
+        onRegionTipShow: function (e, el, code) {
+            if (typeof mapData[code] !== "undefined") {
+                el.html(el.html() + ' ' + mapData[code]);
+            } else {
+                el.html(el.html() + ' 0');
+            }
+        }
+    });
 });
 
 function formatNumber(number) {

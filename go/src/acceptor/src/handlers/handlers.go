@@ -23,11 +23,6 @@ func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
 	return base.SaveRows(rows)
 }
 
-func (rpc *Aggregate) ReceiveTest(req interface{}, res *Response) error {
-	log.Println("Handlers:", req)
-	return nil
-}
-
 type BlackList struct{}
 
 type BlackListParams struct {

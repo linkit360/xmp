@@ -55,13 +55,13 @@ func runRPC(appConfig config.AppConfig) {
 		log.Fatal()
 
 		log.WithFields(log.Fields{
-			"prefix": "Main",
+			"prefix": "RPC",
 		}).Fatal("netListen ", err.Error())
 	}
 
 	log.WithFields(log.Fields{
-		"prefix":   "Main",
-		"RPC Port": appConfig.Server.RPCPort,
+		"prefix": "RPC",
+		"Port":   appConfig.Server.RPCPort,
 	}).Info()
 
 	server := rpc.NewServer()
@@ -74,8 +74,8 @@ func runRPC(appConfig config.AppConfig) {
 			go server.ServeCodec(jsonrpc.NewServerCodec(conn))
 		} else {
 			log.WithFields(log.Fields{
-				"prefix": "Main",
-			}).Info("Main:", "accept", err.Error())
+				"prefix": "RPC",
+			}).Info("accept", err.Error())
 		}
 	}
 }

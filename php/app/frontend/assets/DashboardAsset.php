@@ -11,12 +11,17 @@ use app\assets\InspiniaAsset;
 class DashboardAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = __DIR__;
+
     public $css = [
     ];
+
     public $js = [
-        'js/dashboard.js',
+        'dashboard/dashboard.js',
+        'theme/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
+        'theme/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
     ];
+
     public $depends = [
         InspiniaAsset::class,
     ];

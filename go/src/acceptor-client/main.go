@@ -8,7 +8,13 @@ import (
 )
 
 func main() {
-	cfg := acceptor_client.ClientConfig{DSN: ":50318", Timeout: 10}
+	cfg := acceptor_client.ClientConfig{
+		Enabled: true,
+		DSN:     ":50318",
+		Timeout: 10,
+	}
+	log.Printf("%+v\n", cfg)
+
 	if err := acceptor_client.Init(cfg); err != nil {
 		log.Println("cannot init acceptor client")
 	}
@@ -17,5 +23,10 @@ func main() {
 		acceptor_client.GetRandomAggregate(),
 	}
 
-	acceptor_client.SendAggregatedData(data)
+	log.Println(data)
+	err := acceptor_client.SendAggregatedData(data)
+	if err != nil {
+		log.Println("Error")
+		log.Println(err.Error())
+	}
 }

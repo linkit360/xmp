@@ -221,7 +221,7 @@ ul.nav-second-level {
 }
 
 .nav > li.active {
-    border-left: 4px solid #19aa8d;
+    border-left: 4px solid #0d80ca;
     background: #293846;
 }
 
@@ -663,7 +663,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 
 .top-navigation .nav > li.active > a {
-    color: #1ab394;
+    color: #0d80ca;
 }
 
 .top-navigation .navbar-right {
@@ -1592,8 +1592,8 @@ button.dim:active:before {
 }
 
 .fc-state-active {
-    background-color: #1ab394;
-    border-color: #1ab394;
+    background-color: #0d80ca;
+    border-color: #0d80ca;
     color: #ffffff;
 }
 
@@ -1633,9 +1633,9 @@ button.dim:active:before {
 .fc-agenda .fc-event-time,
 .fc-event a {
     padding: 4px 6px;
-    background-color: #1ab394;
+    background-color: #0d80ca;
     /* background color */
-    border-color: #1ab394;
+    border-color: #0d80ca;
     /* border color */
 }
 
@@ -1757,8 +1757,8 @@ button.dim:active:before {
 a.list-group-item.active,
 a.list-group-item.active:hover,
 a.list-group-item.active:focus {
-    background-color: #1ab394;
-    border-color: #1ab394;
+    background-color: #0d80ca;
+    border-color: #0d80ca;
     color: #FFFFFF;
     z-index: 2;
 }
@@ -2102,7 +2102,7 @@ div.dt-button-info {
 }
 
 .pace .pace-progress {
-    background: #1ab394;
+    background: #0d80ca;
     position: fixed;
     z-index: 2040;
     top: 0;

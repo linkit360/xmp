@@ -110,7 +110,7 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 	// map
 	//noinspection SqlResolve
 	rows, err = pgsql.Query("SELECT " +
-		"lower(c.iso), p.name, p.id " +
+		"c.iso, p.name, p.id " +
 		"FROM xmp_providers as p " +
 		"INNER JOIN xmp_countries as c " +
 		"ON (p.id_country = c.id);",

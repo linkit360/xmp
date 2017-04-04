@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 use app\assets\InspiniaAsset;
+use yii\widgets\Breadcrumbs;
 
 InspiniaAsset::register($this);
 
@@ -60,30 +61,36 @@ $this->beginPage();
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
-                                <h2>
-                                    <?php
-                                    echo Html::encode($this->title);
-                                    ?>
-                                </h2>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2>
+                                            <?php
+                                            echo Html::encode($this->title);
+                                            ?>
+                                        </h2>
 
-                                <?php
-                                echo array_key_exists('subtitle', $this->params) ? $this->params['subtitle'] : ''
-                                ?>
+                                        <?php
+                                        echo array_key_exists('subtitle',
+                                            $this->params) ? $this->params['subtitle'] : '';
+                                        ?>
+                                    </div>
+
+                                    <div class="col-md-6 text-right" style="margin-top: 20px;">
+                                        <?php
+                                        echo Breadcrumbs::widget([
+                                            'homeLink' => ['label' => 'XMP', 'url' => '/'],
+                                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                                            'class' => 'hbreadcrumb breadcrumb',
+                                        ]);
+                                        ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
-
-                    <?php
-                    //                echo Breadcrumbs::widget([
-                    //                    'homeLink' => ['label' => 'XMP', 'url' => '/'],
-                    //                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    //                    'class' => 'hbreadcrumb breadcrumb',
-                    //                ]);
-                    ?>
                     <?= $content ?>
                 </div>
             </div>

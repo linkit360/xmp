@@ -11,8 +11,8 @@ import (
 )
 
 type ServerConfig struct {
-	RPCPort  string `default:"50307" yaml:"rpc_port"`
-	HttpPort string `default:"50308" yaml:"http_port"`
+	RPCPort  string `default:"50318" yaml:"rpc_port"`
+	HttpPort string `default:"50319" yaml:"http_port"`
 }
 
 type AppConfig struct {
@@ -29,7 +29,10 @@ func LoadConfig() AppConfig {
 	var appConfig AppConfig
 	if *cfg != "" {
 		if err := configor.Load(&appConfig, *cfg); err != nil {
-			log.WithField("config", err.Error()).Fatal("config load error")
+			log.WithFields(log.Fields{
+				"prefix": "Config",
+				"error":  err.Error(),
+			}).Fatal("Load Error")
 			os.Exit(1)
 		}
 	}
@@ -45,7 +48,11 @@ func LoadConfig() AppConfig {
 	appConfig.Server.RPCPort = envString("PORT", appConfig.Server.RPCPort)
 	appConfig.Server.HttpPort = envString("METRICS_PORT", appConfig.Server.HttpPort)
 
-	log.Info("Config loaded")
+	log.WithFields(log.Fields{
+		"prefix": "Config",
+		"ENV":    envString("PROJECT_ENV", "dev"),
+	}).Info("Init Done")
+
 	return appConfig
 }
 

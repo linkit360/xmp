@@ -2,10 +2,6 @@
 /**
  * @var $this yii\web\View
  */
-
-use yii\web\JsExpression;
-use miloschuman\highcharts\Highmaps;
-
 use frontend\assets\DashboardAsset;
 
 DashboardAsset::register($this);
@@ -72,68 +68,7 @@ $this->registerJs('server = "ws://' . $host . ':3000/echo";');
 <div class="col-lg-12">
     <div class="ibox float-e-margins">
         <div class="ibox-content">
-            <?php
-            $this->registerJsFile(
-                'http://code.highcharts.com/mapdata/custom/world-eckert3-lowres.js',
-                [
-                    'depends' => 'miloschuman\highcharts\HighchartsAsset',
-                ]
-            );
-
-            $countries = \common\models\Countries::find()
-                ->select([
-                    'lower(iso) as iso',
-                ])
-                ->asArray()
-                ->all();
-
-            $data = [];
-            foreach ($countries as $country) {
-                $data[] = ['hc-key' => $country['iso'], 'value' => 0];
-            }
-
-            echo Highmaps::widget([
-                'id' => 'hmap',
-                'options' => [
-                    'title' => [
-                        'text' => 'Incoming Traffic. World area (LP pages shown)',
-                    ],
-                    'mapNavigation' => [
-                        'enableMouseWheelZoom' => false,
-                        'enabled' => true,
-                        'buttonOptions' => [
-                            'verticalAlign' => 'bottom',
-                        ],
-                    ],
-                    'chart' => [
-//                    'width' => 100%,
-                        'height' => 600,
-                    ],
-                    'colorAxis' => [
-                        'min' => 5,
-                    ],
-                    'series' => [
-                        [
-                            'data' => $data,
-                            'mapData' => new JsExpression('Highcharts.maps["custom/world-eckert3-lowres"]'),
-                            'joinBy' => 'hc-key',
-                            'name' => 'Incoming Traffic (LP pages shown)',
-                            'allowPointSelect' => true,
-                            'cursor' => 'pointer',
-                            'states' => [
-                                'select' => [
-                                    'color' => '#a4edba',
-                                ],
-                            ],
-                            'dataLabels' => [
-                                'enabled' => true,
-                                'format' => '{point.name}',
-                            ],
-                        ],
-                    ],
-                ],
-            ]);
-            ?>
+            <div id="world-map" style="height: 500px;"></div>
         </div>
     </div>
 </div>

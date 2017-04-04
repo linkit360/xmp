@@ -114,7 +114,28 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     ],
                     [
+                        'label' => 'Country',
+                        'content' => function ($data) use ($model) {
+                            return $model->countries[$model->providersByNamesCountry[$data['provider_name']]]['name'];
+                        },
+                    ],
+                    [
+                        'attribute' => 'id_provider',
+                        'label' => 'Provider',
+                        'content' => function ($data) use ($model) {
+                            return $model->providersByNames[$data['provider_name']];
+                        },
+                    ],
+                    [
+                        'attribute' => 'id_operator',
+                        'label' => 'Operator',
+                        'content' => function ($data) use ($model) {
+                            return $model->operatorsByCode[$data['operator_code']];
+                        },
+                    ],
+                    [
                         'attribute' => 'lp_hits',
+                        'label' => 'LP Hits',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -122,6 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return number_format($data['lp_hits']);
                         },
                     ],
+                    /*
                     [
                         'attribute' => 'lp_msisdn_hits',
                         'contentOptions' => function () {
@@ -131,8 +153,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             return number_format($data['lp_msisdn_hits']);
                         },
                     ],
+                    */
                     [
                         'attribute' => 'mo',
+                        'label' => 'MO',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -142,6 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'mo_success',
+                        'label' => 'MO Success',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -152,7 +177,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'label' => 'Conversion Rate',
                         'contentOptions' => function () {
-                            return ['class' => 'text-right'];
+                            return [
+                                'class' => 'text-right',
+                                'style' => 'background-color: #b3e6ff',
+                            ];
                         },
                         'content' => function ($data) {
                             $conv = 0;

@@ -89,7 +89,7 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 		"SUM(mo) AS Mo, " +
 		"SUM(mo_success) AS MoSuccess " +
 		"FROM xmp_reports WHERE " +
-		"report_at >=  '" + time.Now().Format("2006-01-02") + "'",
+		"report_at >= '" + time.Now().Format("2006-01-02") + "'",
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -137,7 +137,7 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 	//fmt.Printf("%+v", provs)
 
 	//noinspection SqlResolve
-	rows, err = pgsql.Query("SELECT provider_name, SUM(lp_hits) FROM xmp_reports WHERE report_at >= '2017-04-03' GROUP BY provider_name")
+	rows, err = pgsql.Query("SELECT provider_name, SUM(lp_hits) FROM xmp_reports WHERE report_at >= '" + time.Now().Format("2006-01-02") + "' GROUP BY provider_name")
 	if err != nil {
 		log.Fatal(err)
 	}

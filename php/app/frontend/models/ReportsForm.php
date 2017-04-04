@@ -31,10 +31,14 @@ class ReportsForm extends Model
 
     # Data
     public $countries = [];
+
     public $operators = [];
     public $operatorsByCode = [];
+
     public $providers = [];
     public $providersByNames = [];
+    public $providersByNamesCountry = [];
+
     public $campaigns = [];
     public $chart = [];
     public $struct = [];
@@ -78,6 +82,7 @@ class ReportsForm extends Model
                 ->orderBy([
                     'name' => SORT_ASC,
                 ])
+                ->indexBy('id')
                 ->asArray()
                 ->all();
         }
@@ -106,6 +111,12 @@ class ReportsForm extends Model
                 $this->providers,
                 'name',
                 'name_alias'
+            );
+
+            $this->providersByNamesCountry = ArrayHelper::map(
+                $this->providers,
+                'name',
+                'id_country'
             );
         }
 
@@ -221,10 +232,14 @@ class ReportsForm extends Model
 
                 "date_trunc('day', report_at) as report_at_day",
                 'id_campaign',
+                'provider_name',
+                'operator_code',
             ])
             ->groupBy([
                 'report_at_day',
                 'id_campaign',
+                'provider_name',
+                'operator_code',
             ])
             ->orderBy([
                 'report_at_day' => SORT_DESC,

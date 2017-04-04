@@ -106,25 +106,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'id_campaign',
                     [
-                        'attribute' => 'id_provider',
-                        'contentOptions' => function () {
-                            return ['class' => 'text-right'];
+                        'label' => 'Country',
+                        'content' => function ($data) use ($model) {
+                            return $model->countries[$model->providersByNamesCountry[$data['provider_name']]]['name'];
                         },
+                    ],
+                    [
+                        'attribute' => 'id_provider',
+                        'label' => 'Provider',
                         'content' => function ($data) use ($model) {
                             return $model->providersByNames[$data['provider_name']];
                         },
                     ],
                     [
                         'attribute' => 'id_operator',
-                        'contentOptions' => function () {
-                            return ['class' => 'text-right'];
-                        },
+                        'label' => 'Operator',
                         'content' => function ($data) use ($model) {
                             return $model->operatorsByCode[$data['operator_code']];
                         },
                     ],
                     [
                         'attribute' => 'lp_hits',
+                        'label' => 'LP Hits',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -132,6 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return number_format($data['lp_hits']);
                         },
                     ],
+                    /*
                     [
                         'attribute' => 'lp_msisdn_hits',
                         'contentOptions' => function () {
@@ -141,8 +145,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             return number_format($data['lp_msisdn_hits']);
                         },
                     ],
+                    */
                     [
                         'attribute' => 'mo',
+                        'label' => 'MO',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -152,6 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'mo_uniq',
+                        'label' => 'MO Unique',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -161,6 +168,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'mo_success',
+                        'label' => 'MO Success',
                         'contentOptions' => function () {
                             return ['class' => 'text-right'];
                         },
@@ -168,6 +176,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return number_format($data['mo_success']);
                         },
                     ],
+                    /*
                     [
                         'attribute' => 'retry_success',
                         'contentOptions' => function () {
@@ -177,13 +186,49 @@ $this->params['breadcrumbs'][] = $this->title;
                             return number_format($data['retry_success']);
                         },
                     ],
+                    */
+                    [
+                        'label' => 'Conversion Rate',
+                        'contentOptions' => function () {
+                            return [
+                                'class' => 'text-right',
+                                'style' => 'background-color: #b3e6ff',
+                            ];
+                        },
+                        'content' => function ($data) {
+                            $conv = 0;
+                            if ($data['lp_hits']) {
+                                $conv = number_format(
+                                    $data['mo'] / $data['lp_hits'] * 100,
+                                    2
+                                );
+                            }
+                            return '<b>' . $conv . '</b>%';
+                        },
+                    ],
                     [
                         'attribute' => 'pixels',
+                        'label' => 'Pixels Sent',
                         'contentOptions' => function () {
-                            return ['class' => 'text-right'];
+                            return [
+                                'class' => 'text-right',
+                                'style' => 'background-color: #b3e6ff',
+                            ];
                         },
                         'content' => function ($data) {
                             return number_format($data['pixels']);
+                        },
+                    ],
+                    [
+                        'label' => 'Pixels Rate',
+                        'contentOptions' => function () {
+                            return [
+                                'class' => 'text-right',
+                                'style' => 'background-color: #99ddff',
+                            ];
+                        },
+                        'content' => function ($data) {
+                            return number_format($data['pixels'] / $data['lp_hits']);
                         },
                     ],
                 ],

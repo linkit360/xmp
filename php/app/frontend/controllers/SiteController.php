@@ -2,19 +2,25 @@
 
 namespace frontend\controllers;
 
+use function array_keys;
+use common\models\Countries;
+use common\models\Providers;
+use common\models\Reports;
+use function count;
+use function date;
+use function dump;
 use const false;
 use function json_decode;
 use function json_encode;
 use const JSON_PRETTY_PRINT;
-use JsonRPC\Client;
 use function mt_rand;
 use const PHP_EOL;
 use function print_r;
 use stdClass;
-use function Symfony\Component\Debug\Tests\FatalErrorHandler\test_namespaced_function;
 use function time;
 use const true;
 use Yii;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -44,6 +50,7 @@ class SiteController extends Controller
                             'index',
                             'monitoring',
                             'logout',
+                            'country',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -233,5 +240,58 @@ class SiteController extends Controller
 //        echo "Закрываем сокет...";
         socket_close($socket);
 //        echo "OK.\n\n";
+    }
+
+    public function actionCountry()
+    {
+        $this->layout = 'empty';
+
+        $country = Countries::find()
+            ->select([
+                'id',
+                'name',
+            ])
+            ->where([
+                'iso' => $_GET['iso'],
+            ])
+            ->asArray()
+            ->one();
+
+        $providers = Providers::find()
+            ->select('name_alias')
+            ->where([
+                'id_country' => $country['id'],
+            ])
+            ->indexBy('name_alias')
+            ->asArray()
+            ->all();
+
+        $query = (new Query())
+            ->from('xmp_reports')
+            ->select([
+                'SUM(lp_hits) as lp_hits',
+                'SUM(mo) as mo',
+                'SUM(mo_success) as mo_success',
+
+                "date_trunc('day', report_at) as report_at_day",
+            ])
+            ->where([
+                'AND',
+                "report_at >= '" . date('Y-m-d') . "'",
+                [
+                    'provider_name' => array_keys($providers),
+                ],
+            ])
+            ->groupBy([
+                'report_at_day',
+            ])->all();
+
+        if (count($query)) {
+
+            $data = $query[0];
+            $data['name'] = $country['name'];
+
+            echo json_encode($data, JSON_PRETTY_PRINT);
+        }
     }
 }

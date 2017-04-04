@@ -75,7 +75,11 @@ $this->beginPage();
                                         ?>
                                     </div>
 
-                                    <div class="col-md-6 text-right" style="margin-top: 20px;">
+                                    <div class="col-md-6 text-right">
+                                        <h2>
+                                            &nbsp;
+                                        </h2>
+
                                         <?php
                                         echo Breadcrumbs::widget([
                                             'homeLink' => ['label' => 'XMP', 'url' => '/'],

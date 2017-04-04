@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use yii\db\ActiveRecord;
@@ -45,16 +46,16 @@ class Reports extends ActiveRecord
                     'mo',
                     'mo_uniq',
                     'mo_success',
-                    'pixels'
+                    'pixels',
                 ],
-                'required'
+                'required',
             ],
             [
                 [
                     'id',
-                    'id_provider'
+                    'id_provider',
                 ],
-                'string'
+                'string',
             ],
             [['report_date'], 'safe'],
             [
@@ -66,9 +67,9 @@ class Reports extends ActiveRecord
                     'mo',
                     'mo_uniq',
                     'mo_success',
-                    'pixels'
+                    'pixels',
                 ],
-                'integer'
+                'integer',
             ],
         ];
     }

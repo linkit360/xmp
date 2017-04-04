@@ -74,7 +74,7 @@ func NewReports(rows []base.Aggregate) {
 		data.Mo = data.Mo + uint64(row.Mo)
 		data.MoSuccess = data.MoSuccess + uint64(row.MoSuccess)
 
-		data.Countries[row.ProviderName] = data.LpHits
+		data.Countries[provs[row.ProviderName]] = data.LpHits
 	}
 
 	log.WithFields(log.Fields{
@@ -99,9 +99,7 @@ func resetDay() {
 func reset() {
 	data.Countries, provs, data.LpHits, data.Mo, data.MoSuccess = base.GetWsData()
 	lastResetTime = time.Now().Day()
-
 	//fmt.Printf("%+v", provs)
-
 }
 
 func prepData() string {

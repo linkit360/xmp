@@ -33,6 +33,22 @@ $this->beginPage();
     <?php
     $this->beginBody();
     ?>
+
+    <div class="splash">
+        <div class="splash-title">
+            <img src="/img/LinkIT360_logo.png"/>
+            <h1>XMP</h1>
+
+            <div class="sk-spinner sk-spinner-wave">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="wrapper">
         <?php
         echo $this->render('sidebar');

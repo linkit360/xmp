@@ -102,6 +102,11 @@ $(document).ready(function () {
     //         $('body').append(data);
     // });
 
+    // Remove splash screen after load
+    $(window).bind("load", function () {
+        $('.splash').css('display', 'none')
+    });
+
     // Minimalize menu
     $('.navbar-minimalize').on('click', function () {
         $("body").toggleClass("mini-navbar");

@@ -2,12 +2,15 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Campaigns\CreateForm;
+use function md5;
+use function mt_rand;
 use Yii;
 use common\models\Campaigns;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CampaignsController implements the CRUD actions for Campaigns model.
@@ -20,10 +23,16 @@ class CampaignsController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => false,
+                    ],
                 ],
             ],
         ];
@@ -65,15 +74,20 @@ class CampaignsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Campaigns();
+        $model = new CreateForm();
+        $model->status = 1;
+        $model->id_service = 1;
+        $model->link = md5(mt_rand(1, 999999));
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($campaign = $model->create()) {
+                return $this->redirect(['view', 'id' => $campaign->id]);
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

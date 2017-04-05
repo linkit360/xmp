@@ -3,21 +3,21 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%campaigns}}".
- *
  * @property string  $id
  * @property string  $id_user
+ * @property string  $id_service
+ * @property integer $id_operator
  * @property string  $title
  * @property string  $description
  * @property string  $link
- * @property integer $flow_type
  * @property integer $status
  * @property string  $created_at
  * @property string  $updated_at
  */
-class Campaigns extends \yii\db\ActiveRecord
+class Campaigns extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -33,9 +33,9 @@ class Campaigns extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'id_user', 'title', 'link'], 'required'],
-            [['id', 'id_user'], 'string'],
-            [['flow_type', 'status'], 'integer'],
+            [['id_user', 'id_service', 'id_operator', 'title', 'link'], 'required'],
+            [['id', 'id_user', 'id_service'], 'string'],
+            [['id_operator', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 128],
             [['description'], 'string', 'max' => 255],
@@ -51,14 +51,21 @@ class Campaigns extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_user' => 'Id User',
+            'id_user' => 'User',
+            'id_service' => 'Service',
+            'id_operator' => 'Operator',
             'title' => 'Title',
             'description' => 'Description',
             'link' => 'Link',
-            'flow_type' => 'Flow Type',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function beforeValidate()
+    {
+        $this->id_user = Yii::$app->user->id;
+        return parent::beforeValidate();
     }
 }

@@ -28,23 +28,32 @@ if (in_array('reportsConversionView', $permissions)) {
     ];
 }
 
+if (in_array('logsView', $permissions)) {
+    $menu['Reports']['items'][] = [
+        'name' => 'Logs',
+        'url' => 'logs/index',
+    ];
+}
+
 if (!count($menu['Reports']['items'])) {
     unset($menu['Reports']);
 }
 
-# Landing Pages
-if (in_array('lpCreate', $permissions)) {
-    $menu[] = [
-        'name' => '<i class="fa fa-map"></i> LP Designer',
-        'url' => 'landing-page/designer',
-    ];
-}
+# Campaigns
+$menu['Campaigns'] = [
+    'name' => '<i class="fa fa-list"></i> Campaigns',
+    'items' => [],
+];
 
-# Logs
-if (in_array('logsView', $permissions)) {
-    $menu[] = [
-        'name' => '<i class="fa fa-list"></i> Logs',
-        'url' => 'logs/index',
+$menu['Campaigns']['items'][] = [
+    'name' => 'Campaigns',
+    'url' => 'campaigns/index',
+];
+
+if (in_array('lpCreate', $permissions)) {
+    $menu['Campaigns']['items'][] = [
+        'name' => 'LP Designer',
+        'url' => 'landing-page/designer',
     ];
 }
 
@@ -145,7 +154,7 @@ function drawSub($menu)
     }
     ?>
     <li<?= $active ?>>
-        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label"><?= $menu['name'] ?></span> <span
+        <a href="#"><span class="nav-label"><?= $menu['name'] ?></span> <span
                     class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <?php

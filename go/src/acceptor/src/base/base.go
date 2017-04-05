@@ -156,3 +156,43 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 
 	return countries, provs, LpHits, Mo, MoSuccess
 }
+
+func GetBlackList(providerName string, time string) []string {
+	//noinspection SqlResolve
+	rows, err := pgsql.Query("SELECT id FROM xmp_providers WHERE name = '" + providerName + "'")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var id string
+	for rows.Next() {
+		rows.Scan(
+			&id,
+		)
+	}
+	//fmt.Printf("%+v", id)
+
+	var data []string
+	if id != "" {
+		query := "SELECT msisdn FROM xmp_msisdn_blacklist WHERE id_provider = " + id
+		if time != "" {
+			query = query + " AND date_trunc('day', created_at) >= '" + time + "'"
+		}
+
+		//noinspection SqlResolve
+		rows, err = pgsql.Query(query)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var msisdn string
+		for rows.Next() {
+			rows.Scan(
+				&msisdn,
+			)
+			data = append(data, msisdn)
+		}
+	}
+
+	return data
+}

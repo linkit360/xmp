@@ -4,6 +4,8 @@ import (
 	"acceptor/src/base"
 	"acceptor/src/websocket"
 	log "github.com/Sirupsen/logrus"
+
+	acceptorStructs "github.com/linkit360/go-acceptor-structs"
 )
 
 type Response struct{}
@@ -25,14 +27,29 @@ func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
 
 type BlackList struct{}
 
-type BlackListParams struct {
-	ProviderName string `json:"provider_name,omitempty"`
+func (rpc *BlackList) Get(req acceptorStructs.BlackListGetParams, res *acceptorStructs.BlackListResponse) error {
+	log.WithFields(log.Fields{
+		"prefix":       "Handlers",
+		"ProviderName": req.ProviderName,
+	}).Info("BL Get")
+
+	res.Msisdns = base.GetBlackList(req.ProviderName, "")
+
+	//log.Printf("%+v\n", list)
+
+	return nil
 }
 
-type BlackListResponse struct {
-	Msisdns []string `json:"msisdns,omitempty"`
-}
+func (rpc *BlackList) GetNew(req acceptorStructs.BlackListGetParams, res *acceptorStructs.BlackListResponse) error {
+	log.WithFields(log.Fields{
+		"prefix":       "Handlers",
+		"ProviderName": req.ProviderName,
+		"Time":         req.Time,
+	}).Info("BL GetNew")
 
-func (rpc *BlackList) Get(req BlackListParams, res *BlackListResponse) error {
+	res.Msisdns = base.GetBlackList(req.ProviderName, req.Time)
+
+	//log.Printf("%+v\n", list)
+
 	return nil
 }

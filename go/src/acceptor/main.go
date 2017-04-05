@@ -68,6 +68,7 @@ func runRPC(appConfig config.AppConfig) {
 	server.HandleHTTP(rpc.DefaultRPCPath, rpc.DefaultDebugPath)
 	server.HandleHTTP("/", "/debug")
 	server.RegisterName("Aggregate", &handlers.Aggregate{})
+	server.RegisterName("BlackList", &handlers.BlackList{})
 
 	for {
 		if conn, err := l.Accept(); err == nil {

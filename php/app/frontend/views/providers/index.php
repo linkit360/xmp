@@ -9,24 +9,26 @@ use yii\grid\GridView;
 $this->title = 'Providers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="hpanel col-lg-6">
-    <div class="panel-body">
-        <p>
-            <?= Html::a('Create Provider', ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
+<div class="col-lg-6">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <p>
+                <?= Html::a('Create Provider', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-        <?php
-        echo GridView::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                'id',
-                'name',
-                'name_alias',
-                'id_country',
+            <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'id',
+                    'name',
+                    'name_alias',
+                    'id_country',
 
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]);
-        ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]);
+            ?>
+        </div>
     </div>
 </div>

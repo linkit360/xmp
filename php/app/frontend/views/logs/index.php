@@ -22,7 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="ibox-content">
-
             <?php
             $form = ActiveForm::begin([
                 'action' => '/logs',

@@ -9,30 +9,32 @@ use yii\grid\GridView;
 $this->title = 'Operators';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="hpanel col-lg-6">
-    <div class="panel-body">
-        <p>
-            <?= Html::a('Create Operator', ['create'], ['class' => 'btn btn-success']) ?>
-        </p>
+<div class="col-lg-6">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <p>
+                <?= Html::a('Create Operator', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-        <?php
-        echo GridView::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => [
+            <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
 //                'id',
-                'name',
-                'id_provider',
+                    'name',
+                    'id_provider',
 //                'isp',
 //                'msisdn_prefix',
-                'mcc',
-                'mnc',
-                'status',
+                    'mcc',
+                    'mnc',
+                    'status',
 //                'code',
-                'created_at',
+                    'created_at',
 
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]);
-        ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]);
+            ?>
+        </div>
     </div>
 </div>

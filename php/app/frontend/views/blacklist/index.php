@@ -62,87 +62,74 @@ $this->registerJs('load_operators();', View::POS_READY);
     }
 </script>
 
-<div class="small-header transition animated fadeIn">
-    <div class="hpanel">
-        <div class="panel-body">
-            <h2 class="font-light m-b-xs">
-                <?= Html::encode($this->title) ?>
-            </h2>
-        </div>
-    </div>
-</div>
-
-<div class="content animate-panel">
-    <div class="row">
-        <div class="hpanel col-lg-6">
-            <div class="panel-body">
-                <p>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-                        Add MSISDN
-                    </button>
-                </p>
-
-                <?php
-                echo GridView::widget([
-                    'dataProvider' => $dataProvider,
-                    'columns' => [
-                        'msisdn',
-                        [
-                            'header' => 'Country',
-                            'headerOptions' => [
-                                'width' => '140',
-                                'class' => 'text-right',
-                            ],
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
-                            'content' => function ($data) use ($model) {
-                                return $model->getCountries()[$model->getProviders()[$data['id_provider']]['id_country']];
-                            },
+<div class="col-lg-6">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <p>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                    Add MSISDN
+                </button>
+            </p>
+            <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'msisdn',
+                    [
+                        'header' => 'Country',
+                        'headerOptions' => [
+                            'width' => '140',
+                            'class' => 'text-right',
                         ],
-                        [
-                            'attribute' => 'id_operator',
-                            'headerOptions' => [
-                                'width' => '140',
-                                'class' => 'text-right',
-                            ],
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
-                            'content' => function ($data) use ($model) {
-                                return $model->getOperators()[$data['id_operator']]['name'];
-                            },
-                        ],
-                        [
-                            'attribute' => 'id_provider',
-                            'headerOptions' => [
-                                'width' => '140',
-                                'class' => 'text-right',
-                            ],
-                            'contentOptions' => function () {
-                                return ['class' => 'text-right'];
-                            },
-                            'content' => function ($data) use ($model) {
-                                return $model->getProviders()[$data['id_provider']]['name'];
-                            },
-                        ],
-                        [
-                            'attribute' => 'created_at',
-                            'headerOptions' => ['width' => '140'],
-                            'content' => function ($data) {
-                                return date('Y-m-d H:i:s', strtotime($data->created_at));
-                            },
-                        ],
-                        [
-                            'class' => 'yii\grid\ActionColumn',
-                            'header' => '',
-                            'headerOptions' => ['width' => '50'],
-                            'template' => '{view}{delete}',
-                        ],
+                        'contentOptions' => function () {
+                            return ['class' => 'text-right'];
+                        },
+                        'content' => function ($data) use ($model) {
+                            return $model->getCountries()[$model->getProviders()[$data['id_provider']]['id_country']];
+                        },
                     ],
-                ]);
-                ?>
-            </div>
+                    [
+                        'attribute' => 'id_operator',
+                        'headerOptions' => [
+                            'width' => '140',
+                            'class' => 'text-right',
+                        ],
+                        'contentOptions' => function () {
+                            return ['class' => 'text-right'];
+                        },
+                        'content' => function ($data) use ($model) {
+                            return $model->getOperators()[$data['id_operator']]['name'];
+                        },
+                    ],
+                    [
+                        'attribute' => 'id_provider',
+                        'headerOptions' => [
+                            'width' => '140',
+                            'class' => 'text-right',
+                        ],
+                        'contentOptions' => function () {
+                            return ['class' => 'text-right'];
+                        },
+                        'content' => function ($data) use ($model) {
+                            return $model->getProviders()[$data['id_provider']]['name'];
+                        },
+                    ],
+                    [
+                        'attribute' => 'created_at',
+                        'headerOptions' => ['width' => '140'],
+                        'content' => function ($data) {
+                            return date('Y-m-d H:i:s', strtotime($data->created_at));
+                        },
+                    ],
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'header' => '',
+                        'headerOptions' => ['width' => '50'],
+                        'template' => '{view}{delete}',
+                    ],
+                ],
+            ]);
+            ?>
         </div>
     </div>
 </div>

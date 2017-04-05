@@ -10,25 +10,26 @@ use yii\grid\GridView;
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="hpanel col-lg-6">
-    <div class="panel-body">
-        <p>
-            <?php
-            if (Yii::$app->user->can('usersCreate')) {
-                echo '&nbsp;' . Html::a('Create User', ['create'], ['class' => 'btn btn-success']);
-            }
-            ?>
-        </p>
+<div class="col-lg-6">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <p>
+                <?php
+                if (Yii::$app->user->can('usersCreate')) {
+                    echo '&nbsp;' . Html::a('Create User', ['create'], ['class' => 'btn btn-success']);
+                }
+                ?>
+            </p>
 
-        <?php
-        echo GridView::widget([
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                'username',
+            <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'username',
 //                'auth_key',
 //                'password_hash',
 //                'password_reset_token',
-                'email:email',
+                    'email:email',
 //                [
 //                    'header' => 'Roles',
 //                    'content' => function ($data) {
@@ -36,12 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
 //                    },
 //                ],
 //                'status',
-                'created_at:datetime',
-                'updated_at:datetime',
+                    'created_at:datetime',
+                    'updated_at:datetime',
 //                'id',
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]);
-        ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]);
+            ?>
+        </div>
     </div>
 </div>

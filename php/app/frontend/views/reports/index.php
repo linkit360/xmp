@@ -95,8 +95,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="ibox float-e-margins">
         <div class="ibox-content">
             <?php
+            $dp = $model->dataProviderAd();
+            $excludeColums = [
+                'id_campaign',
+                'operator_code',
+            ];
+            $total = [];
+            if (!empty($dp->getModels())) {
+                foreach ($dp->getModels() as $row) {
+                    foreach ($row as $key => $val) {
+                        if (in_array($key, $excludeColums) || !is_numeric($val)) {
+                            continue;
+                        }
+
+                        if (!array_key_exists($key, $total)) {
+                            $total[$key] = 0;
+                        }
+
+                        $total[$key] += $val;
+                    }
+                }
+            }
+
             echo GridView::widget([
-                'dataProvider' => $model->dataProviderAd(),
+                'dataProvider' => $dp,
+                'showFooter' => true,
                 'columns' => [
                     [
                         'attribute' => 'report_date',
@@ -134,6 +157,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content' => function ($data) {
                             return number_format($data['lp_hits']);
                         },
+                        'footerOptions' => [
+                            'class' => 'text-right',
+                            'style' => 'font-weight: bold;',
+                        ],
+                        'footer' => number_format($total['lp_hits']),
                     ],
                     /*
                     [
@@ -155,6 +183,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content' => function ($data) {
                             return number_format($data['mo']);
                         },
+                        'footerOptions' => [
+                            'class' => 'text-right',
+                            'style' => 'font-weight: bold;',
+                        ],
+                        'footer' => number_format($total['mo']),
                     ],
                     [
                         'attribute' => 'mo_uniq',
@@ -165,6 +198,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content' => function ($data) {
                             return number_format($data['mo_uniq']);
                         },
+                        'footerOptions' => [
+                            'class' => 'text-right',
+                            'style' => 'font-weight: bold;',
+                        ],
+                        'footer' => number_format($total['mo_uniq']),
                     ],
                     [
                         'attribute' => 'mo_success',
@@ -175,6 +213,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content' => function ($data) {
                             return number_format($data['mo_success']);
                         },
+                        'footerOptions' => [
+                            'class' => 'text-right',
+                            'style' => 'font-weight: bold;',
+                        ],
+                        'footer' => number_format($total['mo_success']),
                     ],
                     /*
                     [
@@ -218,6 +261,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content' => function ($data) {
                             return number_format($data['pixels']);
                         },
+                        'footerOptions' => [
+                            'class' => 'text-right',
+                            'style' => 'font-weight: bold;',
+                        ],
+                        'footer' => number_format($total['pixels']),
                     ],
                     [
                         'label' => 'Pixels Rate',

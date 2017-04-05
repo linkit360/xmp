@@ -4,6 +4,7 @@
 
 eval $(docker-machine env xmp2)
 if [ $? -eq 0 ]; then
+#    docker system prune -af
     docker-compose -f ./config/compose.common.json -f ./config/compose.test.json -p xmp pull
     if [ $? -eq 0 ]; then
         printf "\n\n"

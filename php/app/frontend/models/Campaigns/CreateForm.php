@@ -85,18 +85,26 @@ class CreateForm extends Model
     {
         if (!count($this->operators)) {
             $data = Operators::find()
-                ->select([
-                    'name',
-                    'id',
-                ])
-                ->where([
-                    'status' => 1,
-                ])
-                ->orderBy([
-                    'name' => SORT_ASC,
-                ])
+                ->select(
+                    [
+                        'name',
+                        'id',
+                    ]
+                )
+                ->where(
+                    [
+                        'status' => 1,
+                    ]
+                )
+                ->orderBy(
+                    [
+                        'name' => SORT_ASC,
+                    ]
+                )
                 ->asArray()
-                ->indexBy('id')
+                ->indexBy(
+                    'id'
+                )
                 ->all();
 
             $this->operators = ArrayHelper::map(
@@ -116,7 +124,10 @@ class CreateForm extends Model
         }
 
         $campaign = new Campaigns();
-        $campaign->load($this->attributes, '');
+        $campaign->load(
+            $this->attributes,
+            ''
+        );
         $campaign->save();
         return $campaign->save() ? $campaign : null;
     }

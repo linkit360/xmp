@@ -1,7 +1,2 @@
-/app/frontend/runtime
-/app/frontend/web/assets
-
-/app/backend/runtime
-/app/backend/web/assets
-
-/app/console/runtime
+app/*/web/assets/*
+app/*/runtime/*

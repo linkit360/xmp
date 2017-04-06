@@ -3,7 +3,8 @@
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
-use app\assets\InspiniaAsset;
+
+use common\assets\MapAsset;
 
 /**
  * Frontend dashboard asset bundle.
@@ -14,15 +15,14 @@ class DashboardAsset extends AssetBundle
     public $sourcePath = __DIR__;
 
     public $css = [
+
     ];
 
     public $js = [
         'dashboard/dashboard.js',
-        'theme/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
-        'theme/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
     ];
 
     public $depends = [
-        InspiniaAsset::class,
+        MapAsset::class,
     ];
 }

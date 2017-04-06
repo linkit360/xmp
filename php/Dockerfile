@@ -21,10 +21,12 @@ RUN addgroup -S -g 1000 docker
 RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
 # REMEMBER: only RUN under non-root USER, not COPY
+# Composer
 USER 1000
 RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3"
 RUN composer -n global require --prefer-dist "fxp/composer-asset-plugin:^1.2.0"
 USER root
+COPY composer/ /app/composer
 
 # Configs
 COPY config/ /app/config
@@ -34,11 +36,23 @@ RUN cp /app/config/.bashrc /home/docker
 RUN mv /app/config/.bashrc /root
 
 # App
-COPY composer/ /app/composer
-COPY app/ /app/php
+RUN mkdir -p /app/php/common
+RUN mkdir -p /app/php/console
+RUN mkdir -p /app/php/frontend
 
-# Permissions
-RUN chown -R 1000:1000 /app && chmod -R 0700 /app
+# common
+COPY app/codeception.yml /app/codeception.yml
+COPY app/yii /app/php
+COPY app/common /app/php/common
+RUN chown -R 1000:1000 /app/php && chmod -R 0700 /app/php
+
+# console
+COPY app/console /app/php/console
+RUN chown -R 1000:1000 /app/php/console && chmod -R 0700 /app/php/console
+
+# frontend
+COPY app/frontend /app/php/frontend
+RUN chown -R 1000:1000 /app/php/frontend && chmod -R 0700 /app/php/frontend
 
 # User switch
 WORKDIR /app/php

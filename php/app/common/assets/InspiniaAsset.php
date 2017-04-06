@@ -1,17 +1,18 @@
 <?php
 
-namespace app\assets;
+namespace common\assets;
 
 use yii\bootstrap\BootstrapAsset;
 use yii\bootstrap\BootstrapPluginAsset;
 use yii\jui\JuiAsset;
 use yii\web\AssetBundle;
 use yii\web\JqueryAsset;
+use yii\web\YiiAsset;
 
 class InspiniaAsset extends AssetBundle
 {
     public $basePath = '@webroot';
-    public $sourcePath = __DIR__ . '/theme';
+    public $sourcePath = __DIR__ . '/inspinia';
 
     public $css = [
         'font-awesome/css/font-awesome.css',
@@ -31,5 +32,6 @@ class InspiniaAsset extends AssetBundle
         JuiAsset::class,
         BootstrapAsset::class,
         BootstrapPluginAsset::class,
+        YiiAsset::class,
     ];
 }

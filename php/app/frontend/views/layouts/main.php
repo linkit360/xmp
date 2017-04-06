@@ -6,120 +6,114 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-
-use app\assets\InspiniaAsset;
 use yii\widgets\Breadcrumbs;
 
-InspiniaAsset::register($this);
+\common\assets\InspiniaAsset::register($this);
 
 /** @var \common\models\Users $user */
 $user = Yii::$app->user->identity;
 $this->beginPage();
 ?>
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" type="image/ico" href="/img/favicon.png"/>
-        <?= Html::csrfMetaTags() ?>
-        <title><?= strlen($this->title) ? Html::encode($this->title) . ' - ' : '' ?>LinkIT360</title>
-        <?php
-        $this->head();
-        ?>
-    </head>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/ico" href="/img/favicon.png"/>
+    <?= Html::csrfMetaTags() ?>
+    <title><?= strlen($this->title) ? Html::encode($this->title) . ' - ' : '' ?>LinkIT360</title>
+    <?php $this->head() ?>
+</head>
 
-    <body class="fixed-sidebar md-skin">
-    <?php
-    $this->beginBody();
-    ?>
+<body class="fixed-sidebar md-skin">
+<?php $this->beginBody() ?>
 
-    <div class="splash">
-        <div class="splash-title">
-            <img src="/img/LinkIT360_logo.png"/>
-            <h1>XMP</h1>
+<div class="splash">
+    <div class="splash-title">
+        <img src="/img/LinkIT360_logo.png"/>
+        <h1>XMP</h1>
 
-            <div class="sk-spinner sk-spinner-wave">
-                <div class="sk-rect1"></div>
-                <div class="sk-rect2"></div>
-                <div class="sk-rect3"></div>
-                <div class="sk-rect4"></div>
-                <div class="sk-rect5"></div>
-            </div>
+        <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
         </div>
     </div>
+</div>
 
-    <div id="wrapper">
-        <?php
-        echo $this->render('sidebar');
-        ?>
-        <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-success" href="#">
-                            <i class="fa fa-bars"></i>
+<div id="wrapper">
+    <?= $this->render('sidebar') ?>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-success" href="#">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="<?= Url::toRoute('/site/logout') ?>">
+                            <i class="fa fa-sign-out"></i> <?= $user->username ?>
                         </a>
-                    </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a href="<?= Url::toRoute('/site/logout') ?>">
-                                <i class="fa fa-sign-out"></i> <?= $user->username ?>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="wrapper wrapper-content animated fadeInRight">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h2>
-                                            <?php
-                                            echo Html::encode($this->title);
-                                            ?>
-                                        </h2>
-
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h2>
                                         <?php
-                                        echo array_key_exists('subtitle',
-                                            $this->params) ? $this->params['subtitle'] : '';
+                                        echo Html::encode($this->title);
                                         ?>
-                                    </div>
+                                    </h2>
 
-                                    <div class="col-md-6 text-right">
-                                        <h2>
-                                            &nbsp;
-                                        </h2>
+                                    <?php
+                                    echo array_key_exists('subtitle',
+                                        $this->params) ? $this->params['subtitle'] : '';
+                                    ?>
+                                </div>
 
-                                        <?php
-                                        echo Breadcrumbs::widget([
+                                <div class="col-md-6 text-right">
+                                    <h2>
+                                        &nbsp;
+                                    </h2>
+
+                                    <?php
+                                    echo Breadcrumbs::widget(
+                                        [
                                             'homeLink' => ['label' => 'XMP', 'url' => '/'],
                                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                                             'class' => 'hbreadcrumb breadcrumb',
-                                        ]);
-                                        ?>
-                                    </div>
+                                        ]
+                                    );
+                                    ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <?= $content ?>
-                </div>
+                <?= $content ?>
             </div>
         </div>
     </div>
-    <?php
-    $this->endBody();
-    ?>
-    </body>
-    </html>
+</div>
 <?php
+$this->endBody();
+?>
+</body>
+</html>
+<?php
+# do not remove php close tag after endPage, breaks formatting
 $this->endPage();
+?>

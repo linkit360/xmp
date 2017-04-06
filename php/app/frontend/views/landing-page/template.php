@@ -21,7 +21,7 @@ $html_insert = <<<HTML
 <link rel="stylesheet" href="/lp/generator/style.css"/>
 
 <div id="newsletter-preloaded-download">
-    <form id="export-form" action="/landing-page/download" method="POST" name="export-form">
+    <form id="export-form" action="/landing-page/save" method="POST" name="export-form">
         {$csrf_input}
         {$id_input}
         <label>

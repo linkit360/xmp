@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = 'Step 2';
             </a>
 
             <button id="teml_download" class="btn btn-info btn-sm"
-                    onclick="document.getElementById('tmpl_frame').contentWindow.download();">
-                Download Template
+                    onclick="document.getElementById('tmpl_frame').contentWindow.save();">
+                Save Template
             </button>
         </h2>
 

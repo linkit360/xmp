@@ -54,7 +54,7 @@ $(function () {
 });
 
 //Download
-function download() {
+function save() {
     var textarea = $("#export-textarea");
     textarea.val($('html')[0].outerHTML);
     $("#export-form").submit();

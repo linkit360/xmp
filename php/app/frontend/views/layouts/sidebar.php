@@ -46,11 +46,16 @@ $menu['Campaigns'] = [
 ];
 
 $menu['Campaigns']['items'][] = [
-    'name' => 'Campaigns',
+    'name' => 'Campaigns Management',
     'url' => 'campaigns/index',
 ];
 
 if (in_array('lpCreate', $permissions)) {
+    $menu['Campaigns']['items'][] = [
+        'name' => 'LP Management',
+        'url' => 'landing-page/index',
+    ];
+
     $menu['Campaigns']['items'][] = [
         'name' => 'LP Designer',
         'url' => 'landing-page/designer',

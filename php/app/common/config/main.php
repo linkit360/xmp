@@ -1,14 +1,27 @@
 <?php
-if (!is_file('/app/config/db.' . YII_ENV . '.json')) {
-    echo PHP_EOL . PHP_EOL . 'Config Error: No Config for ' . YII_ENV . PHP_EOL . PHP_EOL;
-    exit(1);
+function loadConfig(string $filename)
+{
+    if (!is_file($filename)) {
+        echo PHP_EOL . PHP_EOL . 'Config Error: No Config for ' . YII_ENV . ' [' . $filename . ']' . PHP_EOL . PHP_EOL;
+        exit(1);
+    }
+
+    $cfg = file_get_contents($filename);
+    $cfg = json_decode($cfg, true);
+    if (!count($cfg)) {
+        echo PHP_EOL . PHP_EOL . 'Config Error: Invalid Config' . PHP_EOL . PHP_EOL;
+        exit(1);
+    }
+
+    return $cfg;
 }
-$db = file_get_contents('/app/config/db.' . YII_ENV . '.json');
-$db = json_decode($db, true);
-if (!count($db)) {
-    echo PHP_EOL . PHP_EOL . 'Config Error: Invalid Config' . PHP_EOL . PHP_EOL;
-    exit(1);
-}
+
+# DB Config
+$db = loadConfig('/app/config/db.' . YII_ENV . '.json');
+
+# AWS S3 Config
+$aws = loadConfig('/app/config/aws.' . YII_ENV . '.json');
+defined('AWS_S3') or define('AWS_S3', $aws);
 
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/../composer/vendor',

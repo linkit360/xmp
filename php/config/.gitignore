@@ -1,2 +1,4 @@
 db.dev.json
 db.test.json
+aws.dev.json
+aws.test.json

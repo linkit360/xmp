@@ -2,11 +2,18 @@
 
 namespace frontend\controllers;
 
+use Aws\Credentials\Credentials;
+use Aws\S3\S3Client;
+use Aws\Sdk;
+use const AWS_S3;
+use function file_get_contents;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
+use common\models\Lps;
 use ZipArchive;
 
 class LandingPageController extends Controller
@@ -113,26 +120,7 @@ class LandingPageController extends Controller
         throw new NotFoundHttpException();
     }
 
-    private function getFiles($dir)
-    {
-        $files = [];
-        foreach (scandir($dir) as $file_name) {
-            if ($file_name === '.' || $file_name === '..') {
-                continue;
-            }
-
-            $file = $dir . '/' . $file_name;
-            if (is_dir($file)) {
-                $files = array_merge($files, $this->getFiles($file));
-            } else {
-                $files[] = $file;
-            }
-        }
-
-        return $files;
-    }
-
-    public function actionDownload()
+    public function actionSave()
     {
         $post = Yii::$app->request->post();
         if (!count($post) || !array_key_exists('export-textarea', $post)) {
@@ -170,16 +158,143 @@ class LandingPageController extends Controller
         $zip->addFromString('index.html', $template);
         $zip->close();
 
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
-        header('Content-Length: ' . filesize($file));
-        header("Content-Disposition: attachment;filename=template.zip");
-        header("Content-Transfer-Encoding: binary ");
-        readfile($file);
+//        header("Pragma: public");
+//        header("Expires: 0");
+//        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+//        header("Content-Type: application/force-download");
+//        header("Content-Type: application/octet-stream");
+//        header("Content-Type: application/download");
+//        header('Content-Length: ' . filesize($file));
+//        header("Content-Disposition: attachment;filename=template.zip");
+//        header("Content-Transfer-Encoding: binary ");
+//        readfile($file);
+
+
+        $sdk = new Sdk([
+            'region' => 'eu-central-1',
+            'version' => '2006-03-01',
+            'credentials' => AWS_S3,
+        ]);
+        $s3Client = $sdk->createS3();
+        $result = $s3Client->putObject(
+            [
+                'Bucket' => 'xmp-lp',
+                'Key' => 'my-key',
+                'Body' => file_get_contents($file),
+            ]
+        );
+
+        $result = $s3Client->getObject(
+            [
+                'Bucket' => 'xmp-lp',
+                'Key' => 'my-key',
+            ]
+        );
+
+
+        dump($result['Body']);
         unlink($file);
+    }
+
+    /**
+     * Lists all Lp models.
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Lps::find(),
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Displays a single Lp model.
+     *
+     * @param string $id
+     *
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Updates an existing Lp model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     *
+     * @param string $id
+     *
+     * @return mixed
+     */
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Deletes an existing Lp model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
+     * @param string $id
+     *
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds the Lp model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param string $id
+     *
+     * @return Lps the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Lps::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    private function getFiles($dir)
+    {
+        $files = [];
+        foreach (scandir($dir) as $file_name) {
+            if ($file_name === '.' || $file_name === '..') {
+                continue;
+            }
+
+            $file = $dir . '/' . $file_name;
+            if (is_dir($file)) {
+                $files = array_merge($files, $this->getFiles($file));
+            } else {
+                $files[] = $file;
+            }
+        }
+
+        return $files;
     }
 }

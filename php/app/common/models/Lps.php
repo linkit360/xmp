@@ -2,25 +2,23 @@
 
 namespace common\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%lp}}".
- *
  * @property string  $id
  * @property string  $id_user
  * @property integer $status
  * @property string  $created_at
  * @property string  $updated_at
  */
-class Lp extends \yii\db\ActiveRecord
+class Lps extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%lp}}';
+        return '{{%lps}}';
     }
 
     /**

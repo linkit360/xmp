@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Lp */
+/* @var $model common\models\Lps */
 
 $this->title = 'Update Lp: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Lps', 'url' => ['index']];

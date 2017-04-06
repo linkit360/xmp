@@ -11,29 +11,25 @@ use yii\grid\GridView;
 $this->title = 'Landing Pages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-lg-12">
-    <div class="ibox float-e-margins">
-        <div class="ibox-content">
-            <p>
-                <?= Html::a('Create Lp', ['designer'], ['class' => 'btn btn-success']) ?>
-            </p>
+<div class="ibox float-e-margins col-lg-12">
+    <div class="ibox-content">
+        <p>
+            <?= Html::a('Create Lp', ['designer'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-            <?php
-            echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
+        <?php
+        echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                'id',
+//                'id_user',
+                'status',
+                'created_at',
+                'updated_at',
 
-                    'id',
-                    'id_user',
-                    'status',
-                    'created_at',
-                    'updated_at',
-
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]);
-            ?>
-        </div>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]);
+        ?>
     </div>
 </div>

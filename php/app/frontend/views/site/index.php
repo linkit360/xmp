@@ -9,13 +9,7 @@ DashboardAsset::register($this);
 $this->title = 'Dashboard';
 $this->params['subtitle'] = 'Reports and Stats for Today';
 $this->params['breadcrumbs'][] = $this->title;
-
-$host = 'test.xmp2.linkit360.ru';
-if (YII_ENV === "dev") {
-    $host = "127.0.0.1";
-}
-
-$this->registerJs('server = "ws://' . $host . ':3000/echo";');
+$this->registerJs('server = "wss://' . $_SERVER['HTTP_HOST'] . ':3000/echo";');
 ?>
 <div class="col-lg-3">
     <div class="ibox float-e-margins">

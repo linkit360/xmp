@@ -28,10 +28,10 @@ class InspiniaAsset extends AssetBundle
     ];
 
     public $depends = [
+        YiiAsset::class,
         JqueryAsset::class,
         JuiAsset::class,
         BootstrapAsset::class,
         BootstrapPluginAsset::class,
-        YiiAsset::class,
     ];
 }

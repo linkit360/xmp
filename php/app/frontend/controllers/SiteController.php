@@ -78,10 +78,6 @@ class SiteController extends Controller
             $this->layout = 'empty';
         }
 
-        if ($action->id === 'login') {
-//            $this->enableCsrfValidation = false;
-        }
-
         return parent::beforeAction($action);
     }
 

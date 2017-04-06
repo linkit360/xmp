@@ -19,12 +19,15 @@ $config = [
             'cookieValidationKey' => 'sWOHQyhRudhCz9j_z5s4BW_5p3dtjVCe',
         ],
         'session' => [
-            'name' => 'advanced-frontend',
+            'name' => '_advanced-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\Users',
+            'identityClass' => \common\models\Users::class,
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => [
+                'name' => '_identity-frontend',
+                'httpOnly' => true,
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

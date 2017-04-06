@@ -2,10 +2,10 @@
 
 namespace frontend\controllers;
 
-use Aws\Credentials\Credentials;
 use Aws\S3\S3Client;
 use Aws\Sdk;
 use const AWS_S3;
+use const false;
 use function file_get_contents;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -18,6 +18,23 @@ use ZipArchive;
 
 class LandingPageController extends Controller
 {
+    /** @var  S3Client */
+    public $s3;
+
+    public function init()
+    {
+        parent::init();
+        $sdk = new Sdk(
+            [
+                'region' => 'ap-southeast-1',
+                'version' => '2006-03-01',
+                'credentials' => AWS_S3,
+            ]
+        );
+
+        $this->s3 = $sdk->createS3();
+    }
+
     /**
      * @inheritdoc
      */
@@ -124,7 +141,7 @@ class LandingPageController extends Controller
     {
         $post = Yii::$app->request->post();
         if (!count($post) || !array_key_exists('export-textarea', $post)) {
-            return;
+            return '';
         }
 
         $template = $post['export-textarea'];
@@ -158,42 +175,50 @@ class LandingPageController extends Controller
         $zip->addFromString('index.html', $template);
         $zip->close();
 
-//        header("Pragma: public");
-//        header("Expires: 0");
-//        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-//        header("Content-Type: application/force-download");
-//        header("Content-Type: application/octet-stream");
-//        header("Content-Type: application/download");
-//        header('Content-Length: ' . filesize($file));
-//        header("Content-Disposition: attachment;filename=template.zip");
-//        header("Content-Transfer-Encoding: binary ");
-//        readfile($file);
+        $model = new Lps();
+        if (!$model->save()) {
+//            dump($model->getErrors());
+            return '';
+        }
 
-
-        $sdk = new Sdk([
-            'region' => 'eu-central-1',
-            'version' => '2006-03-01',
-            'credentials' => AWS_S3,
-        ]);
-        $s3Client = $sdk->createS3();
-        $result = $s3Client->putObject(
+        $this->s3->putObject(
             [
                 'Bucket' => 'xmp-lp',
-                'Key' => 'my-key',
-                'Body' => file_get_contents($file),
+                'Key' => $model->id,
+                'SourceFile' => $file,
             ]
         );
 
-        $result = $s3Client->getObject(
-            [
-                'Bucket' => 'xmp-lp',
-                'Key' => 'my-key',
-            ]
-        );
-
-
-        dump($result['Body']);
         unlink($file);
+        return '<script type="text/javascript">window.top.location.href = "/landing-page/' . $model->id . '";</script>';
+    }
+
+    public function actionDownload($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->id_user !== Yii::$app->user->id) {
+            return new NotFoundHttpException();
+        }
+
+        $result = $this->s3->getObject(
+            [
+                'Bucket' => 'xmp-lp',
+                'Key' => $model->id,
+            ]
+        );
+
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+//        header('Content-Length: ' . filesize($file));
+        header("Content-Disposition: attachment;filename=template.zip");
+        header("Content-Transfer-Encoding: binary ");
+        echo $result['Body'];
+
+        return '';
     }
 
     /**

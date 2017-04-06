@@ -56,10 +56,10 @@ if (in_array('lpCreate', $permissions)) {
         'url' => 'landing-page/index',
     ];
 
-    $menu['Campaigns']['items'][] = [
-        'name' => 'LP Designer',
-        'url' => 'landing-page/designer',
-    ];
+//    $menu['Campaigns']['items'][] = [
+//        'name' => 'LP Designer',
+//        'url' => 'landing-page/designer',
+//    ];
 }
 
 # Admin

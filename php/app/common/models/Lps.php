@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -27,7 +28,7 @@ class Lps extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'id_user'], 'required'],
+            [['id_user'], 'required'],
             [['id', 'id_user'], 'string'],
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
@@ -46,5 +47,11 @@ class Lps extends ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function beforeValidate()
+    {
+        $this->id_user = Yii::$app->user->id;
+        return parent::beforeValidate();
     }
 }

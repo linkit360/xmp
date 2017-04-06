@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 #docker-machine create --driver generic --generic-ip-address=52.220.50.252 --generic-ssh-user=ubuntu --generic-ssh-key ~/xmp_cms_testing_stage.pem xmp2
+#docker system prune -af
+#docker logs xmp_php_1 -f
 
 eval $(docker-machine env xmp2)
 if [ $? -eq 0 ]; then
-#    docker system prune -af
     docker-compose -f ./config/compose.common.json -f ./config/compose.test.json -p xmp pull
     if [ $? -eq 0 ]; then
         printf "\n\n"

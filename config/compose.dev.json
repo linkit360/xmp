@@ -48,6 +48,7 @@
         "PROJECT_ENV=dev"
       ],
       "volumes": [
+        "../go/config:/go/config",
         "../go/src/acceptor:/go/src/acceptor",
         "../go/src/acceptor-client:/go/src/acceptor-client"
       ]

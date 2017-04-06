@@ -36,7 +36,8 @@ func Init() {
 		"prefix": "WS",
 	}).Info("Init Done")
 
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	//log.Fatal(http.ListenAndServe(":3000", nil))
+	log.Fatal(http.ListenAndServeTLS(":3000", "/config/ssl/crt.crt", "/config/ssl/priv.key", nil))
 }
 
 func echo(w http.ResponseWriter, r *http.Request) {

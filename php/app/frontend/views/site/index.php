@@ -135,6 +135,23 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-12">
+                        <table id="modal_output_table" class="table">
+                            <thead>
+                            <tr>
+                                <th>Operator</th>
+                                <th class="text-right">LP Hits</th>
+                                <th class="text-right">Total MO</th>
+                                <th class="text-right">Success MO</th>
+                                <th class="text-right">Conversion Rate</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

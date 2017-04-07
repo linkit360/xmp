@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use function array_key_exists;
 use function array_keys;
 use common\models\Countries;
+use common\models\Operators;
 use common\models\Providers;
 use common\models\Reports;
 use function count;
@@ -21,6 +23,7 @@ use function time;
 use const true;
 use Yii;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
@@ -247,22 +250,42 @@ class SiteController extends Controller
         $this->layout = 'empty';
 
         $country = Countries::find()
-            ->select([
-                'id',
-                'name',
-            ])
-            ->where([
-                'iso' => $_GET['iso'],
-            ])
+            ->select(
+                [
+                    'id',
+                    'name',
+                ]
+            )
+            ->where(
+                [
+                    'iso' => $_GET['iso'],
+                ]
+            )
             ->asArray()
             ->one();
 
         $providers = Providers::find()
-            ->select('name_alias')
-            ->where([
-                'id_country' => $country['id'],
-            ])
+            ->select(
+                [
+                    'name_alias',
+                    'id',
+                ]
+            )
+            ->where(
+                [
+                    'id_country' => $country['id'],
+                ]
+            )
             ->indexBy('name_alias')
+            ->asArray()
+            ->all();
+
+        $operators = Operators::find()
+            ->where([
+                'id_provider' => array_keys(ArrayHelper::map($providers, 'id', 'name_alias')),
+            ])
+            ->orderBy('name')
+            ->indexBy('code')
             ->asArray()
             ->all();
 
@@ -274,6 +297,7 @@ class SiteController extends Controller
                 'SUM(mo_success) as mo_success',
 
                 "date_trunc('day', report_at) as report_at_day",
+                'operator_code',
             ])
             ->where([
                 'AND',
@@ -283,15 +307,33 @@ class SiteController extends Controller
                 ],
             ])
             ->groupBy([
+                'operator_code',
                 'report_at_day',
             ])->all();
 
+        $data = [];
+        $data['total'] = [
+            'lp_hits' => 0,
+            'mo' => 0,
+            'mo_success' => 0,
+            'name' => $country['name'],
+        ];
+
         if (count($query)) {
+            foreach ($query as $operator) {
+                if (array_key_exists($operator['operator_code'], $operators)) {
+                    $data[$operator['operator_code']] = [
+                        'cnt' => $operator,
+                        'op' => $operators[$operator['operator_code']],
+                    ];
+                }
 
-            $data = $query[0];
-            $data['name'] = $country['name'];
-
-            echo json_encode($data, JSON_PRETTY_PRINT);
+                $data['total']['lp_hits'] += $operator['lp_hits'];
+                $data['total']['mo'] += $operator['mo'];
+                $data['total']['mo_success'] += $operator['mo_success'];
+            }
         }
+
+        echo json_encode($data, JSON_PRETTY_PRINT);
     }
 }

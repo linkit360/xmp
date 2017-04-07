@@ -38,7 +38,7 @@ function start() {
 
         var conv = 0;
         if (data['lp'] > 0) {
-            conv = (parseFloat(formatNumber(data['mos'] / data['lp']))).toFixed(2);
+            conv = (parseFloat(formatNumber((data['mos'] / data['lp']) * 100))).toFixed(2);
         }
 
         output[3].innerText = conv + "%";
@@ -52,7 +52,6 @@ function start() {
                     value
                 ]);
             });
-
 
             var onlyValues = series.map(function (obj) {
                 return obj[1];
@@ -153,16 +152,36 @@ function showPopup(code) {
     // con(code);
     $.getJSON("/site/country?iso=" + code, function (data) {
         if (data) {
-            // con(data);
-            $('#modal_output_name').html(data['name']);
-            $('#modal_output_lp').html(data['lp_hits']);
-            $('#modal_output_mo').html(data['mo']);
-            $('#modal_output_mos').html(data['mo_success']);
+            // dump(data);
+            $('#modal_output_name').html(formatNumber(data['total']['name']));
+            $('#modal_output_lp').html(formatNumber(data['total']['lp_hits']));
+            $('#modal_output_mo').html(formatNumber(data['total']['mo']));
+            $('#modal_output_mos').html(formatNumber(data['total']['mo_success']));
             var conv = 0;
-            if (data['lp_hits'] > 0) {
-                conv = (parseFloat(formatNumber(data['mo_success'] / data['lp_hits']))).toFixed(2);
+            if (data['total']['lp_hits'] > 0) {
+                conv = (parseFloat(formatNumber((data['total']['mo_success'] / data['total']['lp_hits']) * 100))).toFixed(2);
             }
             $('#modal_output_conv').html(conv + "%");
+
+            var table = $('#modal_output_table');
+            $.each(data, function (index, value) {
+                if (index !== 'total') {
+                    var convv = 0;
+                    if (value['cnt']['lp_hits'] > 0) {
+                        convv = (parseFloat(formatNumber((value['cnt']['mo_success'] / value['cnt']['lp_hits']) * 100))).toFixed(2);
+                    }
+
+                    table.find('tbody').append(
+                        '<tr>' +
+                        '<td>' + value['op']['name'] + '</td>' +
+                        '<td class="text-right">' + formatNumber(value['cnt']['lp_hits']) + '</td>' +
+                        '<td class="text-right">' + formatNumber(value['cnt']['mo']) + '</td>' +
+                        '<td class="text-right">' + formatNumber(value['cnt']['mo_success']) + '</td>' +
+                        '<td class="text-right">' + convv + '%</td>' +
+                        '</tr>'
+                    );
+                }
+            });
         }
 
         $('#myModal').modal('show');

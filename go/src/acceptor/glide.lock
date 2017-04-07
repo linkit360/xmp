@@ -1,5 +1,5 @@
-hash: 1df1a84cd339a556f81cf13706be37df0a87979d93917c0d00e97fffe30bdca3
-updated: 2017-04-07T10:43:12.388238342Z
+hash: 87b5f95881eb59bae418bd69806bfec3e669c35c647797db022cfee0c25ef7e6
+updated: 2017-04-07T12:04:25.211744547Z
 imports:
 - name: github.com/beorn7/perks
   version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
@@ -24,6 +24,8 @@ imports:
   version: 2704adc878c21e1329f46f6e56a1c387d788ff94
   subpackages:
   - oid
+- name: github.com/linkit360/go-acceptor-client
+  version: 59c2c1048c2bd8584fa9e5bc0dfb64536f6aa960
 - name: github.com/linkit360/go-acceptor-structs
   version: c5ba518466cada4803f5ea299908ca1efad2e2c7
 - name: github.com/linkit360/go-utils

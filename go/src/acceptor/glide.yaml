@@ -1,4 +1,6 @@
 package: acceptor
+ignore:
+- acceptor
 import:
 - package: github.com/Sirupsen/logrus
   version: ~0.11.5
@@ -8,6 +10,7 @@ import:
   version: ~1.1.0
 - package: github.com/jinzhu/configor
 - package: github.com/linkit360/go-acceptor-structs
+- package: github.com/linkit360/go-acceptor-client
 - package: github.com/linkit360/go-utils
   version: ~1.7.5
   subpackages:

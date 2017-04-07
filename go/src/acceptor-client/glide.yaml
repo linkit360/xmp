@@ -1,4 +1,0 @@
-package: acceptor-client
-import:
-- package: github.com/linkit360/go-acceptor-client
-- package: github.com/linkit360/go-acceptor-structs

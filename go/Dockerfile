@@ -25,21 +25,13 @@ RUN chown -R 1000:1000 /home/docker
 RUN chmod -R 0700 /home/docker
 
 # Vendor
-# client
-RUN mkdir -p /go/src/acceptor-client/vendor
-COPY src/acceptor-client/vendor /go/src/acceptor-client/vendor
-COPY src/acceptor-client/glide.lock /go/src/acceptor-client
-COPY src/acceptor-client/glide.yaml /go/src/acceptor-client
-COPY src/acceptor-client/main.go /go/src/acceptor-client
-RUN chown -R 1000:1000 /go/src/acceptor-client && chmod -R 0700 /go/src/acceptor-client
-
-# server
 RUN mkdir -p /go/src/acceptor/vendor
 COPY src/acceptor/vendor /go/src/acceptor/vendor
 COPY src/acceptor/glide.lock /go/src/acceptor
 COPY src/acceptor/glide.yaml /go/src/acceptor
+COPY src/acceptor/client.go /go/src/acceptor
 COPY src/acceptor/main.go /go/src/acceptor
-COPY src/acceptor/src /go/src/src
+COPY src/acceptor/src /go/src/acceptor/src
 RUN chown -R 1000:1000 /go/src/acceptor && chmod -R 0700 /go/src/acceptor
 
 WORKDIR /go/src

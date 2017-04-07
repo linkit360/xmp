@@ -11,6 +11,10 @@ RUN apk add --progress --no-cache \
 RUN addgroup -S -g 1000 docker
 RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
+USER 1000
+RUN curl https://glide.sh/get | sh
+USER root
+
 # SSH && CONFIG
 COPY config/ /config
 RUN mv /config/ssh /home/docker/.ssh
@@ -20,15 +24,27 @@ RUN mv /config/.bashrc /root
 RUN chown -R 1000:1000 /home/docker
 RUN chmod -R 0700 /home/docker
 
-COPY src/ /go/src
+# Vendor
+# client
+RUN mkdir -p /go/src/acceptor-client/vendor
+COPY src/acceptor-client/vendor /go/src/acceptor-client/vendor
+COPY src/acceptor-client/glide.lock /go/src/acceptor-client
+COPY src/acceptor-client/glide.yaml /go/src/acceptor-client
+COPY src/acceptor-client/main.go /go/src/acceptor-client
+RUN chown -R 1000:1000 /go/src/acceptor-client && chmod -R 0700 /go/src/acceptor-client
 
-RUN chown -R 1000:1000 /go
-RUN chmod -R 0700 /go
+# server
+RUN mkdir -p /go/src/acceptor/vendor
+COPY src/acceptor/vendor /go/src/acceptor/vendor
+COPY src/acceptor/glide.lock /go/src/acceptor
+COPY src/acceptor/glide.yaml /go/src/acceptor
+COPY src/acceptor/main.go /go/src/acceptor
+COPY src/acceptor/src /go/src/src
+RUN chown -R 1000:1000 /go/src/acceptor && chmod -R 0700 /go/src/acceptor
 
 WORKDIR /go/src
 USER 1000
 RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
-RUN go get ./...
 
 #ENTRYPOINT server
 ENTRYPOINT ["bash", "/config/idle.sh"]

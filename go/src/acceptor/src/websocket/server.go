@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"acceptor/src/base"
+	"acceptor/src/config"
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
 )
@@ -36,8 +37,12 @@ func Init() {
 		"prefix": "WS",
 	}).Info("Init Done")
 
-	//log.Fatal(http.ListenAndServe(":3000", nil))
-	log.Fatal(http.ListenAndServeTLS(":3000", "/config/ssl/crt.crt", "/config/ssl/priv.key", nil))
+	env := config.EnvString("PROJECT_ENV", "dev")
+	if env == "dev" {
+		log.Fatal(http.ListenAndServe(":3000", nil))
+	} else {
+		log.Fatal(http.ListenAndServeTLS(":3000", "/config/ssl/crt.crt", "/config/ssl/priv.key", nil))
+	}
 }
 
 func echo(w http.ResponseWriter, r *http.Request) {

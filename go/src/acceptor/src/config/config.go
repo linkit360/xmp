@@ -22,7 +22,7 @@ type AppConfig struct {
 }
 
 func LoadConfig() AppConfig {
-	var envConfigFile string = "/config/acceptor." + envString("PROJECT_ENV", "dev") + ".yml"
+	var envConfigFile string = "/config/acceptor." + EnvString("PROJECT_ENV", "dev") + ".yml"
 
 	cfg := flag.String("config", envConfigFile, "configuration yml file")
 	flag.Parse()
@@ -45,18 +45,18 @@ func LoadConfig() AppConfig {
 		log.Fatal("app name must be without '-' : it's not a valid metric name")
 	}
 
-	appConfig.Server.RPCPort = envString("PORT", appConfig.Server.RPCPort)
-	appConfig.Server.HttpPort = envString("METRICS_PORT", appConfig.Server.HttpPort)
+	appConfig.Server.RPCPort = EnvString("PORT", appConfig.Server.RPCPort)
+	appConfig.Server.HttpPort = EnvString("METRICS_PORT", appConfig.Server.HttpPort)
 
 	log.WithFields(log.Fields{
 		"prefix": "Config",
-		"ENV":    envString("PROJECT_ENV", "dev"),
+		"ENV":    EnvString("PROJECT_ENV", "dev"),
 	}).Info("Init Done")
 
 	return appConfig
 }
 
-func envString(env, fallback string) string {
+func EnvString(env, fallback string) string {
 	e := os.Getenv(env)
 	if e == "" {
 		return fallback

@@ -29,7 +29,7 @@ function start() {
 
     ws.onmessage = function (evt) {
         var data = JSON.parse(evt.data);
-        // con(data);
+        // dump(data);
 
         // Widgets
         output[0].innerText = formatNumber(data['lp']);
@@ -70,6 +70,11 @@ function start() {
                     value = item[1];
                 dataset[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
             });
+
+            // $.each(data['countries'], function (index, value) {
+            //     dump(index + ' ' + value);
+            // });
+            // dump('');
 
             chart.updateChoropleth(dataset);
         }
@@ -151,6 +156,7 @@ function reset() {
 function showPopup(code) {
     // con(code);
     $.getJSON("/site/country?iso=" + code, function (data) {
+        $('.modal_output_table_row').remove();
         if (data) {
             // dump(data);
             $('#modal_output_name').html(formatNumber(data['total']['name']));
@@ -172,7 +178,7 @@ function showPopup(code) {
                     }
 
                     table.find('tbody').append(
-                        '<tr>' +
+                        '<tr class="modal_output_table_row">' +
                         '<td>' + value['op']['name'] + '</td>' +
                         '<td class="text-right">' + formatNumber(value['cnt']['lp_hits']) + '</td>' +
                         '<td class="text-right">' + formatNumber(value['cnt']['mo']) + '</td>' +
@@ -182,9 +188,9 @@ function showPopup(code) {
                     );
                 }
             });
-        }
 
-        $('#myModal').modal('show');
+            $('#myModal').modal('show');
+        }
     });
     return true;
 }

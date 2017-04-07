@@ -146,14 +146,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'id_provider',
                         'label' => 'Provider',
                         'content' => function ($data) use ($model) {
-                            return $model->providersByNames[$data['provider_name']];
+                            if (array_key_exists($data['provider_name'], $model->providersByNames)) {
+                                return $model->providersByNames[$data['provider_name']];
+                            }
+                            return '';
                         },
                     ],
                     [
                         'attribute' => 'id_operator',
                         'label' => 'Operator',
                         'content' => function ($data) use ($model) {
-                            return $model->operatorsByCode[$data['operator_code']];
+                            if (array_key_exists($data['operator_code'], $model->operatorsByCode)) {
+                                return $model->operatorsByCode[$data['operator_code']];
+                            }
+                            return '';
                         },
                     ],
                     [
@@ -222,7 +228,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'content' => function ($data) {
                             $conv = 0;
-                            if ($data['lp_hits']) {
+                            if ($data['lp_hits'] > 0) {
                                 $conv = number_format(
                                     $data['mo'] / $data['lp_hits'] * 100,
                                     2

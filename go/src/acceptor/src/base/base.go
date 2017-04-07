@@ -75,9 +75,9 @@ func SaveRows(rows []Aggregate) error {
 		saveCount += 1
 	}
 
-	log.WithFields(log.Fields{
-		"prefix": "Base",
-	}).Info("Reports save: ", saveCount)
+	//log.WithFields(log.Fields{
+	//	"prefix": "Base",
+	//}).Info("Reports save: ", saveCount)
 
 	return nil
 }

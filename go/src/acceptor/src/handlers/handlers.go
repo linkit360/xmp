@@ -18,9 +18,9 @@ type AggregateData struct {
 
 func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
 	rows := req.Aggregated
-	log.WithFields(log.Fields{
-		"prefix": "Handlers",
-	}).Info("Receive:", len(rows))
+	//log.WithFields(log.Fields{
+	//	"prefix": "Handlers",
+	//}).Info("Receive:", len(rows))
 	websocket.NewReports(rows)
 	return base.SaveRows(rows)
 }

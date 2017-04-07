@@ -10,15 +10,15 @@ $this->title = 'Dashboard';
 $this->params['subtitle'] = 'Reports and Stats for Today';
 $this->params['breadcrumbs'][] = $this->title;
 
-$host = 'wss://' . $_SERVER['HTTP_HOST'];
-if (YII_ENV === 'dev') {
-    $host = 'ws://localhost';
-}
+$host = 'ws://' . $_SERVER['HTTP_HOST'];
+//if (YII_ENV === 'dev') {
+//    $host = 'ws://localhost';
+//}
 
 $this->registerJs('server = "' . $host . ':3000/echo";');
 ?>
 <div class="col-lg-3">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <h1 class="no-margins" id="output_lp">
                 0
@@ -30,7 +30,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
 </div>
 
 <div class="col-lg-3">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <h1 class="no-margins" id="output_mo">
                 0
@@ -42,7 +42,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
 </div>
 
 <div class="col-lg-3">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <h1 class="no-margins" id="output_mos">
                 0
@@ -54,7 +54,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
 </div>
 
 <div class="col-lg-3">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <h1 class="no-margins" id="output_conv">
                 0%
@@ -66,7 +66,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
 </div>
 
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <div id="world-map" style="height: 500px;"></div>
         </div>
@@ -89,7 +89,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
+                        <div class="ibox">
                             <div class="ibox-content">
                                 <h1 class="no-margins" id="modal_output_lp">
                                     0
@@ -101,7 +101,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
                     </div>
 
                     <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
+                        <div class="ibox">
                             <div class="ibox-content">
                                 <h1 class="no-margins" id="modal_output_mo">
                                     0
@@ -113,7 +113,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
                     </div>
 
                     <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
+                        <div class="ibox">
                             <div class="ibox-content">
                                 <h1 class="no-margins" id="modal_output_mos">
                                     0
@@ -125,7 +125,7 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
                     </div>
 
                     <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
+                        <div class="ibox">
                             <div class="ibox-content">
                                 <h1 class="no-margins" id="modal_output_conv">
                                     0%

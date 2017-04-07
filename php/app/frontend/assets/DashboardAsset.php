@@ -20,6 +20,7 @@ class DashboardAsset extends AssetBundle
 
     public $js = [
         'dashboard/dashboard.js',
+        'dashboard/countries.js',
     ];
 
     public $depends = [

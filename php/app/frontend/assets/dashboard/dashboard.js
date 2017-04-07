@@ -2,7 +2,7 @@ var output = [];
 var ws;
 var server;
 var chart;
-var mapData;
+// var mapData;
 
 function print(message) {
     console.log(message);
@@ -45,8 +45,34 @@ function start() {
 
         // Chart
         if (chart) {
-            mapData = data['countries'];
-            chart.series['regions'][0].setValues(data['countries']);
+            var series = [];
+            $.each(data['countries'], function (index, value) {
+                series.push([
+                    iso.countries[index]['ioc'],
+                    value
+                ]);
+            });
+
+
+            var onlyValues = series.map(function (obj) {
+                return obj[1];
+            });
+
+            var minValue = Math.min.apply(null, onlyValues),
+                maxValue = Math.max.apply(null, onlyValues);
+
+            var paletteScale = d3.scale.linear()
+                .domain([minValue, maxValue])
+                .range(["#EFEFFF", "#0d80ca"]);
+
+            var dataset = {};
+            series.forEach(function (item) {
+                var iso = item[0],
+                    value = item[1];
+                dataset[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
+            });
+
+            chart.updateChoropleth(dataset);
         }
     };
 
@@ -57,44 +83,39 @@ function start() {
 }
 
 window.addEventListener("load", function () {
-    // chart = $("#hmap").highcharts();
     output[0] = document.getElementById("output_lp");
     output[1] = document.getElementById("output_mo");
     output[2] = document.getElementById("output_mos");
     output[3] = document.getElementById("output_conv");
     start();
 
-    chart = new jvm.Map({
-        map: 'world_mill_en',
-        container: $('#world-map'),
-        backgroundColor: "transparent",
-        regionStyle: {
-            initial: {
-                fill: '#e4e4e4',
-                "fill-opacity": 0.9,
-                stroke: 'none',
-                "stroke-width": 0,
-                "stroke-opacity": 0
-            }
-        },
-        series: {
-            regions: [{
-                values: {},
-                scale: ["#1ab394", "#22d6b1"],
-                normalizeFunction: 'polynomial'
-            }]
-        },
-        onRegionTipShow: function (e, el, code) {
-            if (mapData) {
-                if (typeof mapData[code] !== "undefined") {
-                    el.html(el.html() + ' ' + mapData[code]);
-                } else {
-                    el.html(el.html() + ' 0');
+    chart = new Datamap({
+        element: document.getElementById('world-map'),
+        projection: 'mercator',
+        fills: {defaultFill: '#F5F5F5'},
+        geographyConfig: {
+            borderColor: '#DEDEDE',
+            highlightBorderWidth: 2,
+            highlightFillColor: function (geo) {
+                return geo['fillColor'] || '#F5F5F5';
+            },
+            highlightBorderColor: '#B7B7B7',
+            popupTemplate: function (geo, data) {
+                var text = '<div class="hoverinfo">' +
+                    '<strong>' + geo.properties.name + '</strong>';
+
+                if (data) {
+                    text += '<br>LP Hits: <strong>' + data.numberOfThings + '</strong>';
                 }
+
+                text += '</div>';
+                return text;
             }
         },
-        onRegionClick: function (e, code) {
-            return showPopup(code);
+        done: function (datamap) {
+            datamap.svg.selectAll('.datamaps-subunit').on('click', function (geography) {
+                showPopup(iso.findCountryByCode(geography.id)['alpha2']);
+            });
         }
     });
 });
@@ -111,7 +132,7 @@ function formatNumber(number) {
     return x1 + x2;
 }
 
-function con(data) {
+function dump(data) {
     console.log(data);
 }
 
@@ -120,6 +141,12 @@ function reset() {
     output[1].innerText = 0;
     output[2].innerText = 0;
     output[3].innerText = "0%";
+    map.updateChoropleth(
+        null,
+        {
+            reset: true
+        }
+    );
 }
 
 function showPopup(code) {

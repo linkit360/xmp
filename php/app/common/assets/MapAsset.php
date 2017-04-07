@@ -14,8 +14,11 @@ class MapAsset extends AssetBundle
     ];
 
     public $js = [
-        'js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
-        'js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
+//        'js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js',
+//        'js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js',
+        'js/plugins/d3/d3.min.js',
+        'js/plugins/topojson/topojson.js',
+        'js/plugins/datamaps/datamaps.all.min.js',
     ];
 
     public $depends = [

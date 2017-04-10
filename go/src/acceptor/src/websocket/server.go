@@ -78,16 +78,12 @@ func NewReports(rows []base.Aggregate) {
 		data.LpHits = data.LpHits + uint64(row.LpHits)
 		data.Mo = data.Mo + uint64(row.Mo)
 		data.MoSuccess = data.MoSuccess + uint64(row.MoSuccess)
-		data.Countries[provs[row.ProviderName]] = data.LpHits
+		data.Countries[provs[row.ProviderName]] = data.Countries[provs[row.ProviderName]] + uint64(row.LpHits)
 
 		log.WithFields(log.Fields{
 			"prefix": "WS",
 		}).Infof("New Report: %+v", row)
 	}
-
-	//log.WithFields(log.Fields{
-	//	"prefix": "WS",
-	//}).Info("New Reports")
 }
 
 func resetDay() {

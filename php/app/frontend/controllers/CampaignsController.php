@@ -2,15 +2,16 @@
 
 namespace frontend\controllers;
 
-use frontend\models\Campaigns\CreateForm;
 use function md5;
 use function mt_rand;
 use Yii;
-use common\models\Campaigns;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
+use common\models\Campaigns;
+use frontend\models\Campaigns\CreateForm;
 
 /**
  * CampaignsController implements the CRUD actions for Campaigns model.
@@ -28,7 +29,7 @@ class CampaignsController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['campaignsManage'],
                     ],
                     [
                         'allow' => false,
@@ -45,7 +46,10 @@ class CampaignsController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Campaigns::find(),
+            'query' => Campaigns::find()->where([
+                'id_user' => Yii::$app->user->id,
+                'status' => 1,
+            ]),
         ]);
 
         return $this->render('index', [
@@ -62,8 +66,13 @@ class CampaignsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        if ($model->id_user !== Yii::$app->user->id) {
+            return new NotFoundHttpException();
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -98,9 +107,9 @@ class CampaignsController extends Controller
      *
      * @return mixed
      */
+    /*
     public function actionUpdate($id)
     {
-        return $this->redirect(['index']);
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -111,6 +120,7 @@ class CampaignsController extends Controller
             ]);
         }
     }
+    */
 
     /**
      * Deletes an existing Campaigns model.
@@ -122,7 +132,9 @@ class CampaignsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = 0;
+        $model->save();
 
         return $this->redirect(['index']);
     }
@@ -140,8 +152,7 @@ class CampaignsController extends Controller
     {
         if (($model = Campaigns::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

@@ -285,7 +285,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             if ($data['lp_hits'] > 0) {
                                 return number_format($data['pixels'] / $data['lp_hits']);
                             }
-                            return '';
+                            return 0;
                         },
                     ],
                 ],

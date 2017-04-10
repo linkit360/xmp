@@ -26,7 +26,7 @@ class BlacklistController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['Admin'],
+                        'roles' => ['blacklistManage'],
                     ],
                     [
                         'allow' => false,
@@ -65,24 +65,6 @@ class BlacklistController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    /**
-     * Finds the MsisdnBlacklist model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param integer $id
-     *
-     * @return MsisdnBlacklist the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = MsisdnBlacklist::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 
     /**
@@ -133,5 +115,23 @@ class BlacklistController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds the MsisdnBlacklist model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param integer $id
+     *
+     * @return MsisdnBlacklist the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = MsisdnBlacklist::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

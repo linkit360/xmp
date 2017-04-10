@@ -227,13 +227,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             ];
                         },
                         'content' => function ($data) {
-                            $conv = 0;
+                            $conv = "0.00";
                             if ($data['lp_hits'] > 0) {
                                 $conv = number_format(
                                     $data['mo'] / $data['lp_hits'] * 100,
                                     2
                                 );
                             }
+
                             return '<b>' . $conv . '</b>%';
                         },
                     ],

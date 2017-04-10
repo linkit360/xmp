@@ -53,3 +53,18 @@ func (rpc *BlackList) GetNew(req acceptorStructs.BlackListGetParams, res *accept
 
 	return nil
 }
+
+type Campaigns struct{}
+
+func (rpc *Campaigns) Get(req acceptorStructs.CampaignsGetParams, res *acceptorStructs.CampaignsResponse) error {
+	log.WithFields(log.Fields{
+		"prefix":  "Handlers",
+		"Country": req.Country,
+	}).Info("Campaigns Get")
+
+	res.Campaigns = base.GetCampaigns(req.Country)
+
+	//log.Printf("%+v\n", list)
+
+	return nil
+}

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	acceptor_client "github.com/linkit360/go-acceptor-client"
-	acceptor "github.com/linkit360/go-acceptor-structs"
+	//acceptor "github.com/linkit360/go-acceptor-structs"
 )
 
 func main() {
@@ -19,8 +19,41 @@ func main() {
 		log.Println("cannot init acceptor client")
 	}
 
-	// Get BL All
-	data, err := acceptor_client.BlackListGet("cheese")
+	/*
+		// Get BL All
+		data, err := acceptor_client.BlackListGet("cheese")
+		if err != nil {
+			log.Println("Error")
+			log.Fatalln(err.Error())
+		}
+
+		log.Println("DATA")
+		log.Printf("%+v\n", data)
+
+		// Get BL Time
+		data, err = acceptor_client.BlackListGetNew("cheese", "2000-01-01")
+		if err != nil {
+			log.Println("Error")
+			log.Fatalln(err.Error())
+		}
+
+		log.Println("DATA")
+		log.Printf("%+v\n", data)
+
+		// Send Aggregate
+		data2 := []acceptor.Aggregate{
+			acceptor_client.GetRandomAggregate(),
+		}
+
+		//log.Println(data)
+		err = acceptor_client.SendAggregatedData(data2)
+		if err != nil {
+			log.Println("Error")
+			log.Println(err.Error())
+		}
+	*/
+
+	data, err := acceptor_client.CampaignsGet(6)
 	if err != nil {
 		log.Println("Error")
 		log.Fatalln(err.Error())
@@ -28,27 +61,4 @@ func main() {
 
 	log.Println("DATA")
 	log.Printf("%+v\n", data)
-
-	// Get BL Time
-	data, err = acceptor_client.BlackListGetNew("cheese", "2000-01-01")
-	if err != nil {
-		log.Println("Error")
-		log.Fatalln(err.Error())
-	}
-
-	log.Println("DATA")
-	log.Printf("%+v\n", data)
-
-	// Send Aggregate
-	data2 := []acceptor.Aggregate{
-		acceptor_client.GetRandomAggregate(),
-	}
-
-	//log.Println(data)
-	err = acceptor_client.SendAggregatedData(data2)
-	if err != nil {
-		log.Println("Error")
-		log.Println(err.Error())
-	}
-
 }

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/linkit360/go-acceptor-structs"
 	"github.com/linkit360/go-utils/db"
 )
 
@@ -193,6 +194,87 @@ func GetBlackList(providerName string, time string) []string {
 			data = append(data, msisdn)
 		}
 	}
+
+	return data
+}
+
+func GetCampaigns(country uint) []go_acceptor_structs.CampaignsCampaign {
+	var query string = fmt.Sprintf("SELECT id FROM xmp_providers WHERE id_country = %d;", country)
+	//log.Infoln(query)
+
+	rows, err := pgsql.Query(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	ids := make([]uint, 0)
+	var id uint
+	for rows.Next() {
+		rows.Scan(
+			&id,
+		)
+		ids = append(ids, id)
+	}
+	//fmt.Printf("%+v", ids)
+
+	data := make([]go_acceptor_structs.CampaignsCampaign, 0)
+	if len(ids) > 0 {
+		query = "SELECT id FROM xmp_operators WHERE id_provider IN(0"
+
+		for _, value := range ids {
+			query = query + fmt.Sprintf(", %d", value)
+		}
+
+		query = query + ");"
+		//log.Infoln(query)
+
+		rows, err := pgsql.Query(query)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		ids := make([]uint, 0)
+		var id uint
+		for rows.Next() {
+			rows.Scan(
+				&id,
+			)
+			ids = append(ids, id)
+		}
+
+		//log.Infoln(ids)
+
+		if len(ids) > 0 {
+			query = "SELECT id, title, link FROM xmp_campaigns WHERE id_operator IN(0"
+
+			for _, value := range ids {
+				query = query + fmt.Sprintf(", %d", value)
+			}
+
+			query = query + ");"
+			//log.Infoln(query)
+
+			rows, err := pgsql.Query(query)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			var camp go_acceptor_structs.CampaignsCampaign
+			for rows.Next() {
+				rows.Scan(
+					&camp.Id,
+					&camp.Title,
+					&camp.Link,
+				)
+
+				log.Infoln(camp)
+
+				data = append(data, camp)
+			}
+		}
+	}
+
+	//log.Infoln(data)
 
 	return data
 }

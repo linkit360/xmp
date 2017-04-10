@@ -45,21 +45,22 @@ $menu['Campaigns'] = [
     'items' => [],
 ];
 
-$menu['Campaigns']['items'][] = [
-    'name' => 'Campaigns Management',
-    'url' => 'campaigns/index',
-];
+if (in_array('campaignsManage', $permissions)) {
+    $menu['Campaigns']['items'][] = [
+        'name' => 'Campaigns Management',
+        'url' => 'campaigns/index',
+    ];
+}
 
 if (in_array('lpCreate', $permissions)) {
     $menu['Campaigns']['items'][] = [
         'name' => 'LP Management',
         'url' => 'landing-page/index',
     ];
+}
 
-//    $menu['Campaigns']['items'][] = [
-//        'name' => 'LP Designer',
-//        'url' => 'landing-page/designer',
-//    ];
+if (!count($menu['Campaigns']['items'])) {
+    unset($menu['Campaigns']);
 }
 
 # Admin
@@ -96,10 +97,12 @@ if (in_array('operatorsManage', $permissions)) {
     ];
 }
 
-$menu['Admin']['items'][] = [
-    'name' => 'Blacklist',
-    'url' => 'blacklist/index',
-];
+if (in_array('blacklistManage', $permissions)) {
+    $menu['Admin']['items'][] = [
+        'name' => 'Blacklist',
+        'url' => 'blacklist/index',
+    ];
+}
 
 if (in_array('usersManage', $permissions)) {
     $menu['Admin']['items'][] = [

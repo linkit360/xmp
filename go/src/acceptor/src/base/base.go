@@ -245,7 +245,7 @@ func GetCampaigns(country uint) []go_acceptor_structs.CampaignsCampaign {
 		//log.Infoln(ids)
 
 		if len(ids) > 0 {
-			query = "SELECT id, title, link FROM xmp_campaigns WHERE id_operator IN(0"
+			query = "SELECT id, title, link, lp FROM xmp_campaigns WHERE id_operator IN(0"
 
 			for _, value := range ids {
 				query = query + fmt.Sprintf(", %d", value)
@@ -265,9 +265,10 @@ func GetCampaigns(country uint) []go_acceptor_structs.CampaignsCampaign {
 					&camp.Id,
 					&camp.Title,
 					&camp.Link,
+					&camp.Lp,
 				)
 
-				log.Infoln(camp)
+				//log.Infoln(camp)
 
 				data = append(data, camp)
 			}

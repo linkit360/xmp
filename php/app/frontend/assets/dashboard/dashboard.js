@@ -31,6 +31,10 @@ function start() {
         var data = JSON.parse(evt.data);
         // dump(data);
 
+        // $.each(data['logs'], function (index, value) {
+        //     $("#logs").append("<div>" + value + "</div>");
+        // });
+
         // Widgets
         output[0].innerText = formatNumber(data['lp']);
         output[1].innerText = formatNumber(data['mo']);
@@ -96,6 +100,7 @@ window.addEventListener("load", function () {
     chart = new Datamap({
         element: document.getElementById('world-map'),
         projection: 'mercator',
+        responsive: true,
         fills: {defaultFill: '#F5F5F5'},
         geographyConfig: {
             borderColor: '#DEDEDE',
@@ -121,6 +126,10 @@ window.addEventListener("load", function () {
                 showPopup(iso.findCountryByCode(geography.id)['alpha2']);
             });
         }
+    });
+
+    window.addEventListener('resize', function () {
+        chart.resize();
     });
 });
 

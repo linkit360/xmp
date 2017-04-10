@@ -18,10 +18,12 @@ var upgrader = websocket.Upgrader{
 }
 
 type Data struct {
-	LpHits    uint64            `json:"lp"`
-	Mo        uint64            `json:"mo"`
-	MoSuccess uint64            `json:"mos"`
-	Countries map[string]uint64 `json:"countries"`
+	LpHits     uint64            `json:"lp"`
+	Mo         uint64            `json:"mo"`
+	MoSuccess  uint64            `json:"mos"`
+	Countries  map[string]uint64 `json:"countries"`
+	Logs       []string          `json:"logs"`
+	ClientsCnt uint              `json:"clientsCnt"`
 }
 
 var data = Data{}
@@ -51,10 +53,15 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Print("upgrade:", err)
+		log.WithFields(log.Fields{
+			"prefix": "WS",
+			"error":  err,
+		}).Error("Upgrade")
 		return
 	}
 	defer c.Close()
+
+	data.ClientsCnt = data.ClientsCnt + 1
 
 	ticker := time.NewTicker(time.Second)
 	defer ticker.Stop()
@@ -66,6 +73,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				//log.Println("WS:","write: ", err)
 				c.Close()
+				data.ClientsCnt = data.ClientsCnt - 1
 				return
 			}
 		}
@@ -83,6 +91,11 @@ func NewReports(rows []base.Aggregate) {
 		log.WithFields(log.Fields{
 			"prefix": "WS",
 		}).Infof("New Report: %+v", row)
+
+		//if len(data.Logs) > 10 {
+		//	data.Logs = data.Logs[:len(data.Logs)-1]
+		//}
+		//data.Logs = append(data.Logs, fmt.Sprintf("New Report: %+v", row))
 	}
 }
 

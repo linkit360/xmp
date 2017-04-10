@@ -68,12 +68,25 @@ $this->registerJs('server = "' . $host . ':3000/echo";');
 <div class="col-lg-12">
     <div class="ibox">
         <div class="ibox-content">
-            <div id="world-map" style="height: 500px;"></div>
+            <div id="world-map"></div>
         </div>
     </div>
 </div>
 
 <?php
+/*
+if (Yii::$app->user->can('monitoringView')) {
+    ?>
+    <div class="col-lg-12">
+        <div class="ibox">
+            <div class="ibox-content">
+                <div id="logs"></div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+*/
 # 'View Country' Modal window
 ?>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">

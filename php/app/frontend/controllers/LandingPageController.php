@@ -176,6 +176,7 @@ class LandingPageController extends Controller
         $zip->close();
 
         $model = new Lps();
+        $model->title = $post['export-title'];
         if (!$model->save()) {
 //            dump($model->getErrors());
             return '';

@@ -109,7 +109,7 @@ window.addEventListener("load", function () {
                     '<strong>' + geo.properties.name + '</strong>';
 
                 if (data) {
-                    text += '<br>LP Hits: <strong>' + data.numberOfThings + '</strong>';
+                    text += '<br>LP Hits: <strong>' + formatNumber(data.numberOfThings) + '</strong>';
                 }
 
                 text += '</div>';

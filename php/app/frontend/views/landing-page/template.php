@@ -27,6 +27,7 @@ $html_insert = <<<HTML
         <label>
             <textarea id="export-textarea" cols="100" rows="30" name="export-textarea"></textarea>
         </label>
+        <input type="hidden" name="export-title" id="export-title">
     </form>
     <div id="newsletter-preloaded-export"></div>
 </div>

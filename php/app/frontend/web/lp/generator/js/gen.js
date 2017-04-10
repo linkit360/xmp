@@ -54,9 +54,12 @@ $(function () {
 });
 
 //Download
-function save() {
+function save(title) {
     var textarea = $("#export-textarea");
+    var titlei = $("#export-title");
+    titlei.val(title);
     textarea.val($('html')[0].outerHTML);
     $("#export-form").submit();
     textarea.val(' ');
+    titlei.val(' ');
 }

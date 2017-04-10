@@ -8,6 +8,8 @@ use yii\db\ActiveRecord;
 /**
  * @property string  $id
  * @property string  $id_user
+ * @property string  $title
+ * @property string  $description
  * @property integer $status
  * @property string  $created_at
  * @property string  $updated_at
@@ -28,8 +30,10 @@ class Lps extends ActiveRecord
     public function rules()
     {
         return [
-            [['id_user'], 'required'],
+            [['id_user', 'title'], 'required'],
             [['id', 'id_user'], 'string'],
+            [['title'], 'string', 'max' => 64],
+            [['description'], 'string', 'max' => 255],
             [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
         ];

@@ -198,34 +198,23 @@ func GetBlackList(providerName string, time string) []string {
 	return data
 }
 
-func GetCampaigns(country uint) []go_acceptor_structs.CampaignsCampaign {
-	var query string = fmt.Sprintf("SELECT id FROM xmp_providers WHERE id_country = %d;", country)
-	//log.Infoln(query)
-
-	rows, err := pgsql.Query(query)
+func GetCampaigns(provider string) []go_acceptor_structs.CampaignsCampaign {
+	rows, err := pgsql.Query("SELECT id FROM xmp_providers WHERE name_alias = '" + provider + "';")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ids := make([]uint, 0)
 	var id uint
 	for rows.Next() {
 		rows.Scan(
 			&id,
 		)
-		ids = append(ids, id)
 	}
-	//fmt.Printf("%+v", ids)
+	//log.Infoln(id)
 
 	data := make([]go_acceptor_structs.CampaignsCampaign, 0)
-	if len(ids) > 0 {
-		query = "SELECT id FROM xmp_operators WHERE id_provider IN(0"
-
-		for _, value := range ids {
-			query = query + fmt.Sprintf(", %d", value)
-		}
-
-		query = query + ");"
+	if id > 0 {
+		var query = fmt.Sprintf("SELECT id FROM xmp_operators WHERE id_provider = %d;", id)
 		//log.Infoln(query)
 
 		rows, err := pgsql.Query(query)
@@ -245,7 +234,7 @@ func GetCampaigns(country uint) []go_acceptor_structs.CampaignsCampaign {
 		//log.Infoln(ids)
 
 		if len(ids) > 0 {
-			query = "SELECT id, title, link, lp FROM xmp_campaigns WHERE id_operator IN(0"
+			query = "SELECT id, title, link, id_lp FROM xmp_campaigns WHERE id_operator IN(0"
 
 			for _, value := range ids {
 				query = query + fmt.Sprintf(", %d", value)
@@ -276,6 +265,5 @@ func GetCampaigns(country uint) []go_acceptor_structs.CampaignsCampaign {
 	}
 
 	//log.Infoln(data)
-
 	return data
 }

@@ -166,7 +166,7 @@ function showPopup(code) {
     // con(code);
     $.getJSON("/site/country?iso=" + code, function (data) {
         $('.modal_output_table_row').remove();
-        if (data) {
+        if (data && data['total']['name'] !== null) {
             // dump(data);
             $('#modal_output_name').html(formatNumber(data['total']['name']));
             $('#modal_output_lp').html(formatNumber(data['total']['lp_hits']));

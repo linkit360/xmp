@@ -58,11 +58,11 @@ type Campaigns struct{}
 
 func (rpc *Campaigns) Get(req acceptorStructs.CampaignsGetParams, res *acceptorStructs.CampaignsResponse) error {
 	log.WithFields(log.Fields{
-		"prefix":  "Handlers",
-		"Country": req.Country,
+		"prefix":   "Handlers",
+		"Provider": req.Provider,
 	}).Info("Campaigns Get")
 
-	res.Campaigns = base.GetCampaigns(req.Country)
+	res.Campaigns = base.GetCampaigns(req.Provider)
 
 	//log.Printf("%+v\n", list)
 

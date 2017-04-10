@@ -4,7 +4,7 @@ import (
 	"log"
 
 	acceptor_client "github.com/linkit360/go-acceptor-client"
-	acceptor "github.com/linkit360/go-acceptor-structs"
+	//acceptor "github.com/linkit360/go-acceptor-structs"
 )
 
 func main() {
@@ -40,7 +40,8 @@ func main() {
 		log.Println("DATA")
 		log.Printf("%+v\n", data)
 	*/
-	// Send Aggregate
+
+	/*// Send Aggregate
 	data2 := []acceptor.Aggregate{
 		acceptor_client.GetRandomAggregate(),
 	}
@@ -52,14 +53,14 @@ func main() {
 		log.Println(err.Error())
 	}
 
-	/*
-		data, err := acceptor_client.CampaignsGet(6)
-		if err != nil {
-			log.Println("Error")
-			log.Fatalln(err.Error())
-		}
-
-		log.Println("DATA")
-		log.Printf("%+v\n", data)
 	*/
+
+	data, err := acceptor_client.CampaignsGet("cheese")
+	if err != nil {
+		log.Println("Error")
+		log.Fatalln(err.Error())
+	}
+
+	log.Println("DATA")
+	log.Printf("%+v\n", data)
 }

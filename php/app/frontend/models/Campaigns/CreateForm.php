@@ -3,7 +3,9 @@
 namespace frontend\models\Campaigns;
 
 use common\models\Campaigns;
+use common\models\Lps;
 use function count;
+use Yii;
 use yii\base\Model;
 use common\models\Operators;
 use yii\helpers\ArrayHelper;
@@ -19,10 +21,12 @@ class CreateForm extends Model
     public $link;
     public $id_service;
     public $id_operator;
+    public $id_lp;
     public $status;
 
     # Data
-    public $operators = [];
+    private $operators = [];
+    private $lps = [];
 
     public function init()
     {
@@ -43,6 +47,7 @@ class CreateForm extends Model
                     'link',
                     'id_service',
                     'id_operator',
+                    'id_lp',
                     'status',
                 ],
                 'required',
@@ -53,6 +58,7 @@ class CreateForm extends Model
                     'description',
                     'link',
                     'id_service',
+                    'id_lp',
                 ],
                 'string',
             ],
@@ -115,6 +121,44 @@ class CreateForm extends Model
         }
 
         return $this->operators;
+    }
+
+    # LPs
+    public function getLps()
+    {
+        if (!count($this->lps)) {
+            $data = Lps::find()
+                ->select(
+                    [
+                        'title',
+                        'id',
+                    ]
+                )
+                ->where(
+                    [
+                        'status' => 1,
+                        'id_user' => Yii::$app->user->id,
+                    ]
+                )
+                ->orderBy(
+                    [
+                        'title' => SORT_ASC,
+                    ]
+                )
+                ->asArray()
+                ->indexBy(
+                    'id'
+                )
+                ->all();
+
+            $this->lps = ArrayHelper::map(
+                $data,
+                'id',
+                'title'
+            );
+        }
+
+        return $this->lps;
     }
 
     public function create()

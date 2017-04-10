@@ -33,8 +33,8 @@ class Campaigns extends ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_service', 'id_operator', 'title', 'link'], 'required'],
-            [['id', 'id_user', 'id_service'], 'string'],
+            [['id_user', 'id_service', 'id_operator', 'id_lp', 'title', 'link'], 'required'],
+            [['id', 'id_user', 'id_lp', 'id_service'], 'string'],
             [['id_operator', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 128],

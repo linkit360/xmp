@@ -23,6 +23,13 @@ use yii\widgets\ActiveForm;
                 ]
             );
 
+            echo $form->field($model, 'id_lp')->dropDownList(
+                [
+                    '' => 'Please Select',
+                ] + $model->getLps()
+            );
+
+
             echo $form->field($model, 'status')->radioList(
                 [
                     1 => 'Active',

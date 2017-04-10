@@ -100,6 +100,7 @@ class CampaignsController extends Controller
      */
     public function actionUpdate($id)
     {
+        return $this->redirect(['index']);
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

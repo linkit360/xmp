@@ -19,12 +19,16 @@ RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
 
 # PHP Ext
 RUN docker-php-ext-install opcache mbstring pdo pdo_pgsql json intl sockets mcrypt iconv zip
-RUN mkdir -p /app/composer/home
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Composer
+RUN mkdir -p /app/composer/home
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 COPY composer/ /app/composer
 RUN chown -R 1000:1000 /app/composer && chmod -R 0700 /app/composer
+
+USER 1000
+RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3" "fxp/composer-asset-plugin:^1.2.0"
+USER root
 
 # Configs
 COPY config/ /app/config
@@ -39,6 +43,7 @@ RUN mkdir -p /app/php/console
 RUN mkdir -p /app/php/frontend
 
 # common
+COPY app/codeception.yml /app/php
 COPY app/yii /app/php
 COPY app/common /app/php/common
 RUN chown -R 1000:1000 /app/php && chmod -R 0700 /app/php

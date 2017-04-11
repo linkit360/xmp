@@ -1,6 +1,4 @@
 <?php
-
-
 return yii\helpers\ArrayHelper::merge(
     require(__DIR__ . '/main.php'),
     [
@@ -9,7 +7,7 @@ return yii\helpers\ArrayHelper::merge(
         'components' => [
             'user' => [
                 'class' => 'yii\web\User',
-                'identityClass' => 'common\models\User',
+                'identityClass' => \common\models\Users::class,
             ],
         ],
     ]

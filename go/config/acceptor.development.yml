@@ -5,9 +5,9 @@ db:
   max_open_conns: 15
   max_idle_conns: 10
   timeout: 30
-  name: linkit_test
-  user: test
-  pass: test
+  name: development
+  user: local
+  pass: local
   port: 5432
   host: pgsql
   ssl_mode: disable

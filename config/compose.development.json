@@ -61,9 +61,9 @@
         "5432:5432"
       ],
       "environment": [
-        "POSTGRES_USER=test",
-        "POSTGRES_PASSWORD=test",
-        "POSTGRES_DB=linkit_test",
+        "POSTGRES_USER=local",
+        "POSTGRES_PASSWORD=local",
+        "POSTGRES_DB=development",
         "PGDATA=/data"
       ],
       "volumes": [

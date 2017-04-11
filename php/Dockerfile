@@ -39,7 +39,6 @@ RUN mkdir -p /app/php/console
 RUN mkdir -p /app/php/frontend
 
 # common
-COPY app/codeception.yml /app/codeception.yml
 COPY app/yii /app/php
 COPY app/common /app/php/common
 RUN chown -R 1000:1000 /app/php && chmod -R 0700 /app/php

@@ -1,26 +1,11 @@
 <?php
-function loadConfig(string $filename)
-{
-    if (!is_file($filename)) {
-        echo PHP_EOL . PHP_EOL . 'Config Error: No Config for ' . YII_ENV . ' [' . $filename . ']' . PHP_EOL . PHP_EOL;
-        exit(1);
-    }
 
-    $cfg = file_get_contents($filename);
-    $cfg = json_decode($cfg, true);
-    if (!count($cfg)) {
-        echo PHP_EOL . PHP_EOL . 'Config Error: Invalid Config' . PHP_EOL . PHP_EOL;
-        exit(1);
-    }
-
-    return $cfg;
-}
-
+$helper = new \common\helpers\ConfigHelper();
 # DB Config
-$db = loadConfig('/app/config/db.' . YII_ENV . '.json');
+$db = $helper->loadConfig('/app/config/db.' . YII_ENV . '.json');
 
 # AWS S3 Config
-$aws = loadConfig('/app/config/aws.' . YII_ENV . '.json');
+$aws = $helper->loadConfig('/app/config/aws.' . YII_ENV . '.json');
 defined('AWS_S3') or define('AWS_S3', $aws);
 
 return [

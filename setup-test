@@ -6,12 +6,12 @@
 
 eval $(docker-machine env xmp2)
 if [ $? -eq 0 ]; then
-    docker-compose -f ./config/compose.common.json -f ./config/compose.test.json -p xmp pull
+    docker-compose -f ./config/compose.common.json -f ./config/compose.testing.json -p xmp pull
     if [ $? -eq 0 ]; then
         printf "\n\n"
-        docker-compose -f ./config/compose.common.json -f ./config/compose.test.json -p xmp down
+        docker-compose -f ./config/compose.common.json -f ./config/compose.testing.json -p xmp down
         docker volume rm xmp_web-app
-        docker-compose -f ./config/compose.common.json -f ./config/compose.test.json -p xmp up -d
+        docker-compose -f ./config/compose.common.json -f ./config/compose.testing.json -p xmp up -d
     else
         printf "\n\n Error: Pull \n\n"
     fi

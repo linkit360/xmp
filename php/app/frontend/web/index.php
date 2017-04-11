@@ -1,7 +1,7 @@
 <?php
-defined('YII_ENV') or define('YII_ENV', getenv('PROJECT_ENV'));
+define('YII_ENV', getenv('PROJECT_ENV'));
 
-if (YII_ENV === 'dev' || YII_ENV === 'test') {
+if (YII_ENV === 'development' || YII_ENV === 'testing') {
     error_reporting(-1);
     defined('YII_DEBUG') or define('YII_DEBUG', true);
 }

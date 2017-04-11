@@ -8,7 +8,7 @@
         "php"
       ],
       "environment": [
-        "PROJECT_ENV=test"
+        "PROJECT_ENV=testing"
       ],
       "volumes": [
         "web-app:/app"
@@ -18,7 +18,7 @@
       "image": "955441867202.dkr.ecr.eu-central-1.amazonaws.com/xmp/php:latest",
       "restart": "always",
       "environment": [
-        "PROJECT_ENV=test"
+        "PROJECT_ENV=testing"
       ],
       "volumes": [
         "web-app:/app"
@@ -31,7 +31,7 @@
         "php"
       ],
       "environment": [
-        "PROJECT_ENV=test"
+        "PROJECT_ENV=testing"
       ]
     }
   },

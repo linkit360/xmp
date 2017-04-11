@@ -2,10 +2,10 @@
 
 $helper = new \common\helpers\ConfigHelper();
 # DB Config
-$db = $helper->loadConfig('/app/config/db.' . YII_ENV . '.json');
+$db = $helper->loadConfig('/app/config/' . YII_ENV . '/db.json');
 
 # AWS S3 Config
-$aws = $helper->loadConfig('/app/config/aws.' . YII_ENV . '.json');
+$aws = $helper->loadConfig('/app/config/' . YII_ENV . '/aws.json');
 defined('AWS_S3') or define('AWS_S3', $aws);
 
 return [

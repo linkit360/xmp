@@ -6,7 +6,7 @@ URL=955441867202.dkr.ecr.eu-central-1.amazonaws.com
 eval $(docker-machine env -u)
 
 # Build All
-docker-compose -f config/compose.common.json -f config/compose.dev.json -p xmp build
+docker-compose -f config/compose.common.json -f config/compose.development.json -p xmp build
 if [ $? != 0 ]; then
     printf "\n\n BUILD FAIL \n\n"
     exit 1

@@ -10,7 +10,7 @@
         "php"
       ],
       "environment": [
-        "PROJECT_ENV=dev"
+        "PROJECT_ENV=development"
       ],
       "volumes": [
         "../php/app:/app/php"
@@ -27,7 +27,7 @@
         "context": "../php"
       },
       "environment": [
-        "PROJECT_ENV=dev"
+        "PROJECT_ENV=development"
       ],
       "volumes": [
         "../php/app:/app/php",
@@ -45,7 +45,7 @@
         "pgsql"
       ],
       "environment": [
-        "PROJECT_ENV=dev"
+        "PROJECT_ENV=development"
       ],
       "volumes": [
         "../go/config:/go/config",

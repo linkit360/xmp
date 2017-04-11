@@ -100,16 +100,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id_campaign',
                 'operator_code',
             ];
-            $total = [];
+            $total = [
+                'lp_hits' => 0,
+                'mo' => 0,
+                'mo_uniq' => 0,
+                'mo_success' => 0,
+                'pixels' => 0,
+                'lp_msisdn_hits' => 0,
+                'retry_success' => 0,
+            ];
+
             if (!empty($dp->getModels())) {
                 foreach ($dp->getModels() as $row) {
                     foreach ($row as $key => $val) {
                         if (in_array($key, $excludeColums) || !is_numeric($val)) {
                             continue;
-                        }
-
-                        if (!array_key_exists($key, $total)) {
-                            $total[$key] = 0;
                         }
 
                         $total[$key] += $val;

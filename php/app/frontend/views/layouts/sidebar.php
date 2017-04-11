@@ -1,4 +1,7 @@
 <?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 $permissions = Yii::$app->getAuthManager()->getPermissionsByUser(Yii::$app->user->id);
 $permissions = array_keys($permissions);
 
@@ -9,117 +12,108 @@ $menu[] = [
 ];
 
 # Reports
-$menu['Reports'] = [
+$group = 'Reports';
+$menu[$group] = [
     'name' => '<i class="fa fa-bar-chart-o"></i> Reports',
     'items' => [],
 ];
 
 if (in_array('reportsAdvertisingView', $permissions)) {
-    $menu['Reports']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Advertising',
         'url' => 'reports/index',
     ];
 }
 
 if (in_array('reportsConversionView', $permissions)) {
-    $menu['Reports']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Conversion',
         'url' => 'reports/conversion',
     ];
 }
 
-if (in_array('logsView', $permissions)) {
-    $menu['Reports']['items'][] = [
-        'name' => 'Logs',
-        'url' => 'logs/index',
-    ];
-}
-
-if (!count($menu['Reports']['items'])) {
-    unset($menu['Reports']);
-}
-
 # Campaigns
-$menu['Campaigns'] = [
+$group = 'Campaigns';
+$menu[$group] = [
     'name' => '<i class="fa fa-list"></i> Campaigns',
     'items' => [],
 ];
 
 if (in_array('campaignsManage', $permissions)) {
-    $menu['Campaigns']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Campaigns Management',
         'url' => 'campaigns/index',
     ];
 }
 
 if (in_array('lpCreate', $permissions)) {
-    $menu['Campaigns']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'LP Management',
         'url' => 'landing-page/index',
     ];
 }
 
-if (!count($menu['Campaigns']['items'])) {
-    unset($menu['Campaigns']);
-}
-
 # Admin
-$menu['Admin'] = [
+$group = 'Admin';
+$menu[$group] = [
     'name' => '<i class="fa fa-keyboard-o"></i> Admin',
     'items' => [],
 ];
 
 if (in_array('monitoringView', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Monitoring',
         'url' => 'site/monitoring',
     ];
 }
 
 if (in_array('countriesManage', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Countries',
         'url' => 'countries/index',
     ];
 }
 
 if (in_array('providersManage', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Providers',
         'url' => 'providers/index',
     ];
 }
 
 if (in_array('operatorsManage', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Operators',
         'url' => 'operators/index',
     ];
 }
 
 if (in_array('blacklistManage', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Blacklist',
         'url' => 'blacklist/index',
     ];
 }
 
 if (in_array('usersManage', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'Users',
         'url' => 'users/index',
     ];
 }
 
 if (in_array('rbacManage', $permissions)) {
-    $menu['Admin']['items'][] = [
+    $menu[$group]['items'][] = [
         'name' => 'RBAC',
         'url' => 'rbac/index',
     ];
 }
 
-if (!count($menu['Admin']['items'])) {
-    unset($menu['Admin']);
+if (in_array('logsView', $permissions)) {
+    $menu[$group]['items'][] = [
+        'name' => 'Logs',
+        'url' => 'logs/index',
+    ];
 }
 
 function drawItem($item)
@@ -129,17 +123,16 @@ function drawItem($item)
         $url = '';
     }
 
-    $active = '';
-    if ($url === Yii::$app->request->pathInfo) {
-        $active = ' class="active"';
-    }
-    ?>
-    <li<?= $active ?>>
-        <a href="/<?= $url ?>">
-            <?= $item['name'] ?>
-        </a>
-    </li>
-    <?php
+    echo Html::tag(
+        'li',
+        Html::a(
+            $item['name'],
+            Url::toRoute($url)
+        ),
+        [
+            'class' => $url !== Yii::$app->request->pathInfo ?: 'active',
+        ]
+    );
 }
 
 function drawSub($menu)
@@ -155,15 +148,9 @@ function drawSub($menu)
             $urls[] = str_replace('/index', '/update', $item['url']);
         }
     }
-
-    $active = '';
-    if (in_array(Yii::$app->request->pathInfo, $urls)) {
-        $active = ' class="active"';
-    }
     ?>
-    <li<?= $active ?>>
-        <a href="#"><span class="nav-label"><?= $menu['name'] ?></span> <span
-                    class="fa arrow"></span></a>
+    <li class="<?= !in_array(Yii::$app->request->pathInfo, $urls) ?: 'active' ?>">
+        <a href="#"><span class="nav-label"><?= $menu['name'] ?></span> <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <?php
             foreach ($menu['items'] as $item) {
@@ -192,7 +179,9 @@ function drawSub($menu)
             <?php
             foreach ($menu as $item) {
                 if (!array_key_exists('url', $item)) {
-                    drawSub($item);
+                    if (count($item['items'])) {
+                        drawSub($item);
+                    }
                 } else {
                     drawItem($item);
                 }

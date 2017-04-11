@@ -13,7 +13,7 @@ if [ $? != 0 ]; then
 fi
 
 # For Testing
-exit 1
+#exit 1
 
 printf "\n\n"
 # Login to AWS

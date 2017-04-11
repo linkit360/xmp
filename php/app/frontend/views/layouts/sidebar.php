@@ -116,12 +116,13 @@ if (in_array('logsView', $permissions)) {
     ];
 }
 
-function drawItem($item)
+function drawItem($item, $path)
 {
     $url = $item['url'];
     if ($url == '/') {
         $url = '';
     }
+
 
     echo Html::tag(
         'li',
@@ -130,12 +131,12 @@ function drawItem($item)
             Url::toRoute($url)
         ),
         [
-            'class' => $url !== Yii::$app->request->pathInfo ?: 'active',
+            'class' => str_replace('/index', '', $url) !== $path ?: 'active',
         ]
     );
 }
 
-function drawSub($menu)
+function drawSub($menu, $path)
 {
     $urls = [];
     foreach ($menu['items'] as $item) {
@@ -143,18 +144,16 @@ function drawSub($menu)
 
         // crud
         if (substr_count($item['url'], '/index')) {
-            $urls[] = str_replace('/index', '/view', $item['url']);
-            $urls[] = str_replace('/index', '/create', $item['url']);
-            $urls[] = str_replace('/index', '/update', $item['url']);
+            $urls[] = str_replace('/index', '', $item['url']);
         }
     }
     ?>
-    <li class="<?= !in_array(Yii::$app->request->pathInfo, $urls) ?: 'active' ?>">
+    <li class="<?= !in_array($path, $urls) ?: 'active' ?>">
         <a href="#"><span class="nav-label"><?= $menu['name'] ?></span> <span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse">
             <?php
             foreach ($menu['items'] as $item) {
-                drawItem($item);
+                drawItem($item, $path);
             }
             ?>
         </ul>
@@ -177,13 +176,14 @@ function drawSub($menu)
             </li>
 
             <?php
+            $ex = explode('/', Yii::$app->request->pathInfo, 2);
             foreach ($menu as $item) {
                 if (!array_key_exists('url', $item)) {
                     if (count($item['items'])) {
-                        drawSub($item);
+                        drawSub($item, $ex[0]);
                     }
                 } else {
-                    drawItem($item);
+                    drawItem($item, $ex[0]);
                 }
             }
             ?>

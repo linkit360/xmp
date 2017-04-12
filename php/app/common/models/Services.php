@@ -3,10 +3,9 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "{{%services}}".
- *
  * @property string  $id
  * @property string  $title
  * @property string  $description
@@ -16,7 +15,7 @@ use Yii;
  * @property string  $created_at
  * @property string  $updated_at
  */
-class Services extends \yii\db\ActiveRecord
+class Services extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -32,8 +31,8 @@ class Services extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'title', 'id_provider', 'id_user'], 'required'],
-            [['id', 'id_user'], 'string'],
+            [['title', 'id_provider', 'id_user'], 'required'],
+            [['id_user'], 'string'],
             [['id_provider', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 64],
@@ -56,5 +55,11 @@ class Services extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function beforeValidate()
+    {
+        $this->id_user = Yii::$app->user->id;
+        return parent::beforeValidate();
     }
 }

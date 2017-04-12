@@ -5,51 +5,50 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View           $this
- * @var common\models\Services $model
+ * @var array                  $models
  * @var yii\widgets\ActiveForm $form
  */
 
 $this->params['subtitle'] = 'Service Info';
 ?>
-    <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>
-                    Service Info
-                </h5>
-            </div>
+<div class="col-lg-6">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>
+                Service Info
+            </h5>
+        </div>
 
-            <div class="ibox-content">
-                Empty for now.
-            </div>
+        <div class="ibox-content">
+            <?php
+            $model = $models['model_service'];
+            $form = ActiveForm::begin();
+            echo $form->field($model, 'title')->textInput(['maxlength' => true]);
+            echo $form->field($model, 'description')->textInput(['maxlength' => true]);
+            echo $form->field($model, 'id_provider')->hiddenInput(
+                [
+                    'value' => (integer)$_GET['id_provider'],
+                ]
+            )->label(false);
+            echo $form->field($model, 'status')->textInput();
+
+            echo $this->render(
+                'providers/' . (int)$_GET['id_provider'],
+                [
+                    'models' => $models,
+                    'form' => $form,
+                ]
+            );
+
+            echo Html::submitButton(
+                $model->isNewRecord ? 'Create' : 'Update',
+                [
+                    'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                ]
+            );
+
+            ActiveForm::end();
+            ?>
         </div>
     </div>
-<?php
-/*
-$form = ActiveForm::begin();
-?>
-
-<?= $form->field($model, 'id')->textInput() ?>
-
-<?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-<?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
-
-<?= $form->field($model, 'id_provider')->textInput() ?>
-
-<?= $form->field($model, 'id_user')->textInput() ?>
-
-<?= $form->field($model, 'status')->textInput() ?>
-
-<?= $form->field($model, 'created_at')->textInput() ?>
-
-<?= $form->field($model, 'updated_at')->textInput() ?>
-
-<div class="form-group">
-    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update',
-        ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 </div>
-
-<?php
-ActiveForm::end();
-*/

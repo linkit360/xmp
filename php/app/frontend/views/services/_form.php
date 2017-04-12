@@ -1,14 +1,10 @@
 <?php
 /**
  * @var yii\web\View           $this
- * @var common\models\Services $model
+ * @var array                  $models
  * @var yii\widgets\ActiveForm $form
+ * @var integer                $stepNow
  */
-
-$stepNow = 1;
-if (array_key_exists('step', $_GET)) {
-    $stepNow = (integer)$_GET['step'];
-}
 
 echo $this->render(
     '_steps',
@@ -20,5 +16,6 @@ echo $this->render(
 echo $this->render(
     '_step_' . $stepNow,
     [
+        'models' => $models,
     ]
 );

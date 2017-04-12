@@ -2,12 +2,15 @@
 
 namespace frontend\controllers;
 
+use const null;
 use Yii;
-use common\models\Services;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use common\models\Services;
+use frontend\models\Services\CheeseForm;
 
 /**
  * ServicesController implements the CRUD actions for Services model.
@@ -67,26 +70,57 @@ class ServicesController extends Controller
     {
         $get = Yii::$app->request->get();
         $model = new Services();
-
+        $model->loadDefaultValues();
         $stepNow = 1;
         if (array_key_exists('step', $get)) {
             $stepNow = (integer)$get['step'];
         }
 
+        # Step 2, Provider
         if ($stepNow === 2) {
             if (!array_key_exists('id_country', $get)) {
                 return $this->redirect('/services/create?step=1');
             }
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $modelProvider = null;
+        # Step 3, Service
+        if ($stepNow === 3) {
+            switch ((integer)$get['id_provider']) {
+                // TH - Cheese Mobile
+                case 1:
+                    $modelProvider = new CheeseForm();
+                    break;
+
+            }
+
+            if ($modelProvider === null) {
+                return $this->redirect('/services/create?step=1');
+            }
+
+            # Service
+
+            if ($model->load(Yii::$app->request->post()) && $modelProvider->load(Yii::$app->request->post())) {
+                if ($model->validate() && $modelProvider->validate()) {
+
+//                    dump($model->attributes);
+//                    dump($modelProvider->attributes);
+
+                    $model->save();
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-
+        return $this->render(
+            'create', [
+                'models' => [
+                    'model_service' => $model,
+                    'model_provider' => $modelProvider,
+                ],
+                'stepNow' => $stepNow,
+            ]
+        );
     }
 
     /**

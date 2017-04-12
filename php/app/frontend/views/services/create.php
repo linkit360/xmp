@@ -1,7 +1,8 @@
 <?php
 /**
- * @var yii\web\View           $this
- * @var common\models\Services $model
+ * @var yii\web\View $this
+ * @var array        $models
+ * @var integer      $stepNow
  */
 
 $this->title = 'Create Service';
@@ -10,6 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
 echo $this->render(
     '_form',
     [
-        'model' => $model,
+        'models' => $models,
+        'stepNow' => $stepNow,
     ]
 );

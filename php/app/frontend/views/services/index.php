@@ -9,28 +9,33 @@ use yii\grid\GridView;
 $this->title = 'Services';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="services-index">
+<div class="col-lg-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content">
+            <p>
+                <?= Html::a('Create Service', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
+            <?php
+            echo GridView::widget(
+                [
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
 
-    <h1><?= Html::encode($this->title) ?></h1>
+                        'id',
+                        'title',
+                        'description',
+                        'id_provider',
+                        'id_user',
+                        // 'status',
+                        // 'created_at',
+                        // 'updated_at',
 
-    <p>
-        <?= Html::a('Create Services', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title',
-            'description',
-            'id_provider',
-            'id_user',
-            // 'status',
-            // 'created_at',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]
+            );
+            ?>
+        </div>
+    </div>
 </div>

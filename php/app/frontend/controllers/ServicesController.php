@@ -65,15 +65,28 @@ class ServicesController extends Controller
      */
     public function actionCreate()
     {
+        $get = Yii::$app->request->get();
         $model = new Services();
+
+        $stepNow = 1;
+        if (array_key_exists('step', $get)) {
+            $stepNow = (integer)$get['step'];
+        }
+
+        if ($stepNow === 2) {
+            if (!array_key_exists('id_country', $get)) {
+                return $this->redirect('/services/create?step=1');
+            }
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+
     }
 
     /**

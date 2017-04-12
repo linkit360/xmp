@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "${PROJECT_ENV}" = "dev" ]
+if [ "${PROJECT_ENV}" = "development" ]
 then
     echo "This is a idle script (infinite loop) to keep container running."
     echo "Please replace this script."

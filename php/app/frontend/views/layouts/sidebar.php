@@ -53,6 +53,13 @@ if (in_array('lpCreate', $permissions)) {
     ];
 }
 
+//if (in_array('lpCreate', $permissions)) {
+$menu[$group]['items'][] = [
+    'name' => 'Services Management',
+    'url' => 'services/index',
+];
+//}
+
 # Admin
 $group = 'Admin';
 $menu[$group] = [
@@ -111,8 +118,8 @@ if (in_array('rbacManage', $permissions)) {
 
 if (in_array('logsView', $permissions)) {
     $menu[$group]['items'][] = [
-        'name' => 'Logs',
-        'url' => 'logs/index',
+        'name' => 'Transactions Logs',
+        'url' => 'site/logs',
     ];
 }
 

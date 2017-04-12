@@ -10,6 +10,7 @@ use common\models\Providers;
 use function count;
 use function date;
 use const false;
+use frontend\models\LogsForm;
 use function json_encode;
 use const JSON_PRETTY_PRINT;
 use const true;
@@ -49,6 +50,15 @@ class SiteController extends Controller
                         ],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => [
+                            'logs',
+                        ],
+                        'allow' => true,
+                        'roles' => [
+                            'logsView',
+                        ],
                     ],
                     [
                         'allow' => false,
@@ -238,6 +248,24 @@ class SiteController extends Controller
 //        echo "OK.\n\n";
     }
     */
+
+    /**
+     * Lists all Transactions models.
+     * @return mixed
+     */
+    public function actionLogs()
+    {
+        $model = new LogsForm;
+        $model->load(Yii::$app->request->get());
+
+        return $this->render(
+            'logs',
+            [
+                'model' => $model,
+                'dataProvider' => $model->dataProvider(),
+            ]
+        );
+    }
 
     public function actionCountry()
     {

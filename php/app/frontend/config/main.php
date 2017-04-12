@@ -60,7 +60,7 @@ $config = [
     'params' => $params,
 ];
 
-if (defined('YII_ENV') && (YII_ENV === 'dev' || YII_ENV === 'test')) {
+if (defined('YII_ENV') && (YII_ENV === 'development' || YII_ENV === 'testing')) {
 
     $config['components']['assetManager']['forceCopy'] = true;
 

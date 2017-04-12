@@ -26,6 +26,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY composer/ /app/composer
 RUN chown -R 1000:1000 /app/composer && chmod -R 0700 /app/composer
 
+# REMEMBER: only RUN under non-root USER, not COPY
 USER 1000
 RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3" "fxp/composer-asset-plugin:^1.2.0"
 USER root
@@ -57,8 +58,6 @@ COPY app/frontend /app/php/frontend
 RUN chown -R 1000:1000 /app/php/frontend && chmod -R 0700 /app/php/frontend
 
 # User switch
-# REMEMBER: only RUN under non-root USER, not COPY
 WORKDIR /app/php
 USER 1000
-RUN composer -n global require --prefer-dist "hirak/prestissimo:^0.3" "fxp/composer-asset-plugin:^1.2.0"
 ENTRYPOINT ["bash", "/app/config/start.sh"]

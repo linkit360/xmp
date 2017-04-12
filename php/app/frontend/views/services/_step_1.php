@@ -7,6 +7,8 @@ use yii\helpers\Html;
 /**
  * @var yii\web\View $this
  */
+$bundle = \common\assets\InspiniaAsset::register($this);
+$flags = new \common\helpers\FlagsHelper();
 
 $this->params['subtitle'] = 'Select Country';
 
@@ -22,6 +24,7 @@ $countries = Countries::find()
         [
             'id',
             'name',
+            'flag',
         ]
     )
     ->where(
@@ -44,7 +47,7 @@ $countries = Countries::find()
             <?php
             foreach ($countries as $country) {
                 echo Html::a(
-                    $country['name'],
+                    '<img src="' . $bundle->baseUrl . '/img/flags/16/' . $country['flag'] . '.png"> ' . $country['name'],
                     '/services/create?step=2&id_country=' . $country['id'],
                     [
                         'class' => 'btn btn-primary',

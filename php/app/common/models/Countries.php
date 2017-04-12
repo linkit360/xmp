@@ -1,4 +1,5 @@
 <?php
+
 namespace common\models;
 
 use yii\db\ActiveRecord;
@@ -12,6 +13,8 @@ use yii\db\ActiveRecord;
  * @property integer $status
  * @property string  $iso
  * @property integer $priority
+ * @property string  $flag
+ * @property string  $currency
  */
 class Countries extends ActiveRecord
 {
@@ -32,7 +35,8 @@ class Countries extends ActiveRecord
             [['name', 'code', 'status', 'iso', 'priority'], 'required'],
             [['code', 'status', 'priority'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['iso'], 'string', 'max' => 32],
+            [['flag'], 'string', 'max' => 64],
+            [['iso', 'currency'], 'string', 'max' => 32],
         ];
     }
 

@@ -3,34 +3,45 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var yii\web\View                $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ * @var array                       $providers
+ */
 
 $this->title = 'Services';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-lg-12">
+<div class="col-lg-6">
     <div class="ibox float-e-margins">
         <div class="ibox-content">
-            <p>
-                <?= Html::a('Create Service', ['create'], ['class' => 'btn btn-success']) ?>
-            </p>
             <?php
+            echo Html::a('Create Service', ['create'], ['class' => 'btn btn-success']);
             echo GridView::widget(
                 [
                     'dataProvider' => $dataProvider,
                     'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
-
-                        'id',
+//                        ['class' => 'yii\grid\SerialColumn'],
+//                        'id',
                         'title',
-                        'description',
-                        'id_provider',
-                        'id_user',
+//                        'description',
+                        [
+                            'attribute' => 'id_provider',
+                            'headerOptions' => [
+                                'width' => '140',
+                                'class' => 'text-right',
+                            ],
+                            'contentOptions' => function () {
+                                return ['class' => 'text-right'];
+                            },
+                            'content' => function ($data) use ($providers) {
+                                return $providers[$data['id_provider']]['name'];
+                            },
+                        ],
+//                        'id_user',
                         // 'status',
-                        // 'created_at',
-                        // 'updated_at',
-
+                        'created_at',
+                        'updated_at',
                         ['class' => 'yii\grid\ActionColumn'],
                     ],
                 ]

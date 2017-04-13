@@ -13,6 +13,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use common\models\Services;
+use common\models\Providers;
 use frontend\models\Services\CheeseForm;
 
 /**
@@ -41,12 +42,35 @@ class ServicesController extends Controller
      */
     public function actionIndex()
     {
+        $providers = Providers::find()
+            ->select(
+                [
+                    'name',
+                    'id',
+                    'id_country',
+                ]
+            )
+            ->orderBy(
+                [
+                    'name' => SORT_ASC,
+                ]
+            )
+            ->indexBy('id')
+            ->all();
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Services::find(),
+            'query' => Services::find()
+                ->where(
+                    [
+                        'id_user' => Yii::$app->user->id,
+                        'status' => 1,
+                    ]
+                ),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'providers' => $providers,
         ]);
     }
 
@@ -98,7 +122,6 @@ class ServicesController extends Controller
         # Step 3, Service
         if ($stepNow === 3) {
             $modelProvider = $this->getProviderModel((integer)$get['id_provider']);
-
             if ($modelProvider === null) {
                 return $this->redirect('/services/create?step=1');
             }
@@ -166,6 +189,8 @@ class ServicesController extends Controller
      */
     public function actionUpdate($id)
     {
+        return $this->redirect(['index']);
+        /*
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -175,6 +200,7 @@ class ServicesController extends Controller
                 'model' => $model,
             ]);
         }
+        */
     }
 
     /**
@@ -187,26 +213,28 @@ class ServicesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = 0;
+        $model->save();
 
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Services model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param string $id
-     *
-     * @return Services the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
-        if (($model = Services::findOne($id)) !== null) {
+        $model = Services::find()
+            ->where(
+                [
+                    'id' => $id,
+                    'id_user' => Yii::$app->user->id,
+                ]
+            )
+            ->one();
+
+        if ($model !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

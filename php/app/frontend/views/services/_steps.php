@@ -9,10 +9,15 @@ $steps = [
     2 => 'Select Provider',
     3 => 'Service Info',
 ];
-
 ?>
 <div class="col-lg-12">
     <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>
+                Steps
+            </h5>
+        </div>
+
         <div class="ibox-content">
             <?php
             foreach ($steps as $key => $step) {

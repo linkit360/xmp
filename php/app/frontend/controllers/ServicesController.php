@@ -2,8 +2,11 @@
 
 namespace frontend\controllers;
 
+use function json_encode;
+use const JSON_PRETTY_PRINT;
 use const null;
 use Yii;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -56,9 +59,17 @@ class ServicesController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->findModel($id);
+        $modelProvider = $this->getProviderModel($model->id_provider);
+        $modelProvider->load(json_decode($model->service_opts, true), '');
+
+        return $this->render(
+            'view',
+            [
+                'model' => $model,
+                'modelProvider' => $modelProvider,
+            ]
+        );
     }
 
     /**
@@ -86,42 +97,64 @@ class ServicesController extends Controller
         $modelProvider = null;
         # Step 3, Service
         if ($stepNow === 3) {
-            switch ((integer)$get['id_provider']) {
-                // TH - Cheese Mobile
-                case 1:
-                    $modelProvider = new CheeseForm();
-                    break;
-
-            }
+            $modelProvider = $this->getProviderModel((integer)$get['id_provider']);
 
             if ($modelProvider === null) {
                 return $this->redirect('/services/create?step=1');
             }
 
-            # Service
+            if (
+                $model->load(Yii::$app->request->post()) &&
+                $modelProvider->load(Yii::$app->request->post())
+            ) {
+                # Provider
+                if ($modelProvider->validate()) {
+                    $model->service_opts = json_encode(
+                        $modelProvider->attributes,
+                        JSON_PRETTY_PRINT
+                    );
 
-            if ($model->load(Yii::$app->request->post()) && $modelProvider->load(Yii::$app->request->post())) {
-                if ($model->validate() && $modelProvider->validate()) {
-
-//                    dump($model->attributes);
-//                    dump($modelProvider->attributes);
-
-                    $model->save();
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    # Service
+                    if ($model->validate()) {
+                        $model->save();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
             }
         }
 
         return $this->render(
-            'create', [
+            'create',
+            [
+                'stepNow' => $stepNow,
                 'models' => [
                     'model_service' => $model,
                     'model_provider' => $modelProvider,
                 ],
-                'stepNow' => $stepNow,
             ]
         );
     }
+
+    /**
+     * @param int $id_provider
+     *
+     * @return Model|null
+     */
+    public function getProviderModel($id_provider)
+    {
+        switch ($id_provider) {
+
+            // TH - Cheese Mobile
+            case 1:
+                return new CheeseForm();
+                break;
+
+            default:
+                return null;
+                break;
+        }
+    }
+
 
     /**
      * Updates an existing Services model.

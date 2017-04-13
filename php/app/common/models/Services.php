@@ -10,6 +10,8 @@ use yii\db\ActiveRecord;
  * @property string  $title
  * @property string  $description
  * @property integer $id_provider
+ * @property integer $id_service
+ * @property string  $service_opts
  * @property string  $id_user
  * @property integer $status
  * @property string  $created_at
@@ -31,12 +33,24 @@ class Services extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'id_provider', 'id_user'], 'required'],
-            [['id_user'], 'string'],
+            [['title', 'id_user', 'id_provider', 'id_service', 'service_opts'], 'required'],
+            [['id', 'id_user', 'service_opts'], 'string'],
             [['id_provider', 'status'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['title'], 'string', 'max' => 64],
+            [['updated_at', 'created_at'], 'safe'],
+            [['title', 'id_service'], 'string', 'max' => 64],
             [['description'], 'string', 'max' => 255],
+            [
+                [
+                    'id_provider',
+                    'id_service',
+                ],
+                'unique',
+                'targetAttribute' => [
+                    'id_provider',
+                    'id_service',
+                ],
+                'message' => 'The combination of Provider and Service ID has already been taken.',
+            ],
         ];
     }
 
@@ -54,6 +68,7 @@ class Services extends ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'id_service' => 'Service ID',
         ];
     }
 

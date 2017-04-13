@@ -9,14 +9,6 @@ class CheeseForm extends Model
     # Fields
     public $price;
 
-    # Data
-//    public $countries = [];
-
-    public function init()
-    {
-
-    }
-
     /**
      * @inheritdoc
      */
@@ -36,6 +28,13 @@ class CheeseForm extends Model
                 'integer',
             ],
 
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'price' => 'Price',
         ];
     }
 }

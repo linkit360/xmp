@@ -70,7 +70,7 @@ $menu[$group] = [
 if (in_array('monitoringView', $permissions)) {
     $menu[$group]['items'][] = [
         'name' => 'Monitoring',
-        'url' => 'site/monitoring',
+        'url' => 'main/monitoring',
     ];
 }
 
@@ -119,26 +119,30 @@ if (in_array('rbacManage', $permissions)) {
 if (in_array('logsView', $permissions)) {
     $menu[$group]['items'][] = [
         'name' => 'Transactions Logs',
-        'url' => 'site/logs',
+        'url' => 'main/logs',
     ];
 }
 
 function drawItem($item, $path)
 {
-    $url = $item['url'];
-    if ($url == '/') {
-        $url = '';
+    if ($path == '') {
+        $path = '/';
     }
 
+    $pathNow = str_replace(
+        '/index',
+        '',
+        $item['url']
+    );
 
     echo Html::tag(
         'li',
         Html::a(
             $item['name'],
-            Url::toRoute($url)
+            Url::toRoute($item['url'])
         ),
         [
-            'class' => str_replace('/index', '', $url) !== $path ?: 'active',
+            'class' => $pathNow !== $path ?: 'active',
         ]
     );
 }
@@ -172,14 +176,10 @@ function drawSub($menu, $path)
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-            <li class="nav-header" style="background: none;">
-                <div class="profile-element text-center">
-                    <img src="/img/linkitlogo.png"/>
-                </div>
-
-                <div class="logo-element">
-                    XMP
-                </div>
+            <li class="nav-header">
+                <a href="/">
+                    <img src="/img/linkitlogo.png" border="0"/>
+                </a>
             </li>
 
             <?php

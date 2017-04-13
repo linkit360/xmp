@@ -230,8 +230,8 @@ h5 {
 
 .nav-header {
     padding: 33px 25px;
-    background-color: #2f4050;
-    background-image: url("patterns/header-profile.png");
+    /*background-color: #2f4050;*/
+    /*background-image: url("patterns/header-profile.png");*/
 }
 
 .pace-done .nav-header {
@@ -9808,9 +9808,9 @@ body.md-skin {
     background-color: #ffffff;
 }
 
-.md-skin .nav-header {
-    background: url("patterns/4.png") no-repeat;
-}
+/*.md-skin .nav-header {*/
+/*background: url("patterns/4.png") no-repeat;*/
+/*}*/
 
 .md-skin .label,
 .md-skin .badge {

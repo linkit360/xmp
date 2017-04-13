@@ -2,18 +2,15 @@
 
 namespace frontend\controllers;
 
+use const false;
+use const true;
+use const JSON_PRETTY_PRINT;
 use function array_key_exists;
 use function array_keys;
-use common\models\Countries;
-use common\models\Operators;
-use common\models\Providers;
 use function count;
 use function date;
-use const false;
-use frontend\models\LogsForm;
 use function json_encode;
-use const JSON_PRETTY_PRINT;
-use const true;
+
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -21,11 +18,15 @@ use yii\web\Controller;
 use yii\filters\AccessControl;
 
 use common\models\LoginForm;
+use common\models\Countries;
+use common\models\Operators;
+use common\models\Providers;
+use frontend\models\LogsForm;
 
 /**
  * Site Controller
  */
-class SiteController extends Controller
+class MainController extends Controller
 {
     public function behaviors()
     {

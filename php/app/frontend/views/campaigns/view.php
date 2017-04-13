@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Campaigns', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <p>
                 <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

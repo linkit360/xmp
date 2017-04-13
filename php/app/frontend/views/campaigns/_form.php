@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
  */
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <?php
             $form = ActiveForm::begin();

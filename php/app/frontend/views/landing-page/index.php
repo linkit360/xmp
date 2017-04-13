@@ -12,7 +12,7 @@ $this->title = 'Landing Pages';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <p>
                 <?= Html::a('Create Lp', ['designer'], ['class' => 'btn btn-success']) ?>

@@ -63,7 +63,7 @@ $this->registerJs('load_operators();', View::POS_READY);
 </script>
 
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <p>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">

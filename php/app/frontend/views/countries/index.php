@@ -12,25 +12,35 @@ $this->title = 'Countries';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
-            <p>
-                <?= Html::a('Create Country', ['create'], ['class' => 'btn btn-success']) ?>
-            </p>
             <?php
-            echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-                    'id',
-                    'name',
-                    'code',
-                    'status',
-                    'iso',
-                    'priority',
+            echo Html::a(
+                'Create Country',
+                ['create'],
+                ['class' => 'btn btn-success']
+            );
 
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]);
+            echo GridView::widget(
+                [
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        'id',
+                        'name',
+                        'code',
+//                        'status',
+                        'iso',
+                        'priority',
+
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'headerOptions' => [
+                                'style' => 'width: 66px;',
+                            ],
+                        ],
+                    ],
+                ]
+            );
             ?>
         </div>
     </div>

@@ -10,7 +10,7 @@ $this->title = 'Operators';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <p>
                 <?= Html::a('Create Operator', ['create'], ['class' => 'btn btn-success']) ?>

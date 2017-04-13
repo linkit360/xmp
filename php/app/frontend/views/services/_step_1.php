@@ -36,7 +36,7 @@ $countries = Countries::find()
     ->all();
 ?>
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-title">
             <h5>
                 Select Country

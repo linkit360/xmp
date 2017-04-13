@@ -27,7 +27,9 @@ class CountriesController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['countriesManage'],
+                        'roles' => [
+                            'countriesManage',
+                        ],
                     ],
                     [
                         'allow' => false,
@@ -44,12 +46,20 @@ class CountriesController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Countries::find(),
+            'query' => Countries::find()
+                ->where(
+                    [
+                        'status' => 1,
+                    ]
+                ),
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**
@@ -75,7 +85,7 @@ class CountriesController extends Controller
     {
         $model = new Countries();
         $model->loadDefaultValues();
-
+        $model->status = 1;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -116,7 +126,9 @@ class CountriesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = 0;
+        $model->save();
 
         return $this->redirect(['index']);
     }

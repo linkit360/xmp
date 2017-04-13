@@ -17,7 +17,7 @@ $model = $models['model_service'];
 $form = ActiveForm::begin();
 ?>
     <div class="col-lg-6">
-        <div class="ibox float-e-margins">
+        <div class="ibox">
             <div class="ibox-title">
                 <h5>
                     Service Info
@@ -56,7 +56,7 @@ $form = ActiveForm::begin();
     </div>
 
     <div class="col-lg-6">
-        <div class="ibox float-e-margins">
+        <div class="ibox">
             <div class="ibox-title">
                 <h5>
                     Provider Options

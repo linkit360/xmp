@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <p>
                 Full version: <a target="_blank" href="http://monitoring.linkit360.ru/dashboard/db/mumbai">HERE</a>

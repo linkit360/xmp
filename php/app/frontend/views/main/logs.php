@@ -14,7 +14,7 @@ $this->params['subtitle'] = 'Transactions';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-title">
             <h5>
                 Filter
@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <?php
             echo GridView::widget([

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-title">
             <h5>
                 Filter
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-title">
             <h5>
                 Total Lp Hits For Period: <?= number_format($model->chart['sum']) ?>
@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <?php
             $dp = $model->dataProviderAd();

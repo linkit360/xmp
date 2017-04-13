@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Landing Pages', 'url' => ['index']
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <p>
                 <?php

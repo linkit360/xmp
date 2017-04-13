@@ -20,13 +20,13 @@ foreach ($flags->getAll() as $flag) {
 }
 ?>
 <div class="col-lg-6">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-content">
             <?php
             $form = ActiveForm::begin();
             echo $form->field($model, 'name')->textInput(['maxlength' => true]);
             echo $form->field($model, 'code')->textInput();
-            echo $form->field($model, 'status')->textInput();
+            //            echo $form->field($model, 'status')->textInput();
             echo $form->field($model, 'iso')->textInput(['maxlength' => true]);
             echo $form->field($model, 'priority')->textInput();
             echo $form->field($model, 'flag')->widget(

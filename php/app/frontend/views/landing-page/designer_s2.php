@@ -21,7 +21,7 @@ JS;
 $this->registerJs($js);
 ?>
 <div class="col-lg-12">
-    <div class="ibox float-e-margins">
+    <div class="ibox">
         <div class="ibox-title">
             Customize Template
         </div>

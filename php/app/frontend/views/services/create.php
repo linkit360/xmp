@@ -2,6 +2,7 @@
 /**
  * @var yii\web\View $this
  * @var array        $models
+ * @var array        $opts
  * @var integer      $stepNow
  */
 
@@ -12,6 +13,7 @@ echo $this->render(
     '_form',
     [
         'models' => $models,
+        'opts' => $opts,
         'stepNow' => $stepNow,
     ]
 );

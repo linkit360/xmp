@@ -2,7 +2,9 @@
 /**
  * @var yii\web\View           $this
  * @var array                  $models
+ * @var array                  $opts
  * @var yii\widgets\ActiveForm $form
+ * @var yii\widgets\ActiveForm $country
  */
 
 # Cheese
@@ -13,8 +15,7 @@
     Dropdown with multi select of content. (fill with dummy row)
  */
 
-$country = \common\models\Countries::findOne((integer)$_GET['id_country']);
 $model = $models['model_provider'];
 echo $form->field($model, 'price')
     ->textInput(['maxlength' => true])
-    ->hint($country && $country->currency != '' ? 'Currency: ' . $country->currency : '');
+    ->hint($opts['country']->currency != '' ? 'Currency: ' . $opts['country']->currency : '');

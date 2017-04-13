@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Countries;
 use function json_encode;
 use const JSON_PRETTY_PRINT;
 use const null;
@@ -103,6 +104,7 @@ class ServicesController extends Controller
      */
     public function actionCreate()
     {
+        $opts = [];
         $get = Yii::$app->request->get();
         $model = new Services();
         $model->loadDefaultValues();
@@ -121,6 +123,19 @@ class ServicesController extends Controller
         $modelProvider = null;
         # Step 3, Service
         if ($stepNow === 3) {
+            # Country
+            if (!array_key_exists('id_country', $get)) {
+                return $this->redirect('/services/create?step=1');
+            }
+
+            # Provider
+            if (!array_key_exists('id_provider', $get)) {
+                return $this->redirect('/services/create?step=2&id_country=' . $get['id_country']);
+            }
+
+            $opts['country'] = Countries::findOne((integer)$get['id_country']);
+
+            $model->id_provider = $get['id_provider'];
             $modelProvider = $this->getProviderModel((integer)$get['id_provider']);
             if ($modelProvider === null) {
                 return $this->redirect('/services/create?step=1');
@@ -154,6 +169,7 @@ class ServicesController extends Controller
                     'model_service' => $model,
                     'model_provider' => $modelProvider,
                 ],
+                'opts' => $opts,
             ]
         );
     }
@@ -189,18 +205,55 @@ class ServicesController extends Controller
      */
     public function actionUpdate($id)
     {
-        return $this->redirect(['index']);
-        /*
+        $opts = [];
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $modelProvider = $this->getProviderModel($model->id_provider);
+        if ($modelProvider === null) {
+            return $this->redirect('/services/create?step=1');
         }
-        */
+        $modelProvider->load(json_decode($model->service_opts, true), '');
+
+
+        $provider = Providers::findOne($model->id_provider);
+        $opts['country'] = Countries::find()
+            ->where(
+                [
+                    'id' => $provider->id_country,
+                ]
+            )
+            ->one();
+
+
+        if (
+            $model->load(Yii::$app->request->post()) &&
+            $modelProvider->load(Yii::$app->request->post())
+        ) {
+            # Provider
+            if ($modelProvider->validate()) {
+                $model->service_opts = json_encode(
+                    $modelProvider->attributes,
+                    JSON_PRETTY_PRINT
+                );
+
+                # Service
+                if ($model->validate()) {
+                    $model->save();
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+        }
+
+        return $this->render(
+            'update',
+            [
+                'models' => [
+                    'model_service' => $model,
+                    'model_provider' => $modelProvider,
+                ],
+                'opts' => $opts,
+            ]
+        );
     }
 
     /**
@@ -220,6 +273,12 @@ class ServicesController extends Controller
         return $this->redirect(['index']);
     }
 
+    /**
+     * @param $id
+     *
+     * @return array|Services|\yii\db\ActiveRecord
+     * @throws NotFoundHttpException
+     */
     protected function findModel($id)
     {
         $model = Services::find()
@@ -230,6 +289,7 @@ class ServicesController extends Controller
                 ]
             )
             ->one();
+
 
         if ($model !== null) {
             return $model;

@@ -2,8 +2,10 @@
 /**
  * @var yii\web\View $this
  * @var array        $models
- * @var integer      $stepNow
+ * @var array        $opts
  */
+
+$model = $models['model_service'];
 
 $this->title = 'Update Services: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Services', 'url' => ['index']];
@@ -13,6 +15,7 @@ echo $this->render(
     '_form',
     [
         'models' => $models,
-        'stepNow' => $stepNow,
+        'stepNow' => 3,
+        'opts' => $opts,
     ]
 );

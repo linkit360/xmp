@@ -17,6 +17,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 
+use common\models\Logs;
 use common\models\LoginForm;
 use common\models\Countries;
 use common\models\Operators;
@@ -121,6 +122,11 @@ class MainController extends Controller
         $this->layout = 'empty';
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $log = new Logs();
+            $log->controller = $this->id;
+            $log->action = $this->action->id;
+            $log->save();
+
             return $this->goBack();
         }
 
@@ -136,7 +142,15 @@ class MainController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        if (!Yii::$app->user->isGuest) {
+            $log = new Logs();
+            $log->controller = $this->id;
+            $log->action = $this->action->id;
+            $log->save();
+
+            Yii::$app->user->logout(true);
+        }
+
         return $this->goHome();
     }
 

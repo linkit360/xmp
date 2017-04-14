@@ -2,13 +2,21 @@
 
 namespace frontend\controllers;
 
+use function count;
+use function implode;
+use function is_numeric;
+use function json_encode;
+use const JSON_PRETTY_PRINT;
 use const null;
+
+use const PHP_EOL;
 use Yii;
-use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
+use common\models\Logs;
 use common\models\Countries;
 
 /**
@@ -90,9 +98,12 @@ class CountriesController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render(
+            'create',
+            [
+                'model' => $model,
+            ]
+        );
     }
 
     /**
@@ -106,14 +117,19 @@ class CountriesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render(
+            'update',
+            [
+                'model' => $model,
+            ]
+        );
     }
 
     /**

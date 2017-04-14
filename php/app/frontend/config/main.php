@@ -24,6 +24,7 @@ $config = [
         'user' => [
             'identityClass' => \common\models\Users::class,
             'enableAutoLogin' => true,
+            'loginUrl' => '/main/login',
             'identityCookie' => [
                 'name' => '_identity-frontend',
                 'httpOnly' => true,
@@ -39,7 +40,7 @@ $config = [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'main/error',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,

@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use const false;
+use frontend\models\LogsForm;
 use const true;
 use const JSON_PRETTY_PRINT;
 use function array_key_exists;
@@ -22,7 +23,7 @@ use common\models\LoginForm;
 use common\models\Countries;
 use common\models\Operators;
 use common\models\Providers;
-use frontend\models\LogsForm;
+use frontend\models\TransactionsForm;
 
 /**
  * Site Controller
@@ -55,6 +56,7 @@ class MainController extends Controller
                     ],
                     [
                         'actions' => [
+                            'transactions',
                             'logs',
                         ],
                         'allow' => true,
@@ -125,6 +127,12 @@ class MainController extends Controller
             $log = new Logs();
             $log->controller = $this->id;
             $log->action = $this->action->id;
+            $ips = $this->userIps();
+            if (count($ips)) {
+                $log->event = [
+                    'ips' => $ips,
+                ];
+            }
             $log->save();
 
             return $this->goBack();
@@ -146,12 +154,36 @@ class MainController extends Controller
             $log = new Logs();
             $log->controller = $this->id;
             $log->action = $this->action->id;
+            $ips = $this->userIps();
+            if (count($ips)) {
+                $log->event = [
+                    'ips' => $ips,
+                ];
+            }
             $log->save();
 
             Yii::$app->user->logout(true);
         }
 
         return $this->goHome();
+    }
+
+    /**
+     * Lists all Transactions models.
+     * @return mixed
+     */
+    public function actionTransactions()
+    {
+        $model = new TransactionsForm();
+        $model->load(Yii::$app->request->get());
+
+        return $this->render(
+            'transactions',
+            [
+                'model' => $model,
+                'dataProvider' => $model->dataProvider(),
+            ]
+        );
     }
 
     /*
@@ -276,10 +308,10 @@ class MainController extends Controller
         return $this->render(
             'logs',
             [
-                'model' => $model,
                 'dataProvider' => $model->dataProvider(),
             ]
         );
+
     }
 
     public function actionCountry()
@@ -372,6 +404,19 @@ class MainController extends Controller
         }
 
         echo json_encode($data, JSON_PRETTY_PRINT);
+    }
+
+    private function userIps()
+    {
+        $ips = [];
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $ips['HTTP_X_FORWARDED_FOR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+
+        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+            $ips['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ips;
     }
     /*
 

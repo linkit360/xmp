@@ -1,92 +1,65 @@
 <?php
-use kartik\widgets\DatePicker;
-use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View                $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var frontend\models\LogsForm    $model
  */
-$this->title = 'Logs';
-$this->params['subtitle'] = 'Transactions';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-lg-6">
-    <div class="ibox">
-        <div class="ibox-title">
-            <h5>
-                Filter
-            </h5>
-        </div>
-
-        <div class="ibox-content">
-            <?php
-            $form = ActiveForm::begin([
-                'action' => '/logs',
-                'method' => 'get',
-            ]);
-            ?>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <?= $form->field($model, 'msisdn')->textInput() ?>
-                </div>
-
-                <div class="col-md-6">
-                    <?php
-                    echo $form->field($model, 'date')->widget(DatePicker::classname(), [
-                        'options' => ['placeholder' => 'Date'],
-                        'pluginOptions' => [
-                            'format' => 'yyyy-mm-dd',
-                            'autoclose' => true,
-                        ],
-                    ]);
-                    ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <?php
-                    echo $form->field($model, 'country')->dropDownList($model->countries);
-                    echo '<br/>' . Html::submitButton('Search', [
-                            'class' => 'btn btn-info',
-                        ]);
-                    ?>
-                </div>
-            </div>
-            <?php
-            ActiveForm::end();
-            ?>
-        </div>
-    </div>
-</div>
-
 <div class="col-lg-12">
     <div class="ibox">
         <div class="ibox-content">
             <?php
-            echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-                    'created_at',
-                    'sent_at',
-                    'tid',
-                    'msisdn',
-                    'id_country',
-                    'id_service',
-                    'id_campaign',
-                    'id_subscription',
-                    'id_content',
-                    'id_operator',
-                    'operator_token',
-                    'price',
-                    'result',
-                ],
-            ]);
+            echo GridView::widget(
+                [
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        'time',
+                        'id_user',
+                        'controller',
+                        'action',
+                        [
+                            'attribute' => 'event',
+                            'content' => function ($data) {
+                                $event = json_decode($data['event'], true);
+                                if ($event === null) {
+                                    return '';
+                                }
+
+                                $table = '';
+                                if (array_key_exists('id', $event)) {
+                                    $table .= 'ID: ' . $event['id'] . '<br/>';
+                                }
+
+                                if (array_key_exists('ips', $event)) {
+                                    $table .= 'IPs: ';
+                                    foreach ($event['ips'] as $ip) {
+                                        $table .= $ip . ' ';
+                                    }
+                                    $table .= '<br/>';
+                                }
+
+                                if (array_key_exists('fields', $event)) {
+                                    $table .= '<table class="table table-condensed" style="width: 1%;">';
+                                    foreach ($event['fields'] as $attr => $field) {
+                                        $table .= '<tr>';
+                                        $table .= '<td>' . $attr . '</td>';
+                                        $table .= '<td class="text-right">' . $field['from'] . '</td>';
+                                        $table .= '<td>=></td>';
+                                        $table .= '<td>' . $field['to'] . '</td>';
+                                        $table .= '</tr>';
+                                    }
+                                    $table .= '</table>';
+                                }
+
+                                return $table;
+                            },
+                        ],
+                    ],
+                ]
+            );
             ?>
         </div>
     </div>
 </div>
+

@@ -1,10 +1,10 @@
 <?php
+
 namespace frontend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
-use common\models\Countries;
 
 /**
  * Logs Form
@@ -12,33 +12,16 @@ use common\models\Countries;
 class LogsForm extends Model
 {
     # Fields
-    public $msisdn;
-    public $date;
-    public $country;
+//    public $msisdn;
+//    public $date;
+//    public $country;
 
     # Data
-    public $countries = [];
+//    public $countries = [];
 
     public function init()
     {
-//        $this->date = date('Y-m-d');
-        $this->date = '2016-12-22';
 
-        # Countries
-        $this->countries = [0 => 'All'] +
-            Countries::find()
-                ->select([
-                    'name',
-                    'id'
-                ])
-                ->where([
-                    'status' => 1
-                ])
-                ->orderBy([
-                    'name' => SORT_ASC,
-                ])
-                ->indexBy('id')
-                ->column();
     }
 
     /**
@@ -53,7 +36,7 @@ class LogsForm extends Model
                     'country',
                     'date',
                 ],
-                'string'
+                'string',
             ],
 
         ];
@@ -65,34 +48,14 @@ class LogsForm extends Model
     public function dataProvider()
     {
         $query = (new Query())
-            ->from('xmp_transactions')
+            ->from('xmp_logs')
             ->select([
 
             ])
             ->orderBy([
-                'sent_at' => SORT_DESC
+                'time' => SORT_DESC,
             ]);
 
-        if ($this->msisdn !== null && $this->msisdn !== "") {
-            $query->andWhere([
-                'msisdn' => $this->msisdn,
-            ]);
-        }
-
-        if ($this->country !== null && $this->country !== "0") {
-            $query->andWhere([
-                'id_country' => (int)$this->country,
-            ]);
-        }
-
-        # dateFrom
-        if (substr_count($this->date, '-') > 1) {
-            $query->andWhere(
-                'sent_at::date = :datee'
-            )->addParams([
-                'datee' => $this->date,
-            ]);
-        }
 
 //        dump($query->createCommand()->getRawSql());
 //        dump($query->all());

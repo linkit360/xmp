@@ -119,6 +119,13 @@ if (in_array('rbacManage', $permissions)) {
 if (in_array('logsView', $permissions)) {
     $menu[$group]['items'][] = [
         'name' => 'Transactions Logs',
+        'url' => 'main/transactions',
+    ];
+}
+
+if (in_array('logsView', $permissions)) {
+    $menu[$group]['items'][] = [
+        'name' => 'Actions Logs',
         'url' => 'main/logs',
     ];
 }

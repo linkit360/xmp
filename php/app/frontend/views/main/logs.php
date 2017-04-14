@@ -14,10 +14,41 @@ use yii\grid\GridView;
                 [
                     'dataProvider' => $dataProvider,
                     'columns' => [
-                        'time',
-                        'id_user',
-                        'controller',
-                        'action',
+                        [
+                            'attribute' => 'time',
+                            'contentOptions' => function () {
+                                return [
+                                    'style' => 'width: 190px;',
+                                ];
+                            },
+                        ],
+                        [
+                            'label' => 'User',
+                            'contentOptions' => function () {
+                                return [
+                                    'style' => 'width: 1%;',
+                                ];
+                            },
+                            'content' => function ($data) {
+                                return \yii\helpers\Html::a($data['user']['username'], '/users/' . $data['user']['id']);
+                            },
+                        ],
+                        [
+                            'attribute' => 'controller',
+                            'contentOptions' => function () {
+                                return [
+                                    'style' => 'width: 1%;',
+                                ];
+                            },
+                        ],
+                        [
+                            'attribute' => 'action',
+                            'contentOptions' => function () {
+                                return [
+                                    'style' => 'width: 1%;',
+                                ];
+                            },
+                        ],
                         [
                             'attribute' => 'event',
                             'content' => function ($data) {

@@ -59,4 +59,14 @@ class Logs extends ActiveRecord
 
         return parent::beforeValidate();
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(
+            Users::className(),
+            [
+                'id' => 'id_user',
+            ]
+        );
+    }
 }

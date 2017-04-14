@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\Logs;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
@@ -47,8 +48,10 @@ class LogsForm extends Model
      */
     public function dataProvider()
     {
-        $query = (new Query())
-            ->from('xmp_logs')
+        $query = Logs::find()
+            ->with([
+                'user',
+            ])
             ->select([
 
             ])

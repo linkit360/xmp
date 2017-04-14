@@ -89,8 +89,18 @@ func NewReports(rows []base.Aggregate) {
 		data.Countries[provs[row.ProviderName]] = data.Countries[provs[row.ProviderName]] + uint64(row.LpHits)
 
 		log.WithFields(log.Fields{
-			"prefix": "WS",
-		}).Infof("New Report: %+v", row)
+			"prefix":       "WS",
+			"ProviderName": row.ProviderName,
+			"OperatorCode": row.OperatorCode,
+			"CampaignId":   row.CampaignId,
+			"LpHits":       row.LpHits,
+			"LpMsisdnHits": row.LpMsisdnHits,
+			"Mo":           row.Mo,
+			"MoUniq":       row.MoUniq,
+			"MoSuccess":    row.MoSuccess,
+			"RetrySuccess": row.RetrySuccess,
+			"Pixels":       row.Pixels,
+		}).Info("New Report")
 
 		//if len(data.Logs) > 10 {
 		//	data.Logs = data.Logs[:len(data.Logs)-1]

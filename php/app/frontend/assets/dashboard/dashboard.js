@@ -164,7 +164,7 @@ function reset() {
 
 function showPopup(code) {
     // con(code);
-    $.getJSON("/site/country?iso=" + code, function (data) {
+    $.getJSON("/main/country?iso=" + code, function (data) {
         $('.modal_output_table_row').remove();
         if (data && data['total']['name'] !== null) {
             // dump(data);

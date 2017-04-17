@@ -15,7 +15,6 @@ class InspiniaAsset extends AssetBundle
     public $sourcePath = __DIR__ . '/inspinia';
 
     public $css = [
-        'font-awesome/css/font-awesome.css',
         'css/animate.css',
         'css/style.css',
     ];
@@ -33,5 +32,6 @@ class InspiniaAsset extends AssetBundle
         JuiAsset::class,
         BootstrapAsset::class,
         BootstrapPluginAsset::class,
+        FaAsset::class,
     ];
 }

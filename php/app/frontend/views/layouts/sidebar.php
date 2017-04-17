@@ -44,6 +44,11 @@ if (in_array('campaignsManage', $permissions)) {
         'name' => 'Campaigns Management',
         'url' => 'campaigns/index',
     ];
+
+    $menu[$group]['items'][] = [
+        'name' => 'Content-cat',
+        'url' => 'content-categories/index',
+    ];
 }
 
 if (in_array('lpCreate', $permissions)) {

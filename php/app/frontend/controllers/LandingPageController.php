@@ -2,11 +2,14 @@
 
 namespace frontend\controllers;
 
-use Aws\S3\S3Client;
-use Aws\Sdk;
 use const AWS_S3;
 use const false;
 use function file_get_contents;
+
+use Aws\Sdk;
+use Aws\S3\S3Client;
+use ZipArchive;
+
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -14,11 +17,10 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 use common\models\Lps;
-use ZipArchive;
 
 class LandingPageController extends Controller
 {
-    /** @var  S3Client */
+    /** @var S3Client */
     public $s3;
 
     public function init()
@@ -305,9 +307,8 @@ class LandingPageController extends Controller
     {
         if (($model = Lps::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     private function getFiles($dir)

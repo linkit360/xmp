@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\helpers\LogsHelper;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -57,5 +58,19 @@ class Lps extends ActiveRecord
     {
         $this->id_user = Yii::$app->user->id;
         return parent::beforeValidate();
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
     }
 }

@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
  * @property string  $id
@@ -67,5 +68,19 @@ class Campaigns extends ActiveRecord
     {
         $this->id_user = Yii::$app->user->id;
         return parent::beforeValidate();
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
     }
 }

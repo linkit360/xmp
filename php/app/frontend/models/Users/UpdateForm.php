@@ -3,12 +3,15 @@
 namespace frontend\models\Users;
 
 use function array_keys;
-use common\models\Users;
+use common\models\Logs;
 use function is_array;
+
 use Yii;
 use yii\base\Model;
 use yii\rbac\ManagerInterface;
 use yii\rbac\Role;
+
+use common\models\Users;
 
 /**
  * Update User Form
@@ -47,7 +50,7 @@ class UpdateForm extends Model
                 [
                     'roles',
                 ],
-                'trim'
+                'trim',
             ],
         ];
     }
@@ -61,8 +64,17 @@ class UpdateForm extends Model
         // Remove all roles
         $this->auth->revokeAll($this->user->id);
 
+        $log = new Logs();
+        $log->controller = Yii::$app->requestedAction->controller->id;
+        $log->action = Yii::$app->requestedAction->id;
+        $ev = [
+            'id' => $this->user->id,
+            'roles' => [],
+        ];
+
         // Add roles from form
         if (is_array($this->roles) && count($this->roles)) {
+            $ev['roles'] = $this->roles;
             foreach ($this->roles as $role) {
                 $role = $this->auth->getRole($role);
                 if ($role) {
@@ -71,6 +83,8 @@ class UpdateForm extends Model
             }
         }
 
+        $log->event = $ev;
+        $log->save();
         return true;
     }
 

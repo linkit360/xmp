@@ -1,11 +1,11 @@
 <?php
+
 namespace common\models\RBAC;
 
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
- * This is the model class for table "{{%rbac_assignments}}".
- *
  * @property string  $item_name
  * @property string  $user_id
  * @property integer $created_at
@@ -37,7 +37,7 @@ class Assignments extends ActiveRecord
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => Items::className(),
-                'targetAttribute' => ['item_name' => 'name']
+                'targetAttribute' => ['item_name' => 'name'],
             ],
         ];
     }
@@ -60,5 +60,26 @@ class Assignments extends ActiveRecord
     public function getItemName()
     {
         return $this->hasOne(Items::className(), ['name' => 'item_name']);
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
+    }
+
+    public function afterDelete()
+    {
+        $logs = new LogsHelper();
+        $logs->logDelete($this);
+        return parent::afterDelete();
     }
 }

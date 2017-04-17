@@ -1,11 +1,11 @@
 <?php
+
 namespace common\models\RBAC;
 
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
- * This is the model class for table "{{%rbac_rules}}".
- *
  * @property string   $name
  * @property resource $data
  * @property integer  $created_at
@@ -55,5 +55,26 @@ class Rules extends ActiveRecord
     public function getRbacItems()
     {
         return $this->hasMany(Items::className(), ['rule_name' => 'name']);
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
+    }
+
+    public function afterDelete()
+    {
+        $logs = new LogsHelper();
+        $logs->logDelete($this);
+        return parent::afterDelete();
     }
 }

@@ -70,9 +70,11 @@ class UsersController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Users::find()
-                ->where([
-                    'status' => 1,
-                ]),
+                ->where(
+                    [
+                        'status' => 1,
+                    ]
+                ),
         ]);
 
         return $this->render(
@@ -92,26 +94,12 @@ class UsersController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Finds the Users model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param string $id
-     *
-     * @return Users the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Users::findOne($id)) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $this->render(
+            'view',
+            [
+                'model' => $this->findModel($id),
+            ]
+        );
     }
 
     /**
@@ -170,5 +158,22 @@ class UsersController extends Controller
         $user->save();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Finds the Users model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param string $id
+     *
+     * @return Users the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Users::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

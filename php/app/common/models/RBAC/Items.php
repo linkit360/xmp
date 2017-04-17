@@ -1,7 +1,9 @@
 <?php
+
 namespace common\models\RBAC;
 
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
  * This is the model class for table "{{%rbac_items}}".
@@ -46,7 +48,7 @@ class Items extends ActiveRecord
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => Rules::className(),
-                'targetAttribute' => ['rule_name' => 'name']
+                'targetAttribute' => ['rule_name' => 'name'],
             ],
         ];
     }
@@ -129,5 +131,26 @@ class Items extends ActiveRecord
                 '{{%rbac_items_childs}}',
                 ['child' => 'name']
             );
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
+    }
+
+    public function afterDelete()
+    {
+        $logs = new LogsHelper();
+        $logs->logDelete($this);
+        return parent::afterDelete();
     }
 }

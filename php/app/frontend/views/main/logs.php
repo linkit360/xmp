@@ -83,6 +83,16 @@ use yii\grid\GridView;
                                     $table .= '</table>';
                                 }
 
+                                if (array_key_exists('roles', $event)) {
+                                    $table .= 'Roles:<table class="table table-condensed" style="width: 1%;">';
+                                    foreach ($event['roles'] as $role) {
+                                        $table .= '<tr>';
+                                        $table .= '<td>' . $role . '</td>';
+                                        $table .= '</tr>';
+                                    }
+                                    $table .= '</table>';
+                                }
+
                                 return $table;
                             },
                         ],

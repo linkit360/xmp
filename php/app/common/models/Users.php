@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\helpers\LogsHelper;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -190,5 +191,19 @@ class Users extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
     }
 }

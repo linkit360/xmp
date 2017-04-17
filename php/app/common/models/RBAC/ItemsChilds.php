@@ -1,11 +1,11 @@
 <?php
+
 namespace common\models\RBAC;
 
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
- * This is the model class for table "{{%rbac_items_childs}}".
- *
  * @property string $parent
  * @property string $child
  *
@@ -35,14 +35,14 @@ class ItemsChilds extends ActiveRecord
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => Items::className(),
-                'targetAttribute' => ['parent' => 'name']
+                'targetAttribute' => ['parent' => 'name'],
             ],
             [
                 ['child'],
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => Items::className(),
-                'targetAttribute' => ['child' => 'name']
+                'targetAttribute' => ['child' => 'name'],
             ],
         ];
     }
@@ -72,5 +72,26 @@ class ItemsChilds extends ActiveRecord
     public function getChild0()
     {
         return $this->hasOne(Items::className(), ['name' => 'child']);
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
+    }
+
+    public function afterDelete()
+    {
+        $logs = new LogsHelper();
+        $logs->logDelete($this);
+        return parent::afterDelete();
     }
 }

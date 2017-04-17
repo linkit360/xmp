@@ -46,4 +46,16 @@ class LogsHelper
         $log->event = $ev;
         $log->save();
     }
+
+    public function logDelete($model)
+    {
+        $log = new Logs();
+        $log->controller = Yii::$app->requestedAction->controller->id;
+        $log->action = Yii::$app->requestedAction->id;
+        $ev = [
+            'id' => $model->id,
+        ];
+        $log->event = $ev;
+        $log->save();
+    }
 }

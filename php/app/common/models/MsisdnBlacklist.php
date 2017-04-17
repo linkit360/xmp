@@ -1,7 +1,9 @@
 <?php
+
 namespace common\models;
 
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
  * This is the model class for table "xmp_msisdn_blacklist".
@@ -39,14 +41,14 @@ class MsisdnBlacklist extends ActiveRecord
                     'id_provider',
                     'id_operator',
                 ],
-                'required'
+                'required',
             ],
             [
                 [
                     'id_provider',
-                    'id_operator'
+                    'id_operator',
                 ],
-                'integer'
+                'integer',
             ],
             [['msisdn'], 'string', 'max' => 32],
         ];
@@ -59,10 +61,10 @@ class MsisdnBlacklist extends ActiveRecord
             $this->countries = Countries::find()
                 ->select([
                     'name',
-                    'id'
+                    'id',
                 ])
                 ->where([
-                    'status' => 1
+                    'status' => 1,
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -82,7 +84,7 @@ class MsisdnBlacklist extends ActiveRecord
                 ->select([
                     'name',
                     'id',
-                    'id_country'
+                    'id_country',
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -105,7 +107,7 @@ class MsisdnBlacklist extends ActiveRecord
                     'id_provider',
                 ])
                 ->where([
-                    'status' => 1
+                    'status' => 1,
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -129,5 +131,26 @@ class MsisdnBlacklist extends ActiveRecord
             'id_operator' => 'Operator',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
+    }
+
+    public function afterDelete()
+    {
+        $logs = new LogsHelper();
+        $logs->logDelete($this);
+        return parent::afterDelete();
     }
 }

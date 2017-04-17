@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="ibox-title">
             <h5>
                 <?php
-                echo Html::encode($this->title) . '&nbsp;';
                 echo Html::a(
                         'Update',
                         ['update', 'id' => $model->id],

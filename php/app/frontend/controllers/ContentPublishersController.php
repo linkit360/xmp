@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Content\Categories;
+use common\models\Content\Publishers;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ContentCategoriesController implements the CRUD actions for Categories model.
+ * ContentPublishersController implements the CRUD actions for Publishers model.
  */
-class ContentCategoriesController extends Controller
+class ContentPublishersController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,13 +30,13 @@ class ContentCategoriesController extends Controller
     }
 
     /**
-     * Lists all Categories models.
+     * Lists all Publishers models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Categories::find(),
+            'query' => Publishers::find(),
         ]);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ContentCategoriesController extends Controller
     }
 
     /**
-     * Displays a single Categories model.
+     * Displays a single Publishers model.
      *
      * @param string $id
      *
@@ -59,13 +59,13 @@ class ContentCategoriesController extends Controller
     }
 
     /**
-     * Creates a new Categories model.
+     * Creates a new Publishers model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Categories();
+        $model = new Publishers();
         $model->status = 1;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -78,7 +78,7 @@ class ContentCategoriesController extends Controller
     }
 
     /**
-     * Updates an existing Categories model.
+     * Updates an existing Publishers model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
      * @param string $id
@@ -99,7 +99,7 @@ class ContentCategoriesController extends Controller
     }
 
     /**
-     * Deletes an existing Categories model.
+     * Deletes an existing Publishers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
      * @param string $id
@@ -115,20 +115,22 @@ class ContentCategoriesController extends Controller
         return $this->redirect(['index']);
     }
 
+
     /**
-     * Finds the Categories model based on its primary key value.
+     * Finds the Publishers model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @param string $id
      *
-     * @return Categories the loaded model
+     * @return Publishers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Categories::findOne($id)) !== null) {
+        if (($model = Publishers::findOne($id)) !== null) {
             return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

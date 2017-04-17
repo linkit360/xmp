@@ -2,25 +2,25 @@
 
 namespace common\models\Content;
 
+use common\helpers\LogsHelper;
 use Yii;
 use yii\db\ActiveRecord;
-use common\helpers\LogsHelper;
 
 /**
  * @property string  $id
  * @property string  $id_user
- * @property string  $icon
  * @property string  $title
+ * @property string  $description
  * @property integer $status
  */
-class Categories extends ActiveRecord
+class Publishers extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%content_categories}}';
+        return '{{%content_publishers}}';
     }
 
     /**
@@ -29,10 +29,11 @@ class Categories extends ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'icon', 'title', 'status'], 'required'],
+            [['id_user', 'title', 'status'], 'required'],
             [['status'], 'integer'],
             [['id', 'id_user'], 'string'],
-            [['icon', 'title'], 'string', 'max' => 32],
+            [['title'], 'string', 'max' => 32],
+            [['description'], 'string', 'max' => 255],
         ];
     }
 
@@ -44,8 +45,8 @@ class Categories extends ActiveRecord
         return [
             'id' => 'ID',
             'id_user' => 'Id User',
-            'icon' => 'Icon',
             'title' => 'Title',
+            'description' => 'Description',
         ];
     }
 

@@ -37,6 +37,16 @@ foreach ($ic->getAll() as $icon) {
                 ]
             );
 
+            echo $form->field($model, 'status')->radioList(
+                [
+                    1 => 'Active',
+                    0 => 'Inactive',
+                ],
+                [
+                    'separator' => '<br/>',
+                ]
+            );
+
             echo Html::submitButton(
                 $model->isNewRecord ? 'Create' : 'Update',
                 [

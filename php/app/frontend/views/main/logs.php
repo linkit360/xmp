@@ -18,7 +18,7 @@ use yii\grid\GridView;
                             'attribute' => 'time',
                             'contentOptions' => function () {
                                 return [
-                                    'style' => 'width: 190px;',
+                                    'style' => 'width: 1%; white-space: nowrap;',
                                 ];
                             },
                         ],
@@ -26,7 +26,7 @@ use yii\grid\GridView;
                             'label' => 'User',
                             'contentOptions' => function () {
                                 return [
-                                    'style' => 'width: 1%;',
+                                    'style' => 'width: 1%; white-space: nowrap;',
                                 ];
                             },
                             'content' => function ($data) {
@@ -37,7 +37,7 @@ use yii\grid\GridView;
                             'attribute' => 'controller',
                             'contentOptions' => function () {
                                 return [
-                                    'style' => 'width: 1%;',
+                                    'style' => 'width: 1%; white-space: nowrap;',
                                 ];
                             },
                         ],
@@ -45,7 +45,7 @@ use yii\grid\GridView;
                             'attribute' => 'action',
                             'contentOptions' => function () {
                                 return [
-                                    'style' => 'width: 1%;',
+                                    'style' => 'width: 1%; white-space: nowrap;',
                                 ];
                             },
                         ],

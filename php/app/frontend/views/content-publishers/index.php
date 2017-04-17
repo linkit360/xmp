@@ -3,30 +3,32 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var  yii\web\View               $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ */
 
 $this->title = 'Publishers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="publishers-index">
+<div class="col-lg-6">
+    <div class="ibox">
+        <div class="ibox-content">
+            <p>
+                <?= Html::a('Create Publisher', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+            <?php
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'columns' => [
+                    'title',
+                    'description',
 
-    <p>
-        <?= Html::a('Create Publishers', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'id_user',
-            'title',
-            'description',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
 </div>

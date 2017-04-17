@@ -15,21 +15,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="ibox">
         <div class="ibox-content">
             <p>
-                <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
+                <?php
+                echo Html::a(
+                    'Create Category',
+                    ['create'],
+                    ['class' => 'btn btn-success']
+                );
+                ?>
             </p>
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => [
-//                    ['class' => 'yii\grid\SerialColumn'],
 
-//                    'id',
-//                    'id_user',
-                    'icon',
-                    'title',
+            <?php
+            echo GridView::widget(
+                [
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        'icon',
+                        'title',
 
-                    ['class' => 'yii\grid\ActionColumn'],
-                ],
-            ]); ?>
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]
+            );
+            ?>
         </div>
     </div>
 </div>

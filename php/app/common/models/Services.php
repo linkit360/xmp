@@ -37,7 +37,6 @@ class Services extends ActiveRecord
             [['title', 'id_user', 'id_provider', 'id_service', 'service_opts'], 'required'],
             [['id', 'id_user', 'service_opts'], 'string'],
             [['id_provider', 'status'], 'integer'],
-            [['updated_at', 'created_at'], 'safe'],
             [['title', 'id_service'], 'string', 'max' => 64],
             [['description'], 'string', 'max' => 255],
             [
@@ -76,6 +75,7 @@ class Services extends ActiveRecord
     public function beforeValidate()
     {
         $this->id_user = Yii::$app->user->id;
+        unset($this->created_at, $this->updated_at);
         return parent::beforeValidate();
     }
 

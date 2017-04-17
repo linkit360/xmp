@@ -71,13 +71,40 @@ use yii\grid\GridView;
                                 }
 
                                 if (array_key_exists('fields', $event)) {
-                                    $table .= '<table class="table table-condensed" style="width: 1%;">';
+                                    $table .= '<table class="table table-condensed" style="width: 800px;">';
+
                                     foreach ($event['fields'] as $attr => $field) {
                                         $table .= '<tr>';
                                         $table .= '<td>' . $attr . '</td>';
-                                        $table .= '<td class="text-right">' . $field['from'] . '</td>';
-                                        $table .= '<td>=></td>';
-                                        $table .= '<td>' . $field['to'] . '</td>';
+
+                                        if (!is_array($field['to'])) {
+                                            if ($attr === 'service_opts') {
+                                                // json
+                                                $table .= '<td class="text-right">';
+                                                $json = json_decode($field['from'], true);
+                                                if (count($json)) {
+                                                    foreach ($json as $k => $v) {
+                                                        $table .= $k . '=' . $v . '<br/>';
+                                                    }
+                                                }
+                                                $table .= '</td>';
+                                                $table .= '<td style="width: 1%;">=></td>';
+                                                $table .= '<td>';
+
+                                                $json = json_decode($field['to'], true);
+                                                if (count($json)) {
+                                                    foreach ($json as $k => $v) {
+                                                        $table .= $k . '=' . $v . '<br/>';
+                                                    }
+                                                }
+                                                $table .= '</td>';
+                                            } else {
+                                                // text
+                                                $table .= '<td class="text-right">' . $field['from'] . '</td>';
+                                                $table .= '<td style="width: 1%;">=></td>';
+                                                $table .= '<td>' . $field['to'] . '</td>';
+                                            }
+                                        }
                                         $table .= '</tr>';
                                     }
                                     $table .= '</table>';

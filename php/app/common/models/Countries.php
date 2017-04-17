@@ -2,13 +2,10 @@
 
 namespace common\models;
 
-use function array_key_exists;
-use Yii;
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
- * This is the model class for table "xmp_countries".
- *
  * @property integer $id
  * @property string  $name
  * @property integer $code
@@ -59,47 +56,15 @@ class Countries extends ActiveRecord
 
     public function afterSave($insert, $oldAttributes)
     {
-        $log = new Logs();
-        $log->controller = Yii::$app->requestedAction->controller->id;
-        $log->action = Yii::$app->requestedAction->id;
-        $ev = [
-            'id' => $this->id,
-        ];
-
-        if (!$this->isNewRecord) {
-            $event = [];
-            foreach ($this->attributes as $attribute => $value) {
-                if (!array_key_exists($attribute, $oldAttributes)) {
-                    continue;
-                }
-
-                $valueOld = $oldAttributes[$attribute];
-                if ($valueOld === $value) {
-                    continue;
-                }
-
-                if (is_numeric($valueOld) && $valueOld === (integer)$value) {
-                    continue;
-                }
-
-                $event[$attribute] = [
-                    'from' => $oldAttributes[$attribute],
-                    'to' => $value,
-                ];
-            }
-
-            if (count($event)) {
-                $ev['fields'] = $event;
-            }
-        }
-
-        $log->event = $ev;
-        $log->save();
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
 
         return parent::afterSave(
             $insert,
             $oldAttributes
         );
     }
-
 }

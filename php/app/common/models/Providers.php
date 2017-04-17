@@ -1,14 +1,15 @@
 <?php
+
 namespace common\models;
 
 use yii\db\ActiveRecord;
+use common\helpers\LogsHelper;
 
 /**
- * This is the model class for table "xmp_providers".
- *
  * @property integer $id
  * @property string  $name
  * @property integer $id_country
+ * @property integer $status
  */
 class Providers extends ActiveRecord
 {
@@ -29,7 +30,7 @@ class Providers extends ActiveRecord
     {
         return [
             [['name', 'id_country'], 'required'],
-            [['id_country'], 'integer'],
+            [['id_country', 'status'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
         ];
@@ -53,10 +54,10 @@ class Providers extends ActiveRecord
             $this->countries = Countries::find()
                 ->select([
                     'name',
-                    'id'
+                    'id',
                 ])
                 ->where([
-                    'status' => 1
+                    'status' => 1,
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -66,5 +67,19 @@ class Providers extends ActiveRecord
         }
 
         return $this->countries;
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
     }
 }

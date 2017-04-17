@@ -1,11 +1,11 @@
 <?php
+
 namespace common\models;
 
+use common\helpers\LogsHelper;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "xmp_operators".
- *
  * @property integer $id
  * @property string  $name
  * @property integer $id_provider
@@ -67,7 +67,7 @@ class Operators extends ActiveRecord
             $this->providers = Providers::find()
                 ->select([
                     'name',
-                    'id'
+                    'id',
                 ])
                 ->orderBy([
                     'name' => SORT_ASC,
@@ -77,5 +77,19 @@ class Operators extends ActiveRecord
         }
 
         return $this->providers;
+    }
+
+    public function afterSave($insert, $oldAttributes)
+    {
+        $logs = new LogsHelper();
+        $logs->log(
+            $this,
+            $oldAttributes
+        );
+
+        return parent::afterSave(
+            $insert,
+            $oldAttributes
+        );
     }
 }

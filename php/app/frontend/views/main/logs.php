@@ -71,7 +71,7 @@ use yii\grid\GridView;
                                 }
 
                                 if (array_key_exists('fields', $event)) {
-                                    $table .= '<table class="table table-condensed" style="width: 800px;">';
+                                    $table .= '<table class="table table-condensed" style="width: 1%;">';
 
                                     foreach ($event['fields'] as $attr => $field) {
                                         $table .= '<tr>';
@@ -80,7 +80,7 @@ use yii\grid\GridView;
                                         if (!is_array($field['to'])) {
                                             if ($attr === 'service_opts') {
                                                 // json
-                                                $table .= '<td class="text-right">';
+                                                $table .= '<td class="text-right" style="white-space: nowrap;">';
                                                 $json = json_decode($field['from'], true);
                                                 if (count($json)) {
                                                     foreach ($json as $k => $v) {
@@ -89,7 +89,7 @@ use yii\grid\GridView;
                                                 }
                                                 $table .= '</td>';
                                                 $table .= '<td style="width: 1%;">=></td>';
-                                                $table .= '<td>';
+                                                $table .= '<td style="white-space: nowrap;">';
 
                                                 $json = json_decode($field['to'], true);
                                                 if (count($json)) {
@@ -100,9 +100,13 @@ use yii\grid\GridView;
                                                 $table .= '</td>';
                                             } else {
                                                 // text
-                                                $table .= '<td class="text-right">' . $field['from'] . '</td>';
+                                                $table .= '<td class="text-right" style="white-space: nowrap;">' .
+                                                    $field['from'] .
+                                                    '</td>';
                                                 $table .= '<td style="width: 1%;">=></td>';
-                                                $table .= '<td>' . $field['to'] . '</td>';
+                                                $table .= '<td style="white-space: nowrap;">' .
+                                                    $field['to'] .
+                                                    '</td>';
                                             }
                                         }
                                         $table .= '</tr>';

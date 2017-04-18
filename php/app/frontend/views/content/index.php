@@ -1,35 +1,43 @@
 <?php
-
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var yii\web\View                $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ */
 
-$this->title = 'Contents';
+$this->title = 'Content';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="content-index">
+<div class="col-lg-6">
+    <div class="ibox">
+        <div class="ibox-content">
+            <p>
+                <?= Html::a('Add Content', ['create'], ['class' => 'btn btn-success']) ?>
+                <?= Html::a('Categories', '/content-categories/index', ['class' => 'btn btn-info']) ?>
+                <?= Html::a('Publishers', '/content-publishers/index', ['class' => 'btn btn-info']) ?>
+            </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+            <?php
+            echo GridView::widget(
+                [
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        //['class' => 'yii\grid\SerialColumn'],
+                        //'id',
+                        //'id_user',
+                        'id_category',
+                        'id_publisher',
+                        'title',
+                        // 'status',
+                        // 'time_create',
 
-    <p>
-        <?= Html::a('Create Content', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'id_user',
-            'id_category',
-            'id_publisher',
-            'title',
-            // 'status',
-            // 'time_create',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                        ['class' => 'yii\grid\ActionColumn'],
+                    ],
+                ]
+            );
+            ?>
+        </div>
+    </div>
 </div>

@@ -1,21 +1,17 @@
 <?php
 
-use yii\helpers\Html;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Content\Content */
+/**
+ * @var yii\web\View                  $this
+ * @var common\models\Content\Content $model
+ */
 
 $this->title = 'Update Content: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Contents', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Content', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
-?>
-<div class="content-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
+echo $this->render(
+    '_form',
+    [
         'model' => $model,
-    ]) ?>
-
-</div>
+    ]
+);

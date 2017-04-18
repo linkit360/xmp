@@ -53,9 +53,12 @@ class ContentController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render(
+            'view',
+            [
+                'model' => $this->findModel($id),
+            ]
+        );
     }
 
     /**
@@ -66,14 +69,24 @@ class ContentController extends Controller
     public function actionCreate()
     {
         $model = new Content();
+        $model->status = 1;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->id_publisher === '') {
+                unset($model->id_publisher);
+            }
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+
+        return $this->render(
+            'create',
+            [
+                'model' => $model,
+            ]
+        );
     }
 
     /**
@@ -107,7 +120,9 @@ class ContentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = 0;
+        $model->save();
 
         return $this->redirect(['index']);
     }

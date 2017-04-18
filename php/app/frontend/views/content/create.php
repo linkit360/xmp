@@ -1,21 +1,16 @@
 <?php
 
-use yii\helpers\Html;
+/**
+ * @var yii\web\View                  $this
+ * @var common\models\Content\Content $model
+ */
 
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Content\Content */
-
-$this->title = 'Create Content';
-$this->params['breadcrumbs'][] = ['label' => 'Contents', 'url' => ['index']];
+$this->title = 'Add Content';
+$this->params['breadcrumbs'][] = ['label' => 'Content', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-?>
-<div class="content-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
+echo $this->render(
+    '_form',
+    [
         'model' => $model,
-    ]) ?>
-
-</div>
+    ]
+);

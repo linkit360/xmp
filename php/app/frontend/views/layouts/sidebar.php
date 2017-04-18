@@ -46,13 +46,8 @@ if (in_array('campaignsManage', $permissions)) {
     ];
 
     $menu[$group]['items'][] = [
-        'name' => 'Content-cat',
-        'url' => 'content-categories/index',
-    ];
-
-    $menu[$group]['items'][] = [
-        'name' => 'Content-pub',
-        'url' => 'content-publishers/index',
+        'name' => 'Content',
+        'url' => 'content/index',
     ];
 }
 

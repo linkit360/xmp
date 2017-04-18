@@ -3,39 +3,45 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\Content\Content */
+/**
+ * @var yii\web\View                  $this
+ * @var common\models\Content\Content $model
+ */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Contents', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Content', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="content-view">
+<div class="col-lg-6">
+    <div class="ibox">
+        <div class="ibox-content">
+            <p>
+                <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => 'Are you sure you want to delete this item?',
+                        'method' => 'post',
+                    ],
+                ]) ?>
+            </p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'id_user',
-            'id_category',
-            'id_publisher',
-            'title',
-            'status',
-            'time_create',
-        ],
-    ]) ?>
-
+            <?php
+            echo DetailView::widget(
+                [
+                    'model' => $model,
+                    'attributes' => [
+                        'id',
+                        'id_user',
+                        'id_category',
+                        'id_publisher',
+                        'title',
+                        'status',
+                        'time_create',
+                    ],
+                ]
+            );
+            ?>
+        </div>
+    </div>
 </div>

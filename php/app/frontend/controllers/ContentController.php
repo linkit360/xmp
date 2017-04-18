@@ -8,6 +8,7 @@ use function array_key_exists;
 use Aws\Sdk;
 use Aws\S3\S3Client;
 
+use function count;
 use function json_decode;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -112,10 +113,13 @@ class ContentController extends Controller
             }
 
             if ($model->save()) {
-                if (array_key_exists('file', $_FILES) && $_FILES['file']['tmp_name'] !== '') {
-                    $this->fileUpload($model, $_FILES['file']);
+                if (array_key_exists('ContentForm', $_FILES) && count($_FILES['ContentForm']['tmp_name'])) {
+                    $this->fileUpload(
+                        $model,
+                        $_FILES['ContentForm']['tmp_name']['file'],
+                        $_FILES['ContentForm']['name']['file']
+                    );
                 }
-
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -145,8 +149,12 @@ class ContentController extends Controller
             }
 
             if ($model->save()) {
-                if (array_key_exists('file', $_FILES) && $_FILES['file']['tmp_name'] !== '') {
-                    $this->fileUpload($model, $_FILES['file']);
+                if (array_key_exists('ContentForm', $_FILES) && count($_FILES['ContentForm']['tmp_name'])) {
+                    $this->fileUpload(
+                        $model,
+                        $_FILES['ContentForm']['tmp_name']['file'],
+                        $_FILES['ContentForm']['name']['file']
+                    );
                 }
 
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -154,9 +162,12 @@ class ContentController extends Controller
         }
 
         $model->blacklist_tmp = json_decode($model->blacklist);
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render(
+            'update',
+            [
+                'model' => $model,
+            ]
+        );
     }
 
     /**
@@ -197,17 +208,18 @@ class ContentController extends Controller
     /**
      * @param Content $model
      * @param array   $file
+     * @param string  $name
      *
      * @return bool
      */
-    private function fileUpload($model, $file)
+    private function fileUpload($model, $file, $name)
     {
-        $ext = explode('.', basename($file['name']));
+        $ext = explode('.', basename($name));
         $this->s3->putObject(
             [
                 'Bucket' => 'xmp-content',
                 'Key' => $model->id . '.' . array_pop($ext),
-                'SourceFile' => $_FILES['file']['tmp_name'],
+                'SourceFile' => $file,
             ]
         );
 

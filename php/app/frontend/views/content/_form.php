@@ -57,23 +57,17 @@ use yii\widgets\ActiveForm;
                 ]
             );
 
-            echo FileInput::widget(
+            echo $form->field($model, 'file')->widget(
+                FileInput::classname(),
                 [
-                    'name' => 'file',
                     'options' => [
                         'multiple' => false,
                     ],
                     'pluginOptions' => [
-                        'uploadUrl' => Url::to(['/content/file-upload']),
-                        'uploadExtraData' => [
-                            'album_id' => 20,
-                            'cat_id' => 'Nature',
-                        ],
                         'maxFileCount' => 1,
                     ],
                 ]
             );
-
 
             echo Html::submitButton(
                 $model->isNewRecord ? 'Create' : 'Update',

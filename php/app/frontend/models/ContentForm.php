@@ -16,6 +16,7 @@ class ContentForm extends Content
 {
     # Fields
     public $blacklist_tmp = [];
+    public $file;
 
     # Data
     private $categories = [];
@@ -31,7 +32,11 @@ class ContentForm extends Content
             parent::rules(),
             [
                 [
-                    'blacklist_tmp',
+                    ['file'],
+                    'required',
+                ],
+                [
+                    ['blacklist_tmp', 'file'],
                     'safe',
                 ],
             ]
@@ -51,6 +56,10 @@ class ContentForm extends Content
     public function beforeValidate()
     {
         $this->blacklist = json_encode($this->blacklist_tmp);
+        if (array_key_exists('ContentForm', $_FILES) && count($_FILES['ContentForm']['tmp_name'])) {
+            $this->file = true;
+        }
+        
         return parent::beforeValidate();
     }
 

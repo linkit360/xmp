@@ -58,12 +58,12 @@ if (in_array('lpCreate', $permissions)) {
     ];
 }
 
-//if (in_array('lpCreate', $permissions)) {
-$menu[$group]['items'][] = [
-    'name' => 'Services Management',
-    'url' => 'services/index',
-];
-//}
+if (in_array('campaignsManage', $permissions)) {
+    $menu[$group]['items'][] = [
+        'name' => 'Services Management',
+        'url' => 'services/index',
+    ];
+}
 
 # Admin
 $group = 'Admin';
@@ -165,9 +165,9 @@ function drawSub($menu, $path)
     foreach ($menu['items'] as $item) {
         $urls[] = $item['url'];
 
-        // crud
-        if (substr_count($item['url'], '/index')) {
-            $urls[] = str_replace('/index', '', $item['url']);
+        // actions
+        if (substr_count($item['url'], '/')) {
+            $urls[] = explode('/', $item['url'], 2)[0];
         }
     }
     ?>

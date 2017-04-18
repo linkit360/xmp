@@ -38,6 +38,16 @@ class ContentForm extends Content
         );
     }
 
+    public function attributeLabels()
+    {
+        return array_merge_recursive(
+            parent::attributeLabels(),
+            [
+                'blacklist_tmp' => 'Blacklist Countries',
+            ]
+        );
+    }
+
     public function beforeValidate()
     {
         $this->blacklist = json_encode($this->blacklist_tmp);

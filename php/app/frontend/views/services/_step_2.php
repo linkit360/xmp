@@ -8,7 +8,6 @@ use yii\helpers\Html;
  */
 
 $this->params['subtitle'] = 'Select Provider';
-
 $providers = Providers::find()
     ->select(
         [
@@ -36,14 +35,16 @@ $providers = Providers::find()
         <div class="ibox-content">
             <?php
             foreach ($providers as $provider) {
-                echo Html::a(
-                    $provider['name'],
-                    '/services/create?step=3&id_country=' . (integer)$_GET['id_country'] . '&id_provider=' . $provider['id'],
-                    [
-                        'class' => 'btn btn-primary',
-                    ]
+                echo Html::tag(
+                    'p',
+                    Html::a(
+                        $provider['name'],
+                        '/services/create?step=3&id_country=' . (integer)$_GET['id_country'] . '&id_provider=' . $provider['id'],
+                        [
+                            'class' => 'btn btn-primary',
+                        ]
+                    )
                 );
-                echo '<br/>';
             }
             ?>
         </div>

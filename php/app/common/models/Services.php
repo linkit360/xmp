@@ -12,11 +12,11 @@ use common\helpers\LogsHelper;
  * @property string  $description
  * @property integer $id_provider
  * @property integer $id_service
+ * @property string  $id_content
  * @property string  $service_opts
  * @property string  $id_user
  * @property integer $status
- * @property string  $created_at
- * @property string  $updated_at
+ * @property string  $time_create
  */
 class Services extends ActiveRecord
 {
@@ -66,8 +66,6 @@ class Services extends ActiveRecord
             'id_provider' => 'Provider',
             'id_user' => 'User ID',
             'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
             'id_service' => 'Service ID',
         ];
     }
@@ -75,7 +73,7 @@ class Services extends ActiveRecord
     public function beforeValidate()
     {
         $this->id_user = Yii::$app->user->id;
-        unset($this->created_at, $this->updated_at);
+
         return parent::beforeValidate();
     }
 

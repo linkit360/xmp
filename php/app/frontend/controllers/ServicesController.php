@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Countries;
+use frontend\models\ServicesForm;
 use function json_encode;
 use const JSON_PRETTY_PRINT;
 use const null;
@@ -106,7 +107,7 @@ class ServicesController extends Controller
     {
         $opts = [];
         $get = Yii::$app->request->get();
-        $model = new Services();
+        $model = new ServicesForm();
         $model->loadDefaultValues();
         $stepNow = 1;
         if (array_key_exists('step', $get)) {
@@ -205,7 +206,7 @@ class ServicesController extends Controller
     public function actionUpdate($id)
     {
         $opts = [];
-        $model = $this->findModel($id);
+        $model = ServicesForm::findOne($id);
 
         $modelProvider = $this->getProviderModel($model->id_provider);
         if ($modelProvider === null) {

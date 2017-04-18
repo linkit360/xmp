@@ -18,7 +18,6 @@ $providers = Providers::find()
     ->asArray()
     ->column();
 
-
 $countries = Countries::find()
     ->select(
         [
@@ -46,14 +45,16 @@ $countries = Countries::find()
         <div class="ibox-content">
             <?php
             foreach ($countries as $country) {
-                echo Html::a(
-                    '<img src="' . $bundle->baseUrl . '/img/flags/16/' . $country['flag'] . '.png"> ' . $country['name'],
-                    '/services/create?step=2&id_country=' . $country['id'],
-                    [
-                        'class' => 'btn btn-primary',
-                    ]
+                echo Html::tag(
+                    'p',
+                    Html::a(
+                        '<img src="' . $bundle->baseUrl . '/img/flags/16/' . $country['flag'] . '.png"> ' . $country['name'],
+                        '/services/create?step=2&id_country=' . $country['id'],
+                        [
+                            'class' => 'btn btn-primary',
+                        ]
+                    )
                 );
-                echo '<br/>';
             }
             ?>
         </div>

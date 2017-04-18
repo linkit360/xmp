@@ -1,6 +1,8 @@
 <?php
 
+use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 
 /**
@@ -12,9 +14,14 @@ use yii\widgets\ActiveForm;
 
 $this->params['subtitle'] = 'Service Info';
 
-/** @var \common\models\Services $model */
+/** @var \frontend\models\ServicesForm $model */
 $model = $models['model_service'];
 $form = ActiveForm::begin();
+
+$content = $model->getContentForm($opts['country']->id);
+
+die;
+
 ?>
 <div class="col-lg-6">
     <div class="ibox">
@@ -30,6 +37,22 @@ $form = ActiveForm::begin();
             echo $form->field($model, 'description')->textarea();
             echo $form->field($model, 'id_service')->textInput(['maxlength' => true]);
             echo $form->field($model, 'id_provider')->hiddenInput()->label(false);
+
+            echo $form->field($model, 'content')->widget(
+                Select2::classname(),
+                [
+                    'data' => $content,
+                    'options' => [
+                        'placeholder' => 'Select content ...',
+                    ],
+                    'pluginOptions' => [
+//                        'allowClear' => true,
+                        'escapeMarkup' => new JsExpression("function(m) { return m; }"),
+                    ],
+                ]
+            );
+
+
             echo $form->field($model, 'status')->radioList(
                 [
                     1 => 'Active',

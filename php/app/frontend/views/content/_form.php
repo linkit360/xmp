@@ -1,14 +1,16 @@
 <?php
 
 use kartik\widgets\FileInput;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 
 /**
- * @var yii\web\View                  $this
- * @var common\models\Content\Content $model
- * @var yii\widgets\ActiveForm        $form
+ * @var yii\web\View                $this
+ * @var frontend\models\ContentForm $model
+ * @var yii\widgets\ActiveForm      $form
  */
 ?>
 <div class="col-lg-6">
@@ -37,6 +39,21 @@ use yii\widgets\ActiveForm;
                 ],
                 [
                     'separator' => '<br/>',
+                ]
+            );
+
+            echo $form->field($model, 'blacklist_tmp')->widget(
+                Select2::classname(),
+                [
+                    'data' => $model->getCountries(),
+                    'options' => [
+                        'placeholder' => 'Select ...',
+                        'multiple' => true,
+                    ],
+                    'pluginOptions' => [
+//                        'allowClear' => true,
+                        'escapeMarkup' => new JsExpression("function(m) { return m; }"),
+                    ],
                 ]
             );
 

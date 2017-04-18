@@ -15,60 +15,16 @@ use common\helpers\LogsHelper;
  * @property string  $title
  * @property integer $status
  * @property string  $time_create
+ * @property string  $blacklist
  */
 class Content extends ActiveRecord
 {
-    private $categories = [];
-    private $publishers = [];
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%content}}';
-    }
-
-    public function getCategories()
-    {
-        if (!count($this->categories)) {
-            $this->categories = Categories::find()
-                ->select([
-                    'title',
-                    'id',
-                ])
-                ->where([
-                    'status' => 1,
-                ])
-                ->orderBy([
-                    'title' => SORT_ASC,
-                ])
-                ->indexBy('id')
-                ->column();
-        }
-
-        return $this->categories;
-    }
-
-    public function getPublishers()
-    {
-        if (!count($this->publishers)) {
-            $this->publishers = Publishers::find()
-                ->select([
-                    'title',
-                    'id',
-                ])
-                ->where([
-                    'status' => 1,
-                ])
-                ->orderBy([
-                    'title' => SORT_ASC,
-                ])
-                ->indexBy('id')
-                ->column();
-        }
-
-        return $this->publishers;
     }
 
     /**
@@ -78,7 +34,7 @@ class Content extends ActiveRecord
     {
         return [
             [['id_user', 'id_category', 'title'], 'required'],
-            [['id', 'id_user', 'id_category', 'id_publisher'], 'string'],
+            [['id', 'id_user', 'id_category', 'id_publisher', 'blacklist'], 'string'],
             [['status'], 'integer'],
             [['time_create'], 'safe'],
             [['title'], 'string', 'max' => 32],

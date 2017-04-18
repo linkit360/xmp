@@ -2,19 +2,20 @@
 
 namespace frontend\controllers;
 
-use function array_key_exists;
 use const AWS_S3;
+use function array_key_exists;
 
 use Aws\Sdk;
 use Aws\S3\S3Client;
 
-use function print_r;
+use function json_decode;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+use frontend\models\ContentForm;
 use common\models\Content\Content;
 
 /**
@@ -102,7 +103,7 @@ class ContentController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Content();
+        $model = new ContentForm();
         $model->status = 1;
 
         if ($model->load(Yii::$app->request->post())) {
@@ -137,8 +138,7 @@ class ContentController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
+        $model = ContentForm::findOne($id);
         if ($model->load(Yii::$app->request->post())) {
             if ($model->id_publisher === '') {
                 unset($model->id_publisher);
@@ -153,6 +153,7 @@ class ContentController extends Controller
             }
         }
 
+        $model->blacklist_tmp = json_decode($model->blacklist);
         return $this->render('update', [
             'model' => $model,
         ]);

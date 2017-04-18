@@ -46,15 +46,20 @@ class CampaignsController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Campaigns::find()->where([
-                'id_user' => Yii::$app->user->id,
-                'status' => 1,
-            ]),
+            'query' => Campaigns::find()->where(
+                [
+                    'id_user' => Yii::$app->user->id,
+                    'status' => 1,
+                ]
+            ),
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**

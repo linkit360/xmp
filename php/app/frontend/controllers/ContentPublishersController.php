@@ -36,12 +36,20 @@ class ContentPublishersController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Publishers::find(),
+            'query' => Publishers::find()->where(
+                [
+                    'id_user' => Yii::$app->user->id,
+                    'status' => 1,
+                ]
+            ),
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**

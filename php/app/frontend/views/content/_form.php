@@ -1,6 +1,8 @@
 <?php
 
+use kartik\widgets\FileInput;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /**
@@ -13,7 +15,14 @@ use yii\widgets\ActiveForm;
     <div class="ibox">
         <div class="ibox-content">
             <?php
-            $form = ActiveForm::begin();
+            $form = ActiveForm::begin(
+                [
+                    'options' =>
+                        [
+                            'enctype' => 'multipart/form-data',
+                        ],
+                ]
+            );
             echo $form->field($model, 'id_category')->dropDownList(
                 [null => 'Please Select'] + $model->getCategories()
             );
@@ -30,6 +39,24 @@ use yii\widgets\ActiveForm;
                     'separator' => '<br/>',
                 ]
             );
+
+            echo FileInput::widget(
+                [
+                    'name' => 'file',
+                    'options' => [
+                        'multiple' => false,
+                    ],
+                    'pluginOptions' => [
+                        'uploadUrl' => Url::to(['/content/file-upload']),
+                        'uploadExtraData' => [
+                            'album_id' => 20,
+                            'cat_id' => 'Nature',
+                        ],
+                        'maxFileCount' => 1,
+                    ],
+                ]
+            );
+
 
             echo Html::submitButton(
                 $model->isNewRecord ? 'Create' : 'Update',

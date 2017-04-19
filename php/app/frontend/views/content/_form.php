@@ -51,7 +51,6 @@ use yii\widgets\ActiveForm;
                         'multiple' => true,
                     ],
                     'pluginOptions' => [
-//                        'allowClear' => true,
                         'escapeMarkup' => new JsExpression("function(m) { return m; }"),
                     ],
                 ]

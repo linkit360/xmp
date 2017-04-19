@@ -3,7 +3,11 @@
 namespace frontend\models;
 
 use function array_merge_recursive;
+use common\models\Content\Content;
 use common\models\Services;
+use const null;
+use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Services Form
@@ -12,9 +16,6 @@ class ServicesForm extends Services
 {
     # Fields
     public $content = [];
-
-    # Data
-
 
     /**
      * @inheritdoc
@@ -48,20 +49,41 @@ class ServicesForm extends Services
 
     public function beforeValidate()
     {
-//        $this->blacklist = json_encode($this->blacklist_tmp);
-//        if (array_key_exists('ContentForm', $_FILES) && count($_FILES['ContentForm']['tmp_name'])) {
-//            $this->file = true;
-//        }
-
+        $this->id_content = json_encode($this->content);
         return parent::beforeValidate();
     }
 
-    /**
-     * @param integer $countryId
-     */
     public function getContentForm($countryId)
     {
+        $cont = Content::find()
+            ->select(
+                [
+                    'id',
+                    'title',
+                ]
+            )
+            ->where(
+                [
+                    'AND',
+                    [
+                        'id_user' => Yii::$app->user->id,
+                    ],
+                    [
+                        'OR',
+                        [
+                            "blacklist" => null,
+                        ],
+                        [
+                            'NOT',
+                            'blacklist @> \'["' . (integer)$countryId . '"]\'::jsonb',
+                        ],
+                    ],
+                ]
+            )
+            ->asArray()
+            ->all();
 
-
+        $cont = ArrayHelper::map($cont, 'id', 'title');
+        return $cont;
     }
 }

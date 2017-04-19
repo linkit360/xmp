@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.25.7",
+            "version": "3.25.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d4f1104f5ac9c755875c5e6e9bade2c70708219a"
+                "reference": "8c12f611bf5d89318141db7bc8dee644423957bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d4f1104f5ac9c755875c5e6e9bade2c70708219a",
-                "reference": "d4f1104f5ac9c755875c5e6e9bade2c70708219a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8c12f611bf5d89318141db7bc8dee644423957bd",
+                "reference": "8c12f611bf5d89318141db7bc8dee644423957bd",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-04-11T22:31:27+00:00"
+            "time": "2017-04-18T18:47:31+00:00"
         },
         {
             "name": "bower-asset/bootstrap",

@@ -19,9 +19,6 @@ $model = $models['model_service'];
 $form = ActiveForm::begin();
 
 $content = $model->getContentForm($opts['country']->id);
-
-die;
-
 ?>
 <div class="col-lg-6">
     <div class="ibox">
@@ -37,31 +34,30 @@ die;
             echo $form->field($model, 'description')->textarea();
             echo $form->field($model, 'id_service')->textInput(['maxlength' => true]);
             echo $form->field($model, 'id_provider')->hiddenInput()->label(false);
-
             echo $form->field($model, 'content')->widget(
                 Select2::classname(),
                 [
                     'data' => $content,
                     'options' => [
                         'placeholder' => 'Select content ...',
+                        'multiple' => true,
                     ],
                     'pluginOptions' => [
-//                        'allowClear' => true,
                         'escapeMarkup' => new JsExpression("function(m) { return m; }"),
                     ],
                 ]
             );
 
-
-            echo $form->field($model, 'status')->radioList(
-                [
-                    1 => 'Active',
-                    0 => 'Inactive',
-                ],
-                [
-                    'separator' => '<br/>',
-                ]
-            );
+            echo $form->field($model, 'status')
+                ->radioList(
+                    [
+                        1 => 'Active',
+                        0 => 'Inactive',
+                    ],
+                    [
+                        'separator' => '<br/>',
+                    ]
+                );
             ?>
             <div class="text-right">
                 <?php
@@ -69,7 +65,6 @@ die;
                     $model->isNewRecord ? 'Create' : 'Update',
                     [
                         'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                        'style' => '',
                     ]
                 );
                 ?>

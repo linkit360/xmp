@@ -15,8 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-lg-6">
     <div class="ibox">
         <div class="ibox-content">
+            <p>
+                <?= Html::a('Create Service', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
             <?php
-            echo Html::a('Create Service', ['create'], ['class' => 'btn btn-success']);
             echo GridView::widget(
                 [
                     'dataProvider' => $dataProvider,

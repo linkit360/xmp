@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\BlacklistForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -42,15 +43,19 @@ class BlacklistController extends Controller
      */
     public function actionIndex()
     {
-        $model = new MsisdnBlacklist();
-        $dataProvider = new ActiveDataProvider([
-            'query' => MsisdnBlacklist::find(),
-        ]);
+        $model = new BlacklistForm();
 
-        return $this->render('index', [
-            'model' => $model,
-            'dataProvider' => $dataProvider,
-        ]);
+
+        $dataProvider = $model->search(Yii::$app->request->queryParams);
+
+
+        return $this->render(
+            'index',
+            [
+                'model' => $model,
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**

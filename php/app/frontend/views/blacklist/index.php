@@ -1,4 +1,5 @@
 <?php
+use kartik\widgets\DatePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\web\View;
@@ -63,6 +64,43 @@ $this->registerJs('load_operators();', View::POS_READY);
 </script>
 
 <div class="col-lg-6">
+    <div class="ibox">
+        <div class="ibox-content">
+            <?php
+            $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+            ]);
+            echo $form->field($model, 'msisdn');
+
+            echo DatePicker::widget([
+                'type' => DatePicker::TYPE_RANGE,
+                'form' => $form,
+                'model' => $model,
+                'attribute' => 'dateFrom',
+                'attribute2' => 'dateTo',
+                'options' => ['placeholder' => 'Start date'],
+                'options2' => ['placeholder' => 'End date'],
+                'pluginOptions' => [
+                    'format' => 'yyyy-mm-dd',
+                    'autoclose' => true,
+                ],
+            ]);
+
+            echo '<br/>';
+            echo Html::submitButton(
+                'Search',
+                [
+                    'class' => 'btn btn-success',
+                ]
+            );
+            ActiveForm::end();
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
     <div class="ibox">
         <div class="ibox-content">
             <p>

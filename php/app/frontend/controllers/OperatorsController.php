@@ -43,25 +43,7 @@ class OperatorsController extends Controller
      */
     public function actionIndex()
     {
-
-        /*
-        dump(Yii::$app->request->queryParams);
-
-
-        $search = new Operators();
-
-        $query = Operators::find()->where(
-            [
-                'status' => 1,
-            ]
-        );
-
-        */
-
-
         $model = new OperatorsForm();
-
-
         return $this->render(
             'index',
             [

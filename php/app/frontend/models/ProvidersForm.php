@@ -2,12 +2,14 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Operators;
+use common\models\Providers;
 
-class OperatorsForm extends Operators
+/**2
+ * Providerss represents the model behind the search form about `common\models\Providers`.
+ */
+class ProvidersForm extends Providers
 {
     /**
      * @inheritdoc
@@ -15,8 +17,8 @@ class OperatorsForm extends Operators
     public function rules()
     {
         return [
-            [['id', 'id_provider', 'code', 'status'], 'integer'],
-            [['name', 'isp', 'msisdn_prefix', 'mcc', 'mnc', 'created_at'], 'safe'],
+            [['id', 'id_country', 'status'], 'integer'],
+            [['name', 'name_alias'], 'safe'],
         ];
     }
 
@@ -38,7 +40,7 @@ class OperatorsForm extends Operators
      */
     public function search($params)
     {
-        $query = Operators::find();
+        $query = Providers::find();
 
         // add conditions that should always apply here
 
@@ -57,17 +59,12 @@ class OperatorsForm extends Operators
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'id_provider' => $this->id_provider,
-            'code' => $this->code,
+            'id_country' => $this->id_country,
             'status' => 1,
-            'created_at' => $this->created_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'isp', $this->isp])
-            ->andFilterWhere(['like', 'msisdn_prefix', $this->msisdn_prefix])
-            ->andFilterWhere(['like', 'mcc', $this->mcc])
-            ->andFilterWhere(['like', 'mnc', $this->mnc]);
+            ->andFilterWhere(['like', 'name_alias', $this->name_alias]);
 
         return $dataProvider;
     }

@@ -3,10 +3,10 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use frontend\models\ProvidersForm;
 
 use common\models\Providers;
 
@@ -42,19 +42,12 @@ class ProvidersController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Providers::find()
-                ->where(
-                    [
-                        'status' => 1,
-                    ]
-                ),
-        ]);
-
+        $model = new ProvidersForm();
         return $this->render(
             'index',
             [
-                'dataProvider' => $dataProvider,
+                'dataProvider' => $model->search(Yii::$app->request->queryParams),
+                'search' => $model,
             ]
         );
     }

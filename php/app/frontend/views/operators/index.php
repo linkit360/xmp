@@ -5,9 +5,15 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View                $this
  * @var yii\data\ActiveDataProvider $dataProvider
+ * @var \common\models\Operators    $search
  */
 $this->title = 'Operators';
 $this->params['breadcrumbs'][] = $this->title;
+
+$provs = \common\models\Providers::find()
+    ->indexBy('id')
+    ->asArray()
+    ->all()
 ?>
 <div class="col-lg-6">
     <div class="ibox">
@@ -19,18 +25,24 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
+                'filterModel' => $search,
                 'columns' => [
-//                'id',
+                    [
+                        'attribute' => 'id_provider',
+                        'filter' => false,
+                        'content' => function ($row) use ($provs) {
+                            return $provs[$row['id_provider']]['name'];
+                        },
+                    ],
                     'name',
-                    'id_provider',
-//                'isp',
-//                'msisdn_prefix',
-                    'mcc',
-                    'mnc',
-                    'status',
-//                'code',
-                    'created_at',
-
+                    'code',
+                    [
+                        'attribute' => 'created_at',
+                        'filter' => false,
+                        'content' => function ($row) {
+                            return date('Y-m-d H:i:s', strtotime($row['created_at']));
+                        },
+                    ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]);

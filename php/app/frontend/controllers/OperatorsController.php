@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\OperatorsForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -42,17 +43,32 @@ class OperatorsController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Operators::find()->where(
-                [
-                    'status' => 1,
-                ]
-            ),
-        ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        /*
+        dump(Yii::$app->request->queryParams);
+
+
+        $search = new Operators();
+
+        $query = Operators::find()->where(
+            [
+                'status' => 1,
+            ]
+        );
+
+        */
+
+
+        $model = new OperatorsForm();
+
+
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $model->search(Yii::$app->request->queryParams),
+                'search' => $model,
+            ]
+        );
     }
 
     /**

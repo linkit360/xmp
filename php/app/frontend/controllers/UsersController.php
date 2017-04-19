@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use const SORT_ASC;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -74,7 +75,11 @@ class UsersController extends Controller
                     [
                         'status' => 1,
                     ]
-                ),
+                )
+                ->orderBy([
+                    'username' => SORT_ASC,
+                    'email' => SORT_ASC,
+                ]),
         ]);
 
         return $this->render(

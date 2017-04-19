@@ -2,7 +2,9 @@
 
 namespace frontend\models;
 
+use function array_key_exists;
 use function array_keys;
+use function array_push;
 use function count;
 use function in_array;
 use const SORT_ASC;
@@ -261,29 +263,28 @@ class ReportsForm extends Model
 //                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
 //                'SUM(mo) as mo',
 //                'SUM(mo_success) as mo_success',
-
+                'id_campaign',
                 "date_trunc('day', report_at) as report_at_day",
             ])
             ->groupBy([
+                'id_campaign',
                 'report_at_day',
             ])
             ->orderBy([
                 'report_at_day' => SORT_ASC,
             ]);
+
         $query = $this->applyFilters($query);
 
         $chart = [
             'sum' => 0,
             'days' => [],
-            'series' => [
-                [
-                    'name' => 'Lp Hits',
-                    'data' => [],
-                ],
-            ],
+            'series' => [],
         ];
 
+        $series = [];
         foreach ($query->all() as $row) {
+//            dump($row);
             $date = date(
                 'Y.m.d',
                 strtotime($row['report_at_day'])
@@ -293,8 +294,20 @@ class ReportsForm extends Model
                 $chart['days'][] = $date;
             }
 
-            $chart['series'][0]['data'][] = (int)$row['lp_hits'];
+            if (!array_key_exists($row['id_campaign'], $series)) {
+                $series[$row['id_campaign']] = [
+                    'name' => 'Campaign #' . $row['id_campaign'],
+                    'data' => [],
+                ];
+            }
+
+//            $chart['series'][]['data'][] = (int)$row['lp_hits'];
+            $series[$row['id_campaign']]['data'][] = (int)$row['lp_hits'];
             $chart['sum'] += $row['lp_hits'];
+        }
+
+        foreach ($series as $ser) {
+            $chart['series'][] = $ser;
         }
 
         $this->chart = $chart;

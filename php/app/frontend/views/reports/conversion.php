@@ -15,6 +15,11 @@ $this->params['breadcrumbs'][] = [
     'url' => '/reports/index',
 ];
 $this->params['breadcrumbs'][] = $this->title;
+
+
+//dump($model->chart['series']);
+
+
 ?>
 <div class="col-lg-6">
     <div class="ibox">

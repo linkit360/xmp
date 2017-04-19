@@ -318,14 +318,17 @@ class ReportsForm extends Model
         $query = (new Query())
             ->from('xmp_reports')
             ->select([
-                'SUM(lp_hits) as lp_hits',
-                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
-                'SUM(mo) as mo',
-                'SUM(mo_success) as mo_success',
+//                'SUM(lp_hits) as lp_hits',
+//                'SUM(lp_msisdn_hits) as lp_msisdn_hits',
+//                'SUM(mo) as mo',
+//                'SUM(mo_success) as mo_success',
+                'SUM(pixels) as pixels',
+                'id_campaign',
 
                 "date_trunc('day', report_at) as report_at_day",
             ])
             ->groupBy([
+                'id_campaign',
                 'report_at_day',
             ])
             ->orderBy([
@@ -336,22 +339,10 @@ class ReportsForm extends Model
         $chart = [
             'sum' => 0,
             'days' => [],
-            'series' => [
-                [
-                    'name' => 'Lp Hits',
-                    'data' => [],
-                ],
-                [
-                    'name' => 'Mo',
-                    'data' => [],
-                ],
-                [
-                    'name' => 'Mo Success',
-                    'data' => [],
-                ],
-            ],
+            'series' => [],
         ];
 
+        $series = [];
         foreach ($query->all() as $row) {
             $date = date(
                 'Y.m.d',
@@ -362,10 +353,22 @@ class ReportsForm extends Model
                 $chart['days'][] = $date;
             }
 
-            $chart['series'][0]['data'][] = (int)$row['lp_hits'];
-            $chart['series'][1]['data'][] = (int)$row['mo'];
-            $chart['series'][2]['data'][] = (int)$row['mo_success'];
-            $chart['sum'] += $row['lp_hits'];
+//            $chart['series'][0]['data'][] = (int)$row['lp_hits'];
+//            $chart['series'][1]['data'][] = (int)$row['mo'];
+//            $chart['series'][2]['data'][] = (int)$row['mo_success'];
+            $chart['sum'] += $row['pixels'];
+
+            if (!array_key_exists($row['id_campaign'], $series)) {
+                $series[$row['id_campaign']] = [
+                    'name' => 'Campaign #' . $row['id_campaign'],
+                    'data' => [],
+                ];
+            }
+            $series[$row['id_campaign']]['data'][] = (int)$row['pixels'];
+        }
+
+        foreach ($series as $ser) {
+            $chart['series'][] = $ser;
         }
 
         $this->chart = $chart;

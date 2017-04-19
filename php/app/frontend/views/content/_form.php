@@ -1,17 +1,19 @@
 <?php
 
-use kartik\widgets\FileInput;
-use kartik\widgets\Select2;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
+
+use kartik\widgets\FileInput;
+use kartik\widgets\Select2;
 
 /**
  * @var yii\web\View                $this
  * @var frontend\models\ContentForm $model
  * @var yii\widgets\ActiveForm      $form
  */
+
+//$this->registerCss('.file-thumbnail-footer {display: none;}');
 ?>
 <div class="col-lg-6">
     <div class="ibox">
@@ -25,22 +27,17 @@ use yii\widgets\ActiveForm;
                         ],
                 ]
             );
-            echo $form->field($model, 'id_category')->dropDownList(
-                [null => 'Please Select'] + $model->getCategories()
-            );
-            echo $form->field($model, 'id_publisher')->dropDownList(
-                [null => 'Please Select'] + $model->getPublishers()
-            );
+
             echo $form->field($model, 'title')->textInput(['maxlength' => true]);
-            echo $form->field($model, 'status')->radioList(
-                [
-                    1 => 'Active',
-                    0 => 'Inactive',
-                ],
-                [
-                    'separator' => '<br/>',
-                ]
-            );
+            echo $form->field($model, 'id_category')
+                ->dropDownList(
+                    [null => 'Please Select'] + $model->getCategories()
+                );
+
+            echo $form->field($model, 'id_publisher')
+                ->dropDownList(
+                    [null => 'Please Select'] + $model->getPublishers()
+                );
 
             echo $form->field($model, 'blacklist_tmp')->widget(
                 Select2::classname(),
@@ -56,15 +53,31 @@ use yii\widgets\ActiveForm;
                 ]
             );
 
-            echo $form->field($model, 'file')->widget(
-                FileInput::classname(),
+            if ($model->isNewRecord) {
+                echo $form->field($model, 'file')
+                    ->widget(
+                        FileInput::classname(),
+                        [
+                            'options' => [
+                                'multiple' => false,
+                            ],
+                            'pluginOptions' => [
+                                'maxFileCount' => 1,
+//                        'uploadUrl' => '/',
+                                'showUpload' => false,
+                            ],
+                        ]
+                    )
+                    ->hint('You cannot change file later.');
+            }
+
+            echo $form->field($model, 'status')->radioList(
                 [
-                    'options' => [
-                        'multiple' => false,
-                    ],
-                    'pluginOptions' => [
-                        'maxFileCount' => 1,
-                    ],
+                    1 => 'Active',
+                    0 => 'Inactive',
+                ],
+                [
+                    'separator' => '<br/>',
                 ]
             );
 

@@ -56,10 +56,16 @@ class ContentForm extends Content
     public function beforeValidate()
     {
         $this->blacklist = json_encode($this->blacklist_tmp);
-        if (array_key_exists('ContentForm', $_FILES) && count($_FILES['ContentForm']['tmp_name'])) {
+        if (
+            !$this->isNewRecord ||
+            (
+                array_key_exists('ContentForm', $_FILES) &&
+                count($_FILES['ContentForm']['tmp_name'])
+            )
+        ) {
             $this->file = true;
         }
-        
+
         return parent::beforeValidate();
     }
 

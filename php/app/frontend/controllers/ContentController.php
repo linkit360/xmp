@@ -3,13 +3,14 @@
 namespace frontend\controllers;
 
 use const AWS_S3;
+use function count;
+use function json_decode;
 use function array_key_exists;
 
 use Aws\Sdk;
 use Aws\S3\S3Client;
+use ZipArchive;
 
-use function count;
-use function json_decode;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -18,6 +19,8 @@ use yii\filters\VerbFilter;
 
 use frontend\models\ContentForm;
 use common\models\Content\Content;
+use common\models\Content\Categories;
+use common\models\Content\Publishers;
 
 /**
  * ContentController implements the CRUD actions for Content model.
@@ -63,6 +66,25 @@ class ContentController extends Controller
      */
     public function actionIndex()
     {
+        $data = [];
+        $data['pubs'] = Publishers::find()
+            ->where(
+                [
+                    'status' => 1,
+                ]
+            )
+            ->indexBy('id')
+            ->all();
+
+        $data['cats'] = Categories::find()
+            ->where(
+                [
+                    'status' => 1,
+                ]
+            )
+            ->indexBy('id')
+            ->all();
+
         $dataProvider = new ActiveDataProvider([
             'query' => Content::find()->where(
                 [
@@ -76,6 +98,7 @@ class ContentController extends Controller
             'index',
             [
                 'dataProvider' => $dataProvider,
+                'data' => $data,
             ]
         );
     }
@@ -200,29 +223,28 @@ class ContentController extends Controller
     {
         if (($model = Content::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     /**
      * @param Content $model
      * @param array   $file
      * @param string  $name
-     *
-     * @return bool
      */
     private function fileUpload($model, $file, $name)
     {
-        $ext = explode('.', basename($name));
-        $this->s3->putObject(
-            [
-                'Bucket' => 'xmp-content',
-                'Key' => $model->id . '.' . array_pop($ext),
-                'SourceFile' => $file,
-            ]
-        );
+        $fileZip = tempnam('/tmp', 'zip');
+        $zip = new ZipArchive();
+        $zip->open($fileZip, ZipArchive::OVERWRITE);
+        $zip->addFile($file, $name);
+        $zip->close();
 
-        return true;
+        $this->s3->putObject([
+            'Bucket' => 'xmp-content',
+            'Key' => $model->id,
+            'SourceFile' => $fileZip,
+        ]);
     }
 }

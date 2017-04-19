@@ -75,11 +75,6 @@ function start() {
                 dataset[iso] = {numberOfThings: value, fillColor: paletteScale(value)};
             });
 
-            // $.each(data['countries'], function (index, value) {
-            //     dump(index + ' ' + value);
-            // });
-            // dump('');
-
             chart.updateChoropleth(dataset);
         }
     };
@@ -154,7 +149,7 @@ function reset() {
     output[1].innerText = 0;
     output[2].innerText = 0;
     output[3].innerText = "0%";
-    map.updateChoropleth(
+    chart.updateChoropleth(
         null,
         {
             reset: true

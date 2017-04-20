@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\UsersForm;
 use const SORT_ASC;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -69,25 +70,15 @@ class UsersController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Users::find()
-                ->where(
-                    [
-                        'status' => 1,
-                    ]
-                )
-                ->orderBy([
-                    'username' => SORT_ASC,
-                    'email' => SORT_ASC,
-                ]),
-        ]);
+        $searchModel = new UsersForm();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(
             'index',
             [
+                'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
-            ]
-        );
+            ]);
     }
 
     /**

@@ -5,12 +5,13 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View                $this
  * @var yii\data\ActiveDataProvider $dataProvider
+ * @var \frontend\models\UsersForm  $searchModel
  */
 
 $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-lg-6">
+<div class="col-lg-8">
     <div class="ibox">
         <div class="ibox-content">
             <p>
@@ -24,22 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
             echo GridView::widget([
                 'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
                 'columns' => [
                     'username',
-//                'auth_key',
-//                'password_hash',
-//                'password_reset_token',
                     'email:email',
-//                [
-//                    'header' => 'Roles',
-//                    'content' => function ($data) {
-//                        return '1';
-//                    },
-//                ],
-//                'status',
-                    'created_at:datetime',
-                    'updated_at:datetime',
-//                'id',
+                    [
+                        'attribute' => 'created_at',
+                        'format' => 'datetime',
+                        'filter' => false,
+                    ],
+                    [
+                        'attribute' => 'updated_at',
+                        'format' => 'datetime',
+                        'filter' => false,
+                    ],
                     ['class' => 'yii\grid\ActionColumn'],
                 ],
             ]);

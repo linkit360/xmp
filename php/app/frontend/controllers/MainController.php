@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use const false;
-use frontend\models\LogsForm;
 use const true;
 use const JSON_PRETTY_PRINT;
 use function array_key_exists;
@@ -24,6 +23,7 @@ use common\models\Countries;
 use common\models\Operators;
 use common\models\Providers;
 use frontend\models\TransactionsForm;
+use frontend\models\LogsForm;
 
 /**
  * Site Controller
@@ -302,16 +302,16 @@ class MainController extends Controller
      */
     public function actionLogs()
     {
-        $model = new LogsForm;
-        $model->load(Yii::$app->request->get());
+        $searchModel = new LogsForm();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(
             'logs',
             [
-                'dataProvider' => $model->dataProvider(),
+                'model' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]
         );
-
     }
 
     public function actionCountry()

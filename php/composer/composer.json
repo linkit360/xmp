@@ -15,7 +15,8 @@
     "aws/aws-sdk-php": "^3.25",
     "FortAwesome/Font-Awesome": "^4.7",
     "kartik-v/yii2-grid": "^3.1",
-    "kartik-v/yii2-export": "^1.2"
+    "kartik-v/yii2-export": "^1.2",
+    "kartik-v/yii2-date-range": "^1.6"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

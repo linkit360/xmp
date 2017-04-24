@@ -5,6 +5,9 @@ URL=955441867202.dkr.ecr.eu-central-1.amazonaws.com
 # Reset to local docker
 eval $(docker-machine env -u)
 
+# Update submodules (php, go ...)
+git submodule update --recursive --remote
+
 # Build All
 docker-compose -f config/compose.common.json -f config/compose.development.json -p xmp build
 if [ $? != 0 ]; then
@@ -28,9 +31,9 @@ docker tag xmp/go:latest ${URL}/xmp/go:latest
 printf "\n\n"
 docker push ${URL}/xmp/nginx:latest
 printf "\n\n"
-docker push ${URL}/xmp/php:latest
-printf "\n\n"
 docker push ${URL}/xmp/go:latest
+printf "\n\n"
+docker push ${URL}/xmp/php:latest
 
 # Reset to local docker
 eval $(docker-machine env -u)

@@ -1,12 +1,8 @@
-FROM golang:1.8.0-alpine
+FROM golang:1.8.1-alpine
 EXPOSE 3000 50318 50319
 
 ENV TERM xterm
-RUN apk add --progress --no-cache \
-    bash wget curl nano \
-    icu-libs icu-dev \
-    git zip unzip zlib-dev \
-    sudo su-exec openssh-client
+RUN apk add --progress --no-cache bash wget curl nano git openssh-client
 
 RUN addgroup -S -g 1000 docker
 RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker

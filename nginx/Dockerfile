@@ -1,12 +1,11 @@
-FROM nginx:1.11.10-alpine
+FROM nginx:1.13.0-alpine
+
+# Deps
+RUN apk add --progress --no-cache bash openssl certbot
 
 # Env
 EXPOSE 8080 8443
 ENV TERM xterm
-
-RUN apk add --progress --no-cache \
-    bash curl wget git zip unzip bc nano \
-    sudo su-exec openssl certbot
 
 # Add Group and User
 RUN addgroup -g 1000 docker

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-URL=955441867202.dkr.ecr.eu-central-1.amazonaws.com
-
 # Reset to local docker
 eval $(docker-machine env -u)
 
@@ -14,27 +12,7 @@ if [ $? != 0 ]; then
     printf "\n\n BUILD FAIL \n\n"
     exit 1
 fi
-
-# For Testing
-#exit 1
-
 printf "\n\n"
-# Login to AWS
-eval $(aws ecr get-login --region eu-central-1 --profile=xmp)
 
-# Tag
-docker tag xmp/nginx:latest ${URL}/xmp/nginx:latest
-docker tag xmp/php:latest ${URL}/xmp/php:latest
-docker tag xmp/go:latest ${URL}/xmp/go:latest
-
-# Push
-printf "\n\n"
-docker push ${URL}/xmp/nginx:latest
-printf "\n\n"
-docker push ${URL}/xmp/go:latest
-printf "\n\n"
-docker push ${URL}/xmp/php:latest
-
-# Reset to local docker
-eval $(docker-machine env -u)
+docker system prune -f
 printf "\n\n"

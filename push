@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+docker push linkit360ru/xmp-nginx:latest
+docker push linkit360ru/xmp-go:latest
+docker push linkit360ru/xmp-php:latest
+
+printf "\n\n"

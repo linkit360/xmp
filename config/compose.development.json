@@ -2,7 +2,7 @@
   "version": "3.1",
   "services": {
     "nginx": {
-      "image": "xmp/nginx:latest",
+      "image": "linkit360ru/xmp-nginx:latest",
       "build": {
         "context": "../nginx"
       },
@@ -17,7 +17,7 @@
       ]
     },
     "php": {
-      "image": "xmp/php:latest",
+      "image": "linkit360ru/xmp-php:latest",
       "links": [
         "pgsql"
       ],
@@ -36,7 +36,7 @@
       ]
     },
     "go": {
-      "image": "xmp/go:latest",
+      "image": "linkit360ru/xmp-go:latest",
       "build": {
         "context": "../go"
       },
@@ -53,7 +53,7 @@
       ]
     },
     "pgsql": {
-      "image": "xmp/postgresql:latest",
+      "image": "linkit360ru/xmp-sql:latest",
       "build": {
         "context": "../postgresql"
       },

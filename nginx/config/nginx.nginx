@@ -24,7 +24,7 @@ http {
         listen 8080;
         listen [::]:8080;
         server_name localhost "" www.*;
-        root /app/assets;
+        root /app/frontend/web;
 
         charset utf-8;
         client_max_body_size 128M;

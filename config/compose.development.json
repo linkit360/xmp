@@ -13,13 +13,13 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../php/app/assets:/app/assets"
+        "../php/app/frontend/web:/app/frontend/web"
       ]
     },
     "php": {
       "image": "linkit360ru/xmp-php:latest",
       "links": [
-        "pgsql"
+        "sql"
       ],
       "ports": [
       ],
@@ -42,7 +42,7 @@
       },
       "links": [
         "php",
-        "pgsql"
+        "sql"
       ],
       "environment": [
         "PROJECT_ENV=development"
@@ -52,10 +52,10 @@
         "../go/src/acceptor:/go/src/acceptor"
       ]
     },
-    "pgsql": {
+    "sql": {
       "image": "linkit360ru/xmp-sql:latest",
       "build": {
-        "context": "../postgresql"
+        "context": "../sql"
       },
       "ports": [
         "5432:5432"
@@ -67,7 +67,7 @@
         "PGDATA=/data"
       ],
       "volumes": [
-        "../postgresql/data:/data"
+        "../sql/data:/data"
       ]
     }
   }

@@ -13,7 +13,7 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../php/app:/app"
+        "../php/app/assets:/app/assets"
       ]
     },
     "php": {

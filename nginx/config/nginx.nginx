@@ -1,4 +1,3 @@
-# user docker docker;
 worker_processes  1;
 daemon off;
 
@@ -13,9 +12,7 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  '$remote_addr [$time_local] "$request" '
-    '$status $body_bytes_sent "$http_referer"';
-
+    log_format  main  '$remote_addr [$time_local] "$request" $status $body_bytes_sent "$http_referer"';
     access_log  /var/log/nginx/access.log  main;
 
     sendfile        on;
@@ -27,7 +24,7 @@ http {
         listen 8080;
         listen [::]:8080;
         server_name localhost "" www.*;
-        root /app/php/frontend/web;
+        root /app/frontend/web;
 
         charset utf-8;
         client_max_body_size 128M;

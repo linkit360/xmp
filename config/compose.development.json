@@ -13,7 +13,7 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../php/app:/app/php"
+        "../php/app:/app"
       ]
     },
     "php": {
@@ -30,9 +30,9 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../php/app:/app/php",
-        "../php/composer:/app/composer",
-        "../php/config:/app/config"
+        "../php/app:/app",
+        "../php/composer:/composer",
+        "../php/config:/config"
       ]
     },
     "go": {

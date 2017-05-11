@@ -3,6 +3,7 @@ package handlers
 import (
 	"acceptor/src/base"
 	"acceptor/src/websocket"
+
 	log "github.com/Sirupsen/logrus"
 
 	acceptorStructs "github.com/linkit360/go-acceptor-structs"
@@ -27,11 +28,11 @@ func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
 
 type BlackList struct{}
 
-func (rpc *BlackList) Get(req acceptorStructs.BlackListGetParams, res *acceptorStructs.BlackListResponse) error {
+func (rpc *BlackList) GetAll(req acceptorStructs.BlackListGetParams, res *acceptorStructs.BlackListResponse) error {
 	log.WithFields(log.Fields{
 		"prefix":       "Handlers",
 		"ProviderName": req.ProviderName,
-	}).Info("BL Get")
+	}).Info("BL GetAll")
 
 	res.Msisdns = base.GetBlackList(req.ProviderName, "")
 

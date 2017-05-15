@@ -36,6 +36,7 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 			"mo_charge_failed, " +
 			"mo_rejected, " +
 
+			"outflow, " +
 			"renewal_total, " +
 			"renewal_charge_success, " +
 			"renewal_charge_sum, " +
@@ -44,7 +45,7 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 
 			") VALUES ("+
 
-			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16" +
+			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17" +
 
 			");",
 		config.TablePrefix)
@@ -67,6 +68,7 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 			row.MoChargeFailed,
 			row.MoRejected,
 
+			row.Outflow,
 			row.RenewalTotal,
 			row.RenewalChargeSuccess,
 			row.RenewalChargeSum,

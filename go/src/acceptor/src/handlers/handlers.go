@@ -5,7 +5,6 @@ import (
 	"acceptor/src/websocket"
 
 	log "github.com/Sirupsen/logrus"
-
 	acceptorStructs "github.com/linkit360/go-acceptor-structs"
 )
 
@@ -17,13 +16,17 @@ type AggregateData struct {
 	Aggregated []acceptorStructs.Aggregate `json:"aggregated,omitempty"`
 }
 
-func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {
+func (rpc *Aggregate) Receive(req AggregateData, res *acceptorStructs.Response) error {
 	rows := req.Aggregated
-	//log.WithFields(log.Fields{
-	//	"prefix": "Handlers",
-	//}).Info("Receive:", len(rows))
 	websocket.NewReports(rows)
-	return base.SaveRows(rows)
+	err := base.SaveRows(rows)
+
+	if err == nil {
+		res.Ok = true
+	} else {
+		res.Ok = false
+	}
+	return err
 }
 
 type BlackList struct{}

@@ -47,11 +47,13 @@ func main() {
 	}
 
 	//log.Println(data)
-	err := acceptor_client.SendAggregatedData(data2)
+	resp, err := acceptor_client.SendAggregatedData(data2)
 	if err != nil {
 		log.Println("Error")
 		log.Println(err.Error())
 	}
+
+	log.Println(resp)
 
 	/*
 

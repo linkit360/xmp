@@ -14,7 +14,7 @@ type Response struct{}
 type Aggregate struct{}
 
 type AggregateData struct {
-	Aggregated []base.Aggregate `json:"aggregated,omitempty"`
+	Aggregated []acceptorStructs.Aggregate `json:"aggregated,omitempty"`
 }
 
 func (rpc *Aggregate) Receive(req AggregateData, res *Response) error {

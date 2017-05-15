@@ -6,8 +6,10 @@ import (
 	"time"
 
 	"acceptor/src/base"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
+	acceptorStructs "github.com/linkit360/go-acceptor-structs"
 )
 
 var lastResetTime int = 0
@@ -80,32 +82,31 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NewReports(rows []base.Aggregate) {
-	//hitsOld := dataLp
+func NewReports(rows []acceptorStructs.Aggregate) {
 	for _, row := range rows {
 		data.LpHits = data.LpHits + uint64(row.LpHits)
-		data.Mo = data.Mo + uint64(row.Mo)
-		data.MoSuccess = data.MoSuccess + uint64(row.MoSuccess)
+		data.Mo = data.Mo + uint64(row.MoTotal)
+		data.MoSuccess = data.MoSuccess + uint64(row.MoChargeSuccess)
 		data.Countries[provs[row.ProviderName]] = data.Countries[provs[row.ProviderName]] + uint64(row.LpHits)
 
 		log.WithFields(log.Fields{
-			"prefix":       "WS",
-			"ProviderName": row.ProviderName,
-			"OperatorCode": row.OperatorCode,
-			"CampaignId":   row.CampaignId,
-			"LpHits":       row.LpHits,
-			"LpMsisdnHits": row.LpMsisdnHits,
-			"Mo":           row.Mo,
-			"MoUniq":       row.MoUniq,
-			"MoSuccess":    row.MoSuccess,
-			"RetrySuccess": row.RetrySuccess,
-			"Pixels":       row.Pixels,
+			"prefix":               "WS",
+			"ProviderName":         row.ProviderName,
+			"OperatorCode":         row.OperatorCode,
+			"CampaignId":           row.CampaignId,
+			"LpHits":               row.LpHits,
+			"LpMsisdnHits":         row.LpMsisdnHits,
+			"MoTotal":              row.MoTotal,
+			"MoChargeSuccess":      row.MoChargeSuccess,
+			"MoChargeSum":          row.MoChargeSum,
+			"MoChargeFailed":       row.MoChargeFailed,
+			"MoRejected":           row.MoRejected,
+			"RenewalTotal":         row.RenewalTotal,
+			"RenewalChargeSuccess": row.RenewalChargeSuccess,
+			"RenewalChargeSum":     row.RenewalChargeSum,
+			"RenewalFailed":        row.RenewalFailed,
+			"Pixels":               row.Pixels,
 		}).Info("New Report")
-
-		//if len(data.Logs) > 10 {
-		//	data.Logs = data.Logs[:len(data.Logs)-1]
-		//}
-		//data.Logs = append(data.Logs, fmt.Sprintf("New Report: %+v", row))
 	}
 }
 

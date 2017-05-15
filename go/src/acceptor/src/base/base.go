@@ -6,50 +6,45 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/linkit360/go-acceptor-structs"
+	acceptorStructs "github.com/linkit360/go-acceptor-structs"
+
 	"github.com/linkit360/go-utils/db"
 )
 
 var pgsql *sql.DB
 var config db.DataBaseConfig
 
-type Aggregate struct {
-	ReportAt     int64  `json:"report_at,omitempty"`
-	CampaignId   int64  `json:"id_campaign,omitempty"`
-	ProviderName string `json:"provider_name,omitempty"`
-	OperatorCode int64  `json:"operator_code,omitempty"`
-	LpHits       int64  `json:"lp_hits,omitempty"`
-	LpMsisdnHits int64  `json:"lp_msisdn_hits,omitempty"`
-	Mo           int64  `json:"mo,omitempty"`
-	MoUniq       int64  `json:"mo_uniq,omitempty"`
-	MoSuccess    int64  `json:"mo_success,omitempty"`
-	RetrySuccess int64  `json:"retry_success,omitempty"`
-	Pixels       int64  `json:"pixels,omitempty"`
-}
-
 func Init(dbConfig db.DataBaseConfig) {
 	config = dbConfig
 	pgsql = db.Init(config)
 }
 
-func SaveRows(rows []Aggregate) error {
+func SaveRows(rows []acceptorStructs.Aggregate) error {
 	var query string = fmt.Sprintf(
 		"INSERT INTO %sreports ("+
 
 			"report_at, "+
-			"id_campaign, "+
 			"provider_name, "+
 			"operator_code, "+
+			"id_campaign, " +
 			"lp_hits, "+
 			"lp_msisdn_hits, "+
-			"mo, "+
-			"mo_uniq, "+
-			"mo_success, "+"retry_success, "+
+
+			"mo_total, " +
+			"mo_charge_success, " +
+			"mo_charge_sum, " +
+			"mo_charge_failed, " +
+			"mo_rejected, " +
+
+			"renewal_total, " +
+			"renewal_charge_success, " +
+			"renewal_charge_sum, " +
+			"renewal_failed, " +
 			"pixels"+
 
 			") VALUES ("+
 
-			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11"+
+			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16" +
 
 			");",
 		config.TablePrefix)
@@ -60,15 +55,22 @@ func SaveRows(rows []Aggregate) error {
 		if _, err := pgsql.Exec(
 			query,
 			row.ReportAt,
-			row.CampaignId,
 			row.ProviderName,
 			row.OperatorCode,
+			row.CampaignId,
 			row.LpHits,
 			row.LpMsisdnHits,
-			row.Mo,
-			row.MoUniq,
-			row.MoSuccess,
-			row.RetrySuccess,
+
+			row.MoTotal,
+			row.MoChargeSuccess,
+			row.MoChargeSum,
+			row.MoChargeFailed,
+			row.MoRejected,
+
+			row.RenewalTotal,
+			row.RenewalChargeSuccess,
+			row.RenewalChargeSum,
+			row.RenewalFailed,
 			row.Pixels,
 		); err != nil {
 			fmt.Println(err.Error())
@@ -87,8 +89,8 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 	// widgets
 	rows, err := pgsql.Query("SELECT " +
 		"SUM(lp_hits) AS LpHits, " +
-		"SUM(mo) AS Mo, " +
-		"SUM(mo_success) AS MoSuccess " +
+		"SUM(mo_total) AS Mo, " +
+		"SUM(mo_charge_success) AS MoSuccess " +
 		"FROM xmp_reports WHERE " +
 		"report_at >= '" + time.Now().Format("2006-01-02") + "'",
 	)
@@ -198,7 +200,7 @@ func GetBlackList(providerName string, time string) []string {
 	return data
 }
 
-func GetCampaigns(provider string) []go_acceptor_structs.CampaignsCampaign {
+func GetCampaigns(provider string) []acceptorStructs.CampaignsCampaign {
 	rows, err := pgsql.Query("SELECT id FROM xmp_providers WHERE name_alias = '" + provider + "';")
 	if err != nil {
 		log.Fatal(err)
@@ -212,7 +214,7 @@ func GetCampaigns(provider string) []go_acceptor_structs.CampaignsCampaign {
 	}
 	//log.Infoln(id)
 
-	data := make([]go_acceptor_structs.CampaignsCampaign, 0)
+	data := make([]acceptorStructs.CampaignsCampaign, 0)
 	if id > 0 {
 		var query = fmt.Sprintf("SELECT id FROM xmp_operators WHERE id_provider = %d;", id)
 		//log.Infoln(query)
@@ -248,7 +250,7 @@ func GetCampaigns(provider string) []go_acceptor_structs.CampaignsCampaign {
 				log.Fatal(err)
 			}
 
-			var camp go_acceptor_structs.CampaignsCampaign
+			var camp acceptorStructs.CampaignsCampaign
 			for rows.Next() {
 				rows.Scan(
 					&camp.Id,

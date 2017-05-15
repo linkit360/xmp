@@ -1,5 +1,5 @@
 hash: aedbc48a78f23af589ea1f40eb564cd3bfc46862e6819c6176d4e56fefd754fb
-updated: 2017-05-10T11:17:06.646753146Z
+updated: 2017-05-15T08:08:42.231366784Z
 imports:
 - name: github.com/beorn7/perks
   version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
@@ -25,9 +25,9 @@ imports:
   subpackages:
   - oid
 - name: github.com/linkit360/go-acceptor-client
-  version: 988cc6282f7c29c16ecdee65155536cb5ddc073f
+  version: 8e91eda6f8c34b2c532dbf0719e74f40e9fe89ad
 - name: github.com/linkit360/go-acceptor-structs
-  version: 1199d86ef34a41dbc72db4e9e211a296222ec778
+  version: 85a3e3e8bdb3c5da6aebabc486a927ef60ab50b6
 - name: github.com/linkit360/go-utils
   version: e04c73814cb09c375f8f95a1b58c08cf3decf941
   subpackages:
@@ -46,7 +46,7 @@ imports:
 - name: github.com/mgutz/ansi
   version: 9520e82c474b0a04dd04f8a40959027271bab992
 - name: github.com/prometheus/client_golang
-  version: b12dd9c58c3d7ce96f9e1ede31d02f6df3d50c61
+  version: 42552c195dd3f3089fbf9cf26e139da150af35aa
   subpackages:
   - prometheus
 - name: github.com/prometheus/client_model
@@ -72,7 +72,7 @@ imports:
   subpackages:
   - context
 - name: golang.org/x/sys
-  version: 9ccfe848b9db8435a24c424abbc07a921adf1df5
+  version: 1e99a4f9d247b28c670884b9a8d6801f39a47b77
   subpackages:
   - unix
 - name: gopkg.in/go-playground/validator.v8

@@ -41,16 +41,26 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 			"renewal_charge_success, " +
 			"renewal_charge_sum, " +
 			"renewal_failed, " +
-			"pixels"+
+
+			"pixels," +
+
+			"injection_total, " +
+			"injection_charge_success, " +
+			"injection_charge_sum, " +
+			"injection_failed, " +
+
+			"expired_total, " +
+			"expired_charge_success, " +
+			"expired_charge_sum, " +
+			"expired_failed" +
 
 			") VALUES ("+
 
-			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17" +
+			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25" +
 
 			");",
 		config.TablePrefix)
 
-	var saveCount = 0
 	//TODO: make bulk request
 	for _, row := range rows {
 		if _, err := pgsql.Exec(
@@ -73,16 +83,22 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 			row.RenewalChargeSuccess,
 			row.RenewalChargeSum,
 			row.RenewalFailed,
+
 			row.Pixels,
+
+			row.InjectionTotal,
+			row.InjectionChargeSuccess,
+			row.InjectionChargeSum,
+			row.InjectionFailed,
+
+			row.ExpiredTotal,
+			row.ExpiredChargeSuccess,
+			row.ExpiredChargeSum,
+			row.ExpiredFailed,
 		); err != nil {
 			fmt.Println(err.Error())
 		}
-		saveCount += 1
 	}
-
-	//log.WithFields(log.Fields{
-	//	"prefix": "Base",
-	//}).Info("Reports save: ", saveCount)
 
 	return nil
 }

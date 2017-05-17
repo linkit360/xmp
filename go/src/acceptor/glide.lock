@@ -1,5 +1,5 @@
 hash: aedbc48a78f23af589ea1f40eb564cd3bfc46862e6819c6176d4e56fefd754fb
-updated: 2017-05-15T14:13:50.28272994Z
+updated: 2017-05-17T13:05:00.094328772Z
 imports:
 - name: github.com/beorn7/perks
   version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
@@ -27,7 +27,7 @@ imports:
 - name: github.com/linkit360/go-acceptor-client
   version: 2dafa46a81e7af5d4ccfb7a76c5ad198e69f75c1
 - name: github.com/linkit360/go-acceptor-structs
-  version: a628bf78fbad8523a70e9917654dc6b13283a2d0
+  version: 1d4f30742a6f92ee9dc7613ed917c6e76d8634ae
 - name: github.com/linkit360/go-utils
   version: e04c73814cb09c375f8f95a1b58c08cf3decf941
   subpackages:
@@ -72,7 +72,7 @@ imports:
   subpackages:
   - context
 - name: golang.org/x/sys
-  version: 1e99a4f9d247b28c670884b9a8d6801f39a47b77
+  version: 98b5b1e7e80eb60271c8dc4eba6521ec2c3e811e
   subpackages:
   - unix
 - name: gopkg.in/go-playground/validator.v8

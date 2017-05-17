@@ -1,5 +1,5 @@
 FROM golang:1.8.1-alpine
-EXPOSE 3000 50318 50319
+EXPOSE 2082 50318 50319
 
 ENV TERM xterm
 RUN apk add --progress --no-cache bash wget curl nano git openssh-client

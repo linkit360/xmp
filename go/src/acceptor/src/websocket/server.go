@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"acceptor/src/base"
+	"acceptor/src/config"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/websocket"
@@ -36,15 +37,18 @@ func Init() {
 	go resetDay()
 
 	http.HandleFunc("/echo", echo)
+
+	env := config.EnvString("PROJECT_ENV", "development")
+
 	log.WithFields(log.Fields{
 		"prefix": "WS",
+		"env":    env,
 	}).Info("Init Done")
 
-	//env := config.EnvString("PROJECT_ENV", "dev")
-	//if env == "dev" {
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	//if env == "development" {
+	log.Fatal(http.ListenAndServe(":2082", nil))
 	//} else {
-	//	log.Fatal(http.ListenAndServeTLS(":3000", "/config/ssl/crt.crt", "/config/ssl/priv.key", nil))
+	//	log.Fatal(http.ListenAndServeTLS(":2082", "/config/ssl/crt.crt", "/config/ssl/priv.key", nil))
 	//}
 }
 
@@ -84,11 +88,6 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 func NewReports(rows []acceptorStructs.Aggregate) {
 	for _, row := range rows {
-		data.LpHits = data.LpHits + uint64(row.LpHits)
-		data.Mo = data.Mo + uint64(row.MoTotal)
-		data.MoSuccess = data.MoSuccess + uint64(row.MoChargeSuccess)
-		data.Countries[provs[row.ProviderName]] = data.Countries[provs[row.ProviderName]] + uint64(row.LpHits)
-
 		log.WithFields(log.Fields{
 			"prefix":               "WS",
 			"ProviderName":         row.ProviderName,
@@ -107,6 +106,11 @@ func NewReports(rows []acceptorStructs.Aggregate) {
 			"RenewalFailed":        row.RenewalFailed,
 			"Pixels":               row.Pixels,
 		}).Info("New Report")
+
+		data.LpHits = data.LpHits + uint64(row.LpHits)
+		data.Mo = data.Mo + uint64(row.MoTotal)
+		data.MoSuccess = data.MoSuccess + uint64(row.MoChargeSuccess)
+		data.Countries[provs[row.ProviderName]] = data.Countries[provs[row.ProviderName]] + uint64(row.LpHits)
 	}
 }
 

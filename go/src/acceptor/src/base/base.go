@@ -128,7 +128,7 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 	var prov string
 	var id uint64
 
-	var provs = map[string]string{}
+	var provs = make(map[string]string)
 	for rows.Next() {
 		rows.Scan(
 			&iso,

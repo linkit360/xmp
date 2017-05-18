@@ -1,38 +1,34 @@
 FROM golang:1.8.1-alpine
-EXPOSE 2082 50318 50319
+
+RUN apk add --progress --no-cache bash curl nano git
 
 ENV TERM xterm
-RUN apk add --progress --no-cache bash wget curl nano git openssh-client
+EXPOSE 2082 50318 50319
 
-RUN addgroup -S -g 1000 docker
-RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
+# Add Group, User, dirs
+RUN set -ex \
+    && addgroup -S -g 1000 docker \
+    && adduser -S -D -s /bin/bash -u 1000 -G docker docker \
+    && mkdir -p /go/bin \
+    && mkdir -p /go/src
 
+# Glide (vendoring)
 USER 1000
 RUN curl https://glide.sh/get | sh
 USER root
 
 # SSH && CONFIG
 COPY config/ /config
-RUN mv /config/ssh /home/docker/.ssh
-RUN cp /config/.bashrc /home/docker
-RUN mv /config/.bashrc /root
+RUN set -ex \
+    && cp /config/.bashrc /home/docker \
+    && mv /config/.bashrc /root \
+    && chown -R 1000:1000 /home/docker \
+    && chmod -R 0700 /home/docker
 
-RUN chown -R 1000:1000 /home/docker
-RUN chmod -R 0700 /home/docker
+COPY bin /go/bin
+RUN chmod -R +x /go/bin/*
 
-# Vendor
-RUN mkdir -p /go/src/acceptor/vendor
-COPY src/acceptor/vendor /go/src/acceptor/vendor
-COPY src/acceptor/glide.lock /go/src/acceptor
-COPY src/acceptor/glide.yaml /go/src/acceptor
-COPY src/acceptor/client.go /go/src/acceptor
-COPY src/acceptor/main.go /go/src/acceptor
-COPY src/acceptor/src /go/src/acceptor/src
-RUN chown -R 1000:1000 /go/src/acceptor && chmod -R 0700 /go/src/acceptor
-
-WORKDIR /go/src
 USER 1000
-RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
+WORKDIR /go/src
 
-#ENTRYPOINT server
-ENTRYPOINT ["bash", "/config/idle.sh"]
+ENTRYPOINT ["bash", "/config/start.sh"]

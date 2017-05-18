@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 eval $(docker-machine env -u)
-docker-compose -f ./config/compose.common.json -f ./config/compose.development.json -p xmp down
-docker-compose -f ./config/compose.common.json -f ./config/compose.development.json -p xmp up --abort-on-container-exit
+docker-compose -f compose.json -p xmp down
+docker-compose -f compose.json -p xmp up --abort-on-container-exit

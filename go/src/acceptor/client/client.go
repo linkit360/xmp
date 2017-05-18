@@ -1,4 +1,4 @@
-package main
+package client
 
 import (
 	"log"
@@ -16,7 +16,7 @@ func main() {
 	//log.Printf("%+v\n", cfg)
 
 	if err := acceptor_client.Init(cfg); err != nil {
-		log.Println("cannot init acceptor client")
+		log.Println("Cannot init acceptor client")
 	}
 
 	/*

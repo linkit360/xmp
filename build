@@ -11,7 +11,7 @@ if [ $? != 0 ]; then
 fi
 
 # Build All
-docker-compose -f config/compose.common.json -f config/compose.development.json -p xmp build
+docker-compose -f compose.json -p xmp build
 if [ $? != 0 ]; then
     printf "\n\n BUILD FAIL \n\n"
     exit 1

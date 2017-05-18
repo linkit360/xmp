@@ -5,6 +5,11 @@ then
     echo "This is a idle script (infinite loop) to keep container running."
     echo "Please replace this script."
 
+
+    mv /config/ssh /home/docker/.ssh
+    git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+
     cleanup ()
     {
       kill -s SIGTERM $!
@@ -20,5 +25,4 @@ then
     done
 fi
 
-cd /go/src/acceptor
-go run main.go
+/go/bin/acceptor

@@ -84,6 +84,23 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+
+	/*
+		go func() {
+			for range time.Tick(time.Second) {
+				err := c.WriteMessage(websocket.TextMessage, []byte(prepData()))
+				if err != nil {
+					log.WithFields(log.Fields{
+						"prefix": "WS",
+						"error":  err,
+					}).Error("Write")
+
+					//c.Close()
+					data.ClientsCnt = data.ClientsCnt - 1
+				}
+			}
+		}()
+	*/
 }
 
 func NewReports(rows []acceptorStructs.Aggregate) {

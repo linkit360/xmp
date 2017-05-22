@@ -1,6 +1,6 @@
 FROM golang:1.8.1-alpine
 
-RUN apk add --progress --no-cache bash curl nano git
+RUN apk add --progress --no-cache bash curl nano git openssh-client
 
 ENV TERM xterm
 EXPOSE 2082 50318 50319

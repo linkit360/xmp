@@ -132,10 +132,16 @@ func NewReports(rows []acceptorStructs.Aggregate) {
 			"Pixels":                 row.Pixels,
 		}).Info("New Report")
 
+		if len(data.Countries) == 0 {
+			data.Countries = make(map[string]uint64, 10)
+		}
+
 		data.LpHits = data.LpHits + uint64(row.LpHits)
 		data.Mo = data.Mo + uint64(row.MoTotal)
 		data.MoSuccess = data.MoSuccess + uint64(row.MoChargeSuccess)
-		data.Countries[provs[row.ProviderName]] = data.Countries[provs[row.ProviderName]] + uint64(row.LpHits)
+		data.Countries[provs[row.ProviderName]] =
+			data.Countries[provs[row.ProviderName]] +
+				uint64(row.LpHits)
 	}
 }
 

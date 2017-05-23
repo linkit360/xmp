@@ -32,6 +32,38 @@ func Initialization(c *gin.Context) {
 	)
 }
 
+func Aggregate(c *gin.Context) {
+	log.Info("")
+	log.Info("Call Aggregate")
+	var instance_id string = c.Query("instance_id")
+	log.Info(instance_id)
+
+	items := []acceptorStructs.Aggregate{}
+
+	out := gin.H{
+		"ok": true,
+	}
+
+	if c.BindJSON(&items) == nil {
+		log.Info(items)
+
+		websocket.NewReports(items)
+		err := base.SaveRows(items)
+		if err != nil {
+			out["ok"] = false
+			log.Error("Aggregate Save:", err)
+		}
+	} else {
+		// error
+	}
+
+	c.JSON(
+		200,
+		out,
+	)
+}
+
+/*
 type Response struct{}
 
 type Aggregate struct{}
@@ -53,7 +85,7 @@ func (rpc *Aggregate) Receive(req AggregateData, res *acceptorStructs.AggregateR
 	return err
 }
 
-/*
+
 type BlackList struct{}
 
 func (rpc *BlackList) GetAll(req acceptorStructs.BlackListGetParams, res *acceptorStructs.BlackListResponse) error {

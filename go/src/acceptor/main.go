@@ -36,8 +36,11 @@ func main() {
 
 func runGin(appConfig config.AppConfig) {
 	gin.SetMode(gin.ReleaseMode)
-	r := gin.New()
+	r := gin.Default()
+
 	r.GET("/initialization", handlers.Initialization)
+	r.POST("/aggregate", handlers.Aggregate)
+
 	r.Run(":" + appConfig.Server.HttpPort)
 	//log.WithField("port", appConfig.Server.HttpPort).Info("service port")
 }

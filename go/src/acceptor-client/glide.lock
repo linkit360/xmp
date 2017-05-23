@@ -1,5 +1,5 @@
 hash: 24ef22a5060710c25563b363b14fcccfbcf02ffea15186078a81ee77fcc2d75c
-updated: 2017-05-18T15:04:15.1772003Z
+updated: 2017-05-23T09:32:00.493761351Z
 imports:
 - name: github.com/beorn7/perks
   version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
@@ -15,11 +15,11 @@ imports:
   subpackages:
   - proto
 - name: github.com/linkit360/go-acceptor-client
-  version: 2dafa46a81e7af5d4ccfb7a76c5ad198e69f75c1
+  version: 7beca785eb5e1b6994f734a16e1b6cb2db58ce6f
 - name: github.com/linkit360/go-acceptor-structs
-  version: 25e5a364514e62dd0a875f61a09dac2fd7cbf5d0
+  version: 0a8845b401b2003a67dc38c0c6f07ab2582b5cea
 - name: github.com/linkit360/go-utils
-  version: c897ed95eca46059d66b2fcffe2c072cd0e594ad
+  version: 78ad8cc72fc0ae927733348d28fc23cc08ef7d82
   subpackages:
   - metrics
 - name: github.com/manucorporat/sse
@@ -45,7 +45,7 @@ imports:
   - internal/bitbucket.org/ww/goautoneg
   - model
 - name: github.com/prometheus/procfs
-  version: d098ca18df8bc825079013daf7bacefbb1ee877e
+  version: 65c1f6f8f0fc1e2185eb9863a3bc751496404259
   subpackages:
   - xfs
 - name: github.com/Sirupsen/logrus
@@ -55,7 +55,7 @@ imports:
   subpackages:
   - context
 - name: golang.org/x/sys
-  version: e62c3de784db939836898e5c19ffd41bece347da
+  version: dbc2be9168a660ef302e04b6ff6406de6f967473
   subpackages:
   - unix
 - name: gopkg.in/go-playground/validator.v8

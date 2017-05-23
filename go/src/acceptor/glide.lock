@@ -1,10 +1,6 @@
-hash: aedbc48a78f23af589ea1f40eb564cd3bfc46862e6819c6176d4e56fefd754fb
-updated: 2017-05-17T13:05:00.094328772Z
+hash: 5f65d14cd62afad9ac7617ae94541c49f81bb39af45abbeffd7c17444fba1e8d
+updated: 2017-05-23T09:04:29.050633926Z
 imports:
-- name: github.com/beorn7/perks
-  version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
-  subpackages:
-  - quantile
 - name: github.com/BurntSushi/toml
   version: b26d9c308763d68093482582cea63d69be07a0f0
 - name: github.com/gin-gonic/gin
@@ -19,50 +15,27 @@ imports:
 - name: github.com/gorilla/websocket
   version: 3ab3a8b8831546bd18fd182c20687ca853b2bb13
 - name: github.com/jinzhu/configor
-  version: b7df2005e02e9226447139012db968eda90a4b91
+  version: ff2ac2b1ce3d687c3a1da0d2847fbce42524a7f3
 - name: github.com/lib/pq
   version: 2704adc878c21e1329f46f6e56a1c387d788ff94
   subpackages:
   - oid
 - name: github.com/linkit360/go-acceptor-client
-  version: 2dafa46a81e7af5d4ccfb7a76c5ad198e69f75c1
+  version: 7beca785eb5e1b6994f734a16e1b6cb2db58ce6f
 - name: github.com/linkit360/go-acceptor-structs
-  version: 1d4f30742a6f92ee9dc7613ed917c6e76d8634ae
+  version: 0a8845b401b2003a67dc38c0c6f07ab2582b5cea
 - name: github.com/linkit360/go-utils
   version: e04c73814cb09c375f8f95a1b58c08cf3decf941
   subpackages:
   - db
-  - metrics
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
 - name: github.com/mattn/go-colorable
   version: ded68f7a9561c023e790de24279db7ebf473ea80
 - name: github.com/mattn/go-isatty
   version: fc9e8d8ef48496124e79ae0df75490096eccf6fe
-- name: github.com/matttproud/golang_protobuf_extensions
-  version: c12348ce28de40eed0136aa2b644d0ee0650e56c
-  subpackages:
-  - pbutil
 - name: github.com/mgutz/ansi
   version: 9520e82c474b0a04dd04f8a40959027271bab992
-- name: github.com/prometheus/client_golang
-  version: 42552c195dd3f3089fbf9cf26e139da150af35aa
-  subpackages:
-  - prometheus
-- name: github.com/prometheus/client_model
-  version: 6f3806018612930941127f2a7c6c453ba2c527d2
-  subpackages:
-  - go
-- name: github.com/prometheus/common
-  version: 13ba4ddd0caa9c28ca7b7bffe1dfa9ed8d5ef207
-  subpackages:
-  - expfmt
-  - internal/bitbucket.org/ww/goautoneg
-  - model
-- name: github.com/prometheus/procfs
-  version: d098ca18df8bc825079013daf7bacefbb1ee877e
-  subpackages:
-  - xfs
 - name: github.com/Sirupsen/logrus
   version: ba1b36c82c5e05c4f912a88eab0dcd91a171688f
 - name: github.com/x-cray/logrus-prefixed-formatter
@@ -72,25 +45,15 @@ imports:
   subpackages:
   - context
 - name: golang.org/x/sys
-  version: 98b5b1e7e80eb60271c8dc4eba6521ec2c3e811e
+  version: dbc2be9168a660ef302e04b6ff6406de6f967473
   subpackages:
   - unix
+- name: gopkg.in/gin-gonic/gin.v1
+  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/yaml.v1
   version: 9f9df34309c04878acc86042b16630b0f696e1de
 - name: gopkg.in/yaml.v2
   version: cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b
-testImports:
-- name: github.com/davecgh/go-spew
-  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
-  subpackages:
-  - spew
-- name: github.com/pmezard/go-difflib
-  version: 792786c7400a136282c1664665ae0a8db921c6c2
-  subpackages:
-  - difflib
-- name: github.com/stretchr/testify
-  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
-  subpackages:
-  - assert
+testImports: []

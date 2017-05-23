@@ -6,7 +6,31 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	acceptorStructs "github.com/linkit360/go-acceptor-structs"
+	"gopkg.in/gin-gonic/gin.v1"
 )
+
+func Initialization(c *gin.Context) {
+	log.Info("")
+	log.Info("Call Initialization")
+	var instance_id string = c.Query("instance_id")
+	log.Info(instance_id)
+
+	status, id_operator := base.GetOptions(instance_id)
+	out := gin.H{
+		"ok":     false,
+		"status": status,
+	}
+
+	if status == 1 {
+		out["ok"] = true
+		out["id_operator"] = id_operator
+	}
+
+	c.JSON(
+		200,
+		out,
+	)
+}
 
 type Response struct{}
 
@@ -16,7 +40,7 @@ type AggregateData struct {
 	Aggregated []acceptorStructs.Aggregate `json:"aggregated,omitempty"`
 }
 
-func (rpc *Aggregate) Receive(req AggregateData, res *acceptorStructs.Response) error {
+func (rpc *Aggregate) Receive(req AggregateData, res *acceptorStructs.AggregateResponse) error {
 	rows := req.Aggregated
 	websocket.NewReports(rows)
 	err := base.SaveRows(rows)
@@ -29,6 +53,7 @@ func (rpc *Aggregate) Receive(req AggregateData, res *acceptorStructs.Response) 
 	return err
 }
 
+/*
 type BlackList struct{}
 
 func (rpc *BlackList) GetAll(req acceptorStructs.BlackListGetParams, res *acceptorStructs.BlackListResponse) error {
@@ -72,3 +97,4 @@ func (rpc *Campaigns) Get(req acceptorStructs.CampaignsGetParams, res *acceptorS
 
 	return nil
 }
+*/

@@ -109,7 +109,7 @@ func NewReports(rows []acceptorStructs.Aggregate) {
 			"prefix":                 "WS",
 			"ProviderName":           row.ProviderName,
 			"OperatorCode":           row.OperatorCode,
-			"CampaignId":             row.CampaignId,
+			"CampaignId":             row.CampaignCode,
 			"LpHits":                 row.LpHits,
 			"LpMsisdnHits":           row.LpMsisdnHits,
 			"MoTotal":                row.MoTotal,

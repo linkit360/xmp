@@ -3,22 +3,36 @@ package main
 import (
 	log "github.com/Sirupsen/logrus"
 
-	acceptor_client "github.com/linkit360/go-acceptor-client"
+	acceptorClient "github.com/linkit360/go-acceptor-client"
 )
 
 func main() {
-	cfg := acceptor_client.ClientConfig{
-		Enabled: true,
-		DSN:     ":50318",
-		Timeout: 10,
+	cfg := acceptorClient.ClientConfig{
+		Enabled:    true,
+		DSN:        "go:50319",
+		Timeout:    10,
+		InstanceId: "2f4fd741-61ef-45ab-8436-840ce54d6d29",
 	}
 
-	//log.Printf("%+v\n", cfg)
-
-	if err := acceptor_client.Init(cfg); err != nil {
-		log.Panicln("Cannot init acceptor client")
+	if err := acceptorClient.Init(cfg); err != nil {
+		log.Panic("Cannot init acceptor client", err)
 	}
-	log.Infoln("Connected")
+	log.Info("Connected")
+
+	var resp struct {
+		Ok         bool `json:"ok,omitempty"`
+		Status     int  `json:"status,omitempty"`
+		OperatorId int  `json:"id_operator,omitempty"`
+	}
+
+	err := acceptorClient.Call("initialization", &resp, "")
+	if err != nil {
+		log.Error(err)
+	}
+
+	log.Debug(resp.Ok)
+	log.Debug(resp.Status)
+	log.Debug(resp.OperatorId)
 
 	//resp, err := acceptor_client.SendAggregatedData(data2)
 	//if err != nil {
@@ -26,52 +40,53 @@ func main() {
 	//}
 
 	//log.Println(resp)
-
 	/*
+
 		// Get BL All
-		data, err := acceptor_client.BlackListGet("cheese")
+		data, err := acceptorClient.GetBlackListed("cheese")
 		if err != nil {
-		log.Println("Error")
-		log.Fatalln(err.Error())
-		}
-
-		log.Println("DATA")
-		log.Printf("%+v\n", data)
-
-		// Get BL Time
-		data, err = acceptor_client.BlackListGetNew("cheese", "2000-01-01")
-		if err != nil {
-		log.Println("Error")
-		log.Fatalln(err.Error())
+			log.Println("Error")
+			log.Fatalln(err.Error())
 		}
 
 		log.Println("DATA")
 		log.Printf("%+v\n", data)
 
 
-		// Send Aggregate
-		data2 := []acceptor.Aggregate{
-		acceptor_client.GetRandomAggregate(),
-		}
+			// Get BL Time
+			data, err = acceptor_client.BlackListGetNew("cheese", "2000-01-01")
+			if err != nil {
+			log.Println("Error")
+			log.Fatalln(err.Error())
+			}
 
-		//log.Println(data)
-		resp, err := acceptor_client.SendAggregatedData(data2)
-		if err != nil {
-		log.Println("Error")
-		log.Println(err.Error())
-		}
-
-		log.Println(resp)
+			log.Println("DATA")
+			log.Printf("%+v\n", data)
 
 
+			// Send Aggregate
+			data2 := []acceptor.Aggregate{
+			acceptor_client.GetRandomAggregate(),
+			}
 
-		data, err := acceptor_client.CampaignsGet("cheese")
-		if err != nil {
-		log.Println("Error")
-		log.Fatalln(err.Error())
-		}
+			//log.Println(data)
+			resp, err := acceptor_client.SendAggregatedData(data2)
+			if err != nil {
+			log.Println("Error")
+			log.Println(err.Error())
+			}
 
-		log.Println("DATA")
-		log.Printf("%+v\n", data)
+			log.Println(resp)
+
+
+
+			data, err := acceptor_client.CampaignsGet("cheese")
+			if err != nil {
+			log.Println("Error")
+			log.Fatalln(err.Error())
+			}
+
+			log.Println("DATA")
+			log.Printf("%+v\n", data)
 	*/
 }

@@ -19,6 +19,25 @@ func Init(dbConfig db.DataBaseConfig) {
 	pgsql = db.Init(config)
 }
 
+func GetOptions(instanceId string) (int, int) {
+	//noinspection SqlResolve
+	rows, err := pgsql.Query("SELECT status,id_operator FROM xmp_instances WHERE id = '" + instanceId + "'")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var status int
+	var operatorId int
+	for rows.Next() {
+		rows.Scan(
+			&status,
+			&operatorId,
+		)
+	}
+
+	return status, operatorId
+}
+
 func SaveRows(rows []acceptorStructs.Aggregate) error {
 	var query string = fmt.Sprintf(
 		"INSERT INTO %sreports ("+
@@ -26,37 +45,37 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 			"report_at, "+
 			"provider_name, "+
 			"operator_code, "+
-			"id_campaign, " +
+			"id_campaign, "+
 			"lp_hits, "+
 			"lp_msisdn_hits, "+
 
-			"mo_total, " +
-			"mo_charge_success, " +
-			"mo_charge_sum, " +
-			"mo_charge_failed, " +
-			"mo_rejected, " +
+			"mo_total, "+
+			"mo_charge_success, "+
+			"mo_charge_sum, "+
+			"mo_charge_failed, "+
+			"mo_rejected, "+
 
-			"outflow, " +
-			"renewal_total, " +
-			"renewal_charge_success, " +
-			"renewal_charge_sum, " +
-			"renewal_failed, " +
+			"outflow, "+
+			"renewal_total, "+
+			"renewal_charge_success, "+
+			"renewal_charge_sum, "+
+			"renewal_failed, "+
 
-			"pixels," +
+			"pixels,"+
 
-			"injection_total, " +
-			"injection_charge_success, " +
-			"injection_charge_sum, " +
-			"injection_failed, " +
+			"injection_total, "+
+			"injection_charge_success, "+
+			"injection_charge_sum, "+
+			"injection_failed, "+
 
-			"expired_total, " +
-			"expired_charge_success, " +
-			"expired_charge_sum, " +
-			"expired_failed" +
+			"expired_total, "+
+			"expired_charge_success, "+
+			"expired_charge_sum, "+
+			"expired_failed"+
 
 			") VALUES ("+
 
-			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25" +
+			"to_timestamp($1), $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25"+
 
 			");",
 		config.TablePrefix)
@@ -68,7 +87,7 @@ func SaveRows(rows []acceptorStructs.Aggregate) error {
 			row.ReportAt,
 			row.ProviderName,
 			row.OperatorCode,
-			row.CampaignId,
+			row.CampaignCode,
 			row.LpHits,
 			row.LpMsisdnHits,
 
@@ -178,6 +197,7 @@ func GetWsData() (map[string]uint64, map[string]string, uint64, uint64, uint64) 
 	return countries, provs, LpHits, Mo, MoSuccess
 }
 
+/*
 func GetBlackList(providerName string, time string) []string {
 	//noinspection SqlResolve
 	rows, err := pgsql.Query("SELECT id FROM xmp_providers WHERE name = '" + providerName + "'")
@@ -287,3 +307,4 @@ func GetCampaigns(provider string) []acceptorStructs.CampaignsCampaign {
 	//log.Infoln(data)
 	return data
 }
+*/

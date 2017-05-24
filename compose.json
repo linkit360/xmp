@@ -56,8 +56,8 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "./go/config:/go/config",
-        "./go:/go"
+        "./go/config:/config",
+        "${GOPATH}:/go"
       ]
     },
     "sql": {

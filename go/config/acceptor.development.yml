@@ -14,5 +14,4 @@ db:
   table_prefix: xmp_
 
 server:
-  rpc_port: 50318
-  http_port: 50319
+  port: 40400

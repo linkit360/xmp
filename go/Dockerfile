@@ -13,9 +13,9 @@ RUN set -ex \
     && mkdir -p /go/src
 
 # Glide (vendoring)
-USER 1000
-RUN curl https://glide.sh/get | sh
-USER root
+#USER 1000
+#RUN curl https://glide.sh/get | sh
+#USER root
 
 # SSH && CONFIG
 COPY config/ /config
@@ -25,10 +25,10 @@ RUN set -ex \
     && chown -R 1000:1000 /home/docker \
     && chmod -R 0700 /home/docker
 
-COPY bin /go/bin
-RUN chmod -R +x /go/bin/*
+#COPY bin /go/bin
+#RUN chmod -R +x /go/bin/*
 
 USER 1000
-WORKDIR /go/src
+WORKDIR /go/src/github.com/linkit360/xmp-api
 
 ENTRYPOINT ["bash", "/config/start.sh"]

@@ -23,4 +23,4 @@ then
     done
 fi
 
-/go/bin/acceptor
+/go/bin/server

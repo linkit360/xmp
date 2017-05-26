@@ -1,3 +1,26 @@
+FROM golang:1.8.1-alpine AS build-env
+
+RUN apk add --progress --no-cache bash curl nano git openssh-client
+
+# SSH && CONFIG
+COPY ssh/ /root/.ssh
+RUN git config --global url."git@github.com:".insteadOf "https://github.com/" \
+    && mkdir -p /go/bin \
+    && mkdir -p /go/src
+
+# Get src
+RUN echo 1
+RUN go get -v -u github.com/linkit360/xmp-api/src/server
+COPY server.go /go/src/github.com/linkit360/xmp-api
+
+# Build from src
+RUN cd /go/src/github.com/linkit360/xmp-api \
+    && rm main.go \
+    && ls -la \
+    && go build -o /go/bin/server \
+    && ls -la /go/bin
+
+# Real golang
 FROM golang:1.8.1-alpine
 
 RUN apk add --progress --no-cache bash curl nano git openssh-client
@@ -12,11 +35,6 @@ RUN set -ex \
     && mkdir -p /go/bin \
     && mkdir -p /go/src
 
-# Glide (vendoring)
-#USER 1000
-#RUN curl https://glide.sh/get | sh
-#USER root
-
 # SSH && CONFIG
 COPY config/ /config
 RUN set -ex \
@@ -25,10 +43,9 @@ RUN set -ex \
     && chown -R 1000:1000 /home/docker \
     && chmod -R 0700 /home/docker
 
-#COPY bin /go/bin
-#RUN chmod -R +x /go/bin/*
+# Bin
+COPY --from=build-env /go/bin/server /go/bin/server
 
 USER 1000
 WORKDIR /go/src/github.com/linkit360/xmp-api
-
 ENTRYPOINT ["bash", "/config/start.sh"]

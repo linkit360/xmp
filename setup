@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
-eval $(docker-machine env -u)
 docker-compose -f compose.json -p xmp down
 docker-compose -f compose.json -p xmp up --abort-on-container-exit

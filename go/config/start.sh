@@ -4,9 +4,9 @@ if [ "${PROJECT_ENV}" = "development" ]
 then
     echo "Running in dev mode."
 
-    mkdir /home/docker/.ssh
-    cp /go/config/ssh/* /home/docker/.ssh
-    git config --global url."git@github.com:".insteadOf "https://github.com/"
+#    mkdir /home/docker/.ssh
+#    cp /go/config/ssh/* /home/docker/.ssh
+#    git config --global url."git@github.com:".insteadOf "https://github.com/"
 
     cleanup ()
     {

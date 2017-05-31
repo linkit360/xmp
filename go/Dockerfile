@@ -1,4 +1,4 @@
-FROM golang:1.8.1-alpine AS build-env
+FROM golang:1.8.3-alpine AS build-env
 
 RUN apk add --progress --no-cache bash curl nano git openssh-client
 
@@ -6,7 +6,9 @@ RUN apk add --progress --no-cache bash curl nano git openssh-client
 COPY ssh/ /root/.ssh
 RUN git config --global url."git@github.com:".insteadOf "https://github.com/" \
     && mkdir -p /go/bin \
-    && mkdir -p /go/src
+    && mkdir -p /go/src \
+    && chown -R root:root /root \
+    && chmod -R 0700 /root/.ssh
 
 # Get src
 RUN echo 1
@@ -16,12 +18,10 @@ COPY server.go /go/src/github.com/linkit360/xmp-api
 # Build from src
 RUN cd /go/src/github.com/linkit360/xmp-api \
     && rm main.go \
-    && ls -la \
-    && go build -o /go/bin/server \
-    && ls -la /go/bin
+    && go build -o /go/bin/server
 
 # Real golang
-FROM golang:1.8.1-alpine
+FROM golang:1.8.3-alpine
 
 RUN apk add --progress --no-cache bash curl nano git openssh-client
 

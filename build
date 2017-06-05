@@ -15,5 +15,5 @@ if [ $? != 0 ]; then
 fi
 printf "\n\n"
 
-docker system prune -f
-printf "\n\n"
+#docker system prune -f
+#printf "\n\n"

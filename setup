@@ -3,3 +3,9 @@
 #docker-compose -f compose.json -p xmp down
 docker-compose -f compose.json -p xmp up
  #--abort-on-container-exit
+
+#docker-compose -f compose.json -p xmp up -d sql
+#sleep 4
+#docker-compose -f compose.json -p xmp up -d php
+#docker-compose -f compose.json -p xmp up -d go
+#docker-compose -f compose.json -p xmp up -d nginx

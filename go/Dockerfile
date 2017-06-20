@@ -11,7 +11,7 @@ RUN git config --global url."git@github.com:".insteadOf "https://github.com/" \
     && chmod -R 0700 /root/.ssh
 
 # Get src
-RUN echo 268
+RUN echo 280
 RUN go get -v -u github.com/linkit360/xmp-api/src/server
 COPY server.go /go/src/github.com/linkit360/xmp-api
 

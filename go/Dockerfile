@@ -1,38 +1,51 @@
-FROM golang:1.8.1-alpine
-EXPOSE 3000 50318 50319
+FROM golang:1.8.3-alpine AS build-env
+
+RUN apk add --progress --no-cache bash curl nano git openssh-client
+
+# SSH && CONFIG
+COPY ssh/ /root/.ssh
+RUN git config --global url."git@github.com:".insteadOf "https://github.com/" \
+    && mkdir -p /go/bin \
+    && mkdir -p /go/src \
+    && chown -R root:root /root \
+    && chmod -R 0700 /root/.ssh
+
+# Get src
+RUN echo 280
+RUN go get -v -u github.com/linkit360/xmp-api/src/server
+COPY server.go /go/src/github.com/linkit360/xmp-api
+
+# Build from src
+RUN cd /go/src/github.com/linkit360/xmp-api \
+    && rm main.go \
+    && go build -o /go/bin/server
+
+# Real golang
+FROM golang:1.8.3-alpine
+
+RUN apk add --progress --no-cache bash curl nano git openssh-client
 
 ENV TERM xterm
-RUN apk add --progress --no-cache bash wget curl nano git openssh-client
+EXPOSE 2082 50318 50319
 
-RUN addgroup -S -g 1000 docker
-RUN adduser -S -D -s /bin/bash -u 1000 -G docker docker
-
-USER 1000
-RUN curl https://glide.sh/get | sh
-USER root
+# Add Group, User, dirs
+RUN set -ex \
+    && addgroup -S -g 1000 docker \
+    && adduser -S -D -s /bin/bash -u 1000 -G docker docker \
+    && mkdir -p /go/bin \
+    && mkdir -p /go/src
 
 # SSH && CONFIG
 COPY config/ /config
-RUN mv /config/ssh /home/docker/.ssh
-RUN cp /config/.bashrc /home/docker
-RUN mv /config/.bashrc /root
+RUN set -ex \
+    && cp /config/.bashrc /home/docker \
+    && mv /config/.bashrc /root \
+    && chown -R 1000:1000 /home/docker \
+    && chmod -R 0700 /home/docker
 
-RUN chown -R 1000:1000 /home/docker
-RUN chmod -R 0700 /home/docker
+# Bin
+COPY --from=build-env /go/bin/server /go/bin/server
 
-# Vendor
-RUN mkdir -p /go/src/acceptor/vendor
-COPY src/acceptor/vendor /go/src/acceptor/vendor
-COPY src/acceptor/glide.lock /go/src/acceptor
-COPY src/acceptor/glide.yaml /go/src/acceptor
-COPY src/acceptor/client.go /go/src/acceptor
-COPY src/acceptor/main.go /go/src/acceptor
-COPY src/acceptor/src /go/src/acceptor/src
-RUN chown -R 1000:1000 /go/src/acceptor && chmod -R 0700 /go/src/acceptor
-
-WORKDIR /go/src
 USER 1000
-RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
-
-#ENTRYPOINT server
-ENTRYPOINT ["bash", "/config/idle.sh"]
+WORKDIR /go/src/github.com/linkit360/xmp-api
+ENTRYPOINT ["bash", "/config/start.sh"]

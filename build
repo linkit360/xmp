@@ -1,22 +1,19 @@
 #!/usr/bin/env bash
 
-# Reset to local docker
-eval $(docker-machine env -u)
-
 # Update submodules (php, go ...)
-git submodule update --recursive --remote
-if [ $? != 0 ]; then
-    printf "\n\n GIT FAIL \n\n"
-    exit 1
-fi
+#git submodule update --recursive --remote
+#if [ $? != 0 ]; then
+#    printf "\n\n GIT FAIL \n\n"
+#    exit 1
+#fi
 
 # Build All
-docker-compose -f config/compose.common.json -f config/compose.development.json -p xmp build
+docker-compose -f compose.json -p xmp build
 if [ $? != 0 ]; then
     printf "\n\n BUILD FAIL \n\n"
     exit 1
 fi
 printf "\n\n"
 
-docker system prune -f
-printf "\n\n"
+#docker system prune -f
+#printf "\n\n"

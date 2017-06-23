@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+docker tag linkit360ru/xmp-nginx:latest linkit360ru/xmp-nginx:production
+docker tag linkit360ru/xmp-go:latest linkit360ru/xmp-go:production
+docker tag linkit360ru/xmp-php:latest linkit360ru/xmp-php:production
+printf "\n\n"
+
+docker push linkit360ru/xmp-nginx:production
+docker push linkit360ru/xmp-go:production
+docker push linkit360ru/xmp-php:production
+printf "\n\n"

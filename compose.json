@@ -2,9 +2,13 @@
   "version": "3.1",
   "services": {
     "nginx": {
+      "ports": [
+        "80:8080",
+        "443:8443"
+      ],
       "image": "linkit360ru/xmp-nginx:latest",
       "build": {
-        "context": "../nginx"
+        "context": "nginx"
       },
       "links": [
         "php"
@@ -13,7 +17,7 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../php/app/frontend/web:/app/frontend/web"
+        "./php/app/frontend/web:/app/frontend/web"
       ]
     },
     "php": {
@@ -21,24 +25,27 @@
       "links": [
         "sql"
       ],
-      "ports": [
-      ],
       "build": {
-        "context": "../php"
+        "context": "php"
       },
       "environment": [
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../php/app:/app",
-        "../php/composer:/composer",
-        "../php/config:/config"
+        "./php/app:/app",
+        "./php/composer:/composer",
+        "./php/config:/config"
       ]
     },
     "go": {
+      "tty": true,
+      "ports": [
+        "2082:2082",
+        "50318:50318"
+      ],
       "image": "linkit360ru/xmp-go:latest",
       "build": {
-        "context": "../go"
+        "context": "go"
       },
       "links": [
         "php",
@@ -48,14 +55,14 @@
         "PROJECT_ENV=development"
       ],
       "volumes": [
-        "../go/config:/go/config",
-        "../go/src/acceptor:/go/src/acceptor"
+        "./go/config:/config",
+        "${GOPATH}:/go"
       ]
     },
     "sql": {
       "image": "linkit360ru/xmp-sql:latest",
       "build": {
-        "context": "../sql"
+        "context": "sql"
       },
       "ports": [
         "5432:5432"
@@ -67,7 +74,7 @@
         "PGDATA=/data"
       ],
       "volumes": [
-        "../sql/data:/data"
+        "./sql/data:/data"
       ]
     }
   }

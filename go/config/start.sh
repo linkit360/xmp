@@ -2,8 +2,7 @@
 
 if [ "${PROJECT_ENV}" = "development" ]
 then
-    echo "This is a idle script (infinite loop) to keep container running."
-    echo "Please replace this script."
+    echo "Running in dev mode."
 
     cleanup ()
     {
@@ -20,5 +19,4 @@ then
     done
 fi
 
-cd /go/src/acceptor
-go run main.go
+/go/bin/server
